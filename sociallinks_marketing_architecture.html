@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Links — Marketing & Retargeting Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F6F3;
+    --surface: #FFFFFF;
+    --border: #E2E0D8;
+    --border-mid: #C8C5BA;
+    --text-primary: #1A1916;
+    --text-secondary: #6B6860;
+    --text-muted: #A09E98;
+
+    --pur-fill: #EEEDFE;
+    --pur-border: #AFA9EC;
+    --pur-text: #3C3489;
+    --pur-sub: #534AB7;
+
+    --blu-fill: #E6F1FB;
+    --blu-border: #85B7EB;
+    --blu-text: #0C447C;
+    --blu-sub: #185FA5;
+
+    --amb-fill: #FAEEDA;
+    --amb-border: #EF9F27;
+    --amb-text: #633806;
+    --amb-sub: #854F0B;
+
+    --red-fill: #FCEBEB;
+    --red-border: #F09595;
+    --red-text: #791F1F;
+    --red-sub: #A32D2D;
+
+    --tel-fill: #E1F5EE;
+    --tel-border: #5DCAA5;
+    --tel-text: #085041;
+    --tel-sub: #0F6E56;
+
+    --cor-fill: #FAECE7;
+    --cor-border: #F0997B;
+    --cor-text: #712B13;
+    --cor-sub: #993C1D;
+    --cor-item-border: #F5C4B3;
+
+    --gry-fill: #F1EFE8;
+    --gry-border: #B4B2A9;
+    --gry-text: #444441;
+  }
+
+  html { background: var(--bg); }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 48px 24px 64px;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 40px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .header-left { flex: 1; }
+  .company-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.3;
+    letter-spacing: -.01em;
+  }
+  .header-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+  .header-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    white-space: nowrap;
+    margin-top: 4px;
+  }
+
+  /* Layer label */
+  .layer-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  /* Card base */
+  .card {
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 14px 18px;
+    background: var(--surface);
+  }
+  .card-title { font-size: 13px; font-weight: 500; line-height: 1.3; }
+  .card-sub { font-size: 11px; line-height: 1.6; margin-top: 5px; }
+
+  .card.pur { background: var(--pur-fill); border-color: var(--pur-border); color: var(--pur-text); }
+  .card.pur .card-sub { color: var(--pur-sub); }
+  .card.blu { background: var(--blu-fill); border-color: var(--blu-border); color: var(--blu-text); }
+  .card.blu .card-sub { color: var(--blu-sub); }
+  .card.amb { background: var(--amb-fill); border-color: var(--amb-border); color: var(--amb-text); }
+  .card.amb .card-sub { color: var(--amb-sub); }
+  .card.red { background: var(--red-fill); border-color: var(--red-border); color: var(--red-text); }
+  .card.red .card-sub { color: var(--red-sub); }
+  .card.tel { background: var(--tel-fill); border-color: var(--tel-border); color: var(--tel-text); }
+  .card.tel .card-sub { color: var(--tel-sub); }
+
+  .center { text-align: center; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; justify-content: center; }
+  .tag {
+    font-size: 10px; padding: 2px 9px; border-radius: 6px;
+    background: rgba(255,255,255,.7); border: 1px solid rgba(0,0,0,.1);
+    color: var(--text-secondary);
+  }
+
+  .pill {
+    display: inline-block; font-family: 'DM Mono', monospace;
+    font-size: 9px; font-weight: 500; padding: 2px 8px;
+    border-radius: 12px; margin-top: 6px; border: 1px solid;
+  }
+  .pill.p-blu { background: #B5D4F4; border-color: #185FA5; color: #042C53; }
+  .pill.p-amb { background: #FAC775; border-color: #BA7517; color: #412402; }
+  .pill.p-red { background: #F7C1C1; border-color: #A32D2D; color: #501313; }
+  .pill + .pill { margin-left: 4px; }
+
+  /* Row layout */
+  .row { display: flex; gap: 10px; }
+  .row .col { flex: 1; }
+
+  /* Flow arrow */
+  .flow-arrow {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 6px 0; gap: 0;
+  }
+  .arrow-line { width: 1px; height: 22px; background: var(--border-mid); }
+  .arrow-tip {
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--border-mid);
+  }
+  .arrow-label {
+    font-size: 10px; color: var(--text-muted);
+    background: var(--bg); padding: 0 10px; margin: 2px 0;
+    font-family: 'DM Mono', monospace; letter-spacing: .02em;
+  }
+
+  /* Section block */
+  .section { margin-bottom: 0; }
+
+  /* Segmentation zone */
+  .seg-zone {
+    border: 1px solid var(--border-mid);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--gry-fill);
+  }
+  .seg-zone-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; font-weight: 500; letter-spacing: .1em;
+    color: var(--text-muted); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .dim-row { display: flex; gap: 10px; }
+  .dim {
+    flex: 1; border-radius: 9px; border: 1px solid;
+    padding: 12px 14px;
+  }
+  .dim-label { font-size: 11px; font-weight: 500; margin-bottom: 8px; }
+  .dim-items { display: flex; flex-direction: column; gap: 5px; }
+  .dim-item {
+    font-size: 10px; padding: 4px 10px; border-radius: 6px;
+    border: 1px solid; text-align: center; background: rgba(255,255,255,.8);
+  }
+
+  .dim.d-cor { background: var(--cor-fill); border-color: var(--cor-border); color: var(--cor-text); }
+  .dim.d-cor .dim-label { color: var(--cor-sub); }
+  .dim.d-cor .dim-item { border-color: var(--cor-item-border); color: var(--cor-text); }
+
+  .dim.d-pur { background: var(--pur-fill); border-color: var(--pur-border); color: var(--pur-text); }
+  .dim.d-pur .dim-label { color: var(--pur-sub); }
+  .dim.d-pur .dim-item { border-color: #CECBF6; color: var(--pur-text); }
+
+  .dim.d-tel { background: var(--tel-fill); border-color: var(--tel-border); color: var(--tel-text); }
+  .dim.d-tel .dim-label { color: var(--tel-sub); }
+  .dim.d-tel .dim-item { border-color: #9FE1CB; color: var(--tel-text); }
+
+  /* Combo section */
+  .combo-zone {
+    margin-top: 12px; padding-top: 12px;
+    border-top: 1px dashed var(--border-mid);
+  }
+  .combo-zone-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; color: var(--text-muted);
+    letter-spacing: .06em; margin-bottom: 9px; text-transform: uppercase;
+  }
+  .combos { display: flex; flex-direction: column; gap: 8px; }
+  .combo-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .cp {
+    font-size: 10px; font-weight: 500; padding: 3px 9px;
+    border-radius: 5px; border: 1px solid;
+  }
+  .cp.cor { background: var(--cor-fill); border-color: var(--cor-item-border); color: var(--cor-text); }
+  .cp.pur { background: var(--pur-fill); border-color: #CECBF6; color: var(--pur-text); }
+  .cp.tel { background: var(--tel-fill); border-color: #9FE1CB; color: var(--tel-text); }
+  .plus { font-size: 11px; color: var(--text-muted); }
+  .arrow-r { font-size: 11px; color: var(--text-muted); margin: 0 2px; }
+  .combo-result {
+    font-size: 10px; color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  /* Outcome row */
+  .out-card {
+    flex: 1; border-radius: 9px; border: 1px solid var(--pur-border);
+    background: var(--pur-fill); padding: 10px 12px; text-align: center;
+    color: var(--pur-text);
+  }
+  .out-card.roadmap { border-style: dashed; opacity: .75; }
+  .out-card .out-title { font-size: 11px; font-weight: 500; }
+  .out-card .out-sub { font-size: 9px; color: var(--pur-sub); margin-top: 3px; }
+
+  /* Footer */
+  .footer {
+    margin-top: 36px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-left { font-size: 10px; color: var(--text-muted); }
+  .footer-right {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; color: var(--text-muted); letter-spacing: .06em;
+  }
+
+  /* Print */
+  @media print {
+    body { background: #fff; padding: 24px; }
+    .seg-zone { background: #f5f5f0; }
+  }
+
+  /* Entrance animation */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section, .seg-zone, .flow-arrow, .row, .header {
+    animation: fadeUp .4s ease both;
+  }
+  .header { animation-delay: 0s; }
+  .s1 { animation-delay: .06s; }
+  .s2 { animation-delay: .12s; }
+  .s3 { animation-delay: .18s; }
+  .s4 { animation-delay: .24s; }
+  .s5 { animation-delay: .30s; }
+  .s6 { animation-delay: .36s; }
+  .s7 { animation-delay: .42s; }
+  .s8 { animation-delay: .48s; }
+  .s9 { animation-delay: .54s; }
+  .s10 { animation-delay: .60s; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-left">
+      <div class="company-label">Social Links</div>
+      <h1>Marketing & Retargeting Architecture</h1>
+      <div class="header-meta">Multi-dimensional intent tracking &amp; audience segmentation</div>
+    </div>
+
+  </div>
+
+  <!-- LAYER 1 -->
+  <div class="section s1">
+    <div class="layer-label">Layer 1 — Data collection</div>
+    <div class="card pur center">
+      <div class="card-title">Social Links website + Google Tag Manager</div>
+      <div class="card-sub">Every visitor interaction — page view, click, scroll, form — is captured by GTM and sent to all connected platforms simultaneously</div>
+      <div class="tags">
+        <span class="tag">Meta Pixel</span>
+        <span class="tag">LinkedIn Insight Tag</span>
+        <span class="tag">Google Ads Tag</span>
+        <span class="tag">X Pixel</span>
+        <span class="tag">HubSpot tracking</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow s2">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">user actions classified by page &amp; behavior</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-tip"></div>
+  </div>
+
+  <!-- LAYER 2 -->
+  <div class="section s3">
+    <div class="layer-label">Layer 2 — Intent classification</div>
+    <div class="row">
+      <div class="col card blu">
+        <div class="card-title">TOFU — Educational intent</div>
+        <div class="card-sub">Reports · Surveys · Infographics · Educational resources</div>
+        <span class="pill p-blu">ResourceEngagement</span>
+      </div>
+      <div class="col card amb">
+        <div class="card-title">MOFU — Consideration intent</div>
+        <div class="card-sub">Product pages · Use cases · Industry pages</div>
+        <span class="pill p-amb">ProductIntent</span>
+      </div>
+      <div class="col card red">
+        <div class="card-title">BOFU — Buying intent</div>
+        <div class="card-sub">Book demo click · Demo form submit</div>
+        <span class="pill p-red">BookDemoClick</span>
+        <span class="pill p-red">DemoFormSubmit</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow s4">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">signals feed multi-dimensional audience engine</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-tip"></div>
+  </div>
+
+  <!-- AUDIENCE SEGMENTATION -->
+  <div class="section s5">
+    <div class="layer-label">Audience segmentation — three combinable dimensions</div>
+    <div class="seg-zone">
+      <div class="seg-zone-label">Segmentation dimensions</div>
+      <div class="dim-row">
+
+        <div class="dim d-cor">
+          <div class="dim-label">Product</div>
+          <div class="dim-items">
+            <div class="dim-item">Crimewall</div>
+            <div class="dim-item">API</div>
+          </div>
+        </div>
+
+        <div class="dim d-pur">
+          <div class="dim-label">Industry / Use-case</div>
+          <div class="dim-items">
+            <div class="dim-item">Government</div>
+            <div class="dim-item">Cyber Threat Intelligence</div>
+            <div class="dim-item">Corporate Security</div>
+            <div class="dim-item">Digital Forensics</div>
+          </div>
+        </div>
+
+        <div class="dim d-tel">
+          <div class="dim-label">Funnel stage</div>
+          <div class="dim-items">
+            <div class="dim-item">Educational</div>
+            <div class="dim-item">Consideration</div>
+            <div class="dim-item">Buying intent</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="combo-zone">
+        <div class="combo-zone-label">Audience = combination of dimensions · examples</div>
+        <div class="combos">
+          <div class="combo-row">
+            <span class="cp cor">Crimewall</span>
+            <span class="plus">+</span>
+            <span class="cp pur">Government</span>
+            <span class="plus">+</span>
+            <span class="cp tel">Buying intent</span>
+            <span class="arrow-r">→</span>
+            <span class="combo-result">high-priority demo retargeting</span>
+          </div>
+          <div class="combo-row">
+            <span class="cp cor">API</span>
+            <span class="plus">+</span>
+            <span class="cp pur">Cyber Threat Intelligence</span>
+            <span class="plus">+</span>
+            <span class="cp tel">Consideration</span>
+            <span class="arrow-r">→</span>
+            <span class="combo-result">technical use-case nurture</span>
+          </div>
+          <div class="combo-row">
+            <span class="cp cor">Crimewall</span>
+            <span class="plus">+</span>
+            <span class="cp pur">Digital Forensics</span>
+            <span class="plus">+</span>
+            <span class="cp tel">Educational</span>
+            <span class="arrow-r">→</span>
+            <span class="combo-result">awareness content sequence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow s6">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">composed audiences pushed to ad platforms &amp; CRM</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-tip"></div>
+  </div>
+
+  <!-- LAYER 3 -->
+  <div class="section s7">
+    <div class="layer-label">Layer 3 — Channel distribution</div>
+    <div class="row">
+      <div class="col card blu">
+        <div class="card-title">Meta Ads</div>
+        <div class="card-sub">Custom audiences · Lookalikes · Exclusions</div>
+      </div>
+      <div class="col card blu">
+        <div class="card-title">LinkedIn Ads</div>
+        <div class="card-sub">ABM retargeting · Job-title targeting</div>
+      </div>
+      <div class="col card blu">
+        <div class="card-title">Google Ads</div>
+        <div class="card-sub">RLSA · Display · YouTube retargeting</div>
+      </div>
+      <div class="col card blu">
+        <div class="card-title">X Ads</div>
+        <div class="card-sub">Cybersecurity audience retargeting</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow s8">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">high-intent signals enriched in CRM</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-tip"></div>
+  </div>
+
+  <div class="section s9">
+    <div class="card tel center">
+      <div class="card-title">HubSpot CRM</div>
+      <div class="card-sub">Contact enrichment · Lifecycle stages · Lead scoring · Sales follow-up · Audience sync back to platforms</div>
+    </div>
+  </div>
+
+  <div class="flow-arrow s10">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">personalized retargeting delivered</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-tip"></div>
+  </div>
+
+  <div class="row s10">
+    <div class="out-card">
+      <div class="out-title">Funnel-based messaging</div>
+    </div>
+    <div class="out-card">
+      <div class="out-title">Audience exclusions</div>
+    </div>
+    <div class="out-card">
+      <div class="out-title">Lookalike expansion</div>
+    </div>
+    <div class="out-card roadmap">
+      <div class="out-title">HubSpot enrichment</div>
+      <div class="out-sub">roadmap</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-left">Social Links · Marketing Operations · Confidential</div>
+    <div class="footer-right">OSINT B2B · RETARGETING INFRASTRUCTURE</div>
+  </div>
+
+</div>
+</body>
+</html>
