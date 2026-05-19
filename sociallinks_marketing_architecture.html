@@ -305,60 +305,98 @@
     <div class="header-left">
       <div class="company-label">Social Links</div>
       <h1>Marketing & Retargeting Architecture</h1>
-      <div class="header-meta">Multi-dimensional intent tracking &amp; audience segmentation</div>
+      <div class="header-meta">Data Layer-first ABM intent architecture · centralized tracking · multi-platform distribution</div>
     </div>
 
   </div>
 
   <!-- LAYER 1 -->
   <div class="section s1">
-    <div class="layer-label">Layer 1 — Data collection</div>
+    <div class="layer-label">Layer 1 — Data collection &amp; orchestration</div>
     <div class="card pur center">
-      <div class="card-title">Social Links website + Google Tag Manager</div>
-      <div class="card-sub">Every visitor interaction — page view, click, scroll, form — is captured by GTM and sent to all connected platforms simultaneously</div>
+      <div class="card-title">Social Links website</div>
+      <div class="card-sub">Every visitor interaction — page view, click, scroll, form — pushes a standardized ABM intent event into the Data Layer</div>
+    </div>
+  </div>
+
+  <div class="flow-arrow s2">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">dataLayer.push({ event, product, use_case, industry, intent_stage })</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-tip"></div>
+  </div>
+
+  <div class="section s2">
+    <div class="card pur center">
+      <div class="card-title">Centralized Data Layer</div>
+      <div class="card-sub">Single source of truth for all intent signals. Standardized ABM schema consumed by GTM — not per-platform logic.</div>
       <div class="tags">
-        <span class="tag">Meta Pixel</span>
-        <span class="tag">LinkedIn Insight Tag</span>
-        <span class="tag">Google Ads Tag</span>
-        <span class="tag">X Pixel</span>
-        <span class="tag">HubSpot tracking</span>
+        <span class="tag">product</span>
+        <span class="tag">use_case</span>
+        <span class="tag">industry</span>
+        <span class="tag">page_type</span>
+        <span class="tag">intent_stage</span>
+        <span class="tag">interaction_type</span>
+        <span class="tag">resource_type</span>
+        <span class="tag">resource_name</span>
       </div>
     </div>
   </div>
 
   <div class="flow-arrow s2">
     <div class="arrow-line"></div>
-    <div class="arrow-label">user actions classified by page &amp; behavior</div>
+    <div class="arrow-label">GTM listens, matches triggers, fires all platform tags</div>
+    <div class="arrow-line"></div>
+    <div class="arrow-tip"></div>
+  </div>
+
+  <div class="section s2">
+    <div class="card pur center">
+      <div class="card-title">Google Tag Manager</div>
+      <div class="card-sub">One trigger layer distributes the same standardized intent event to all platforms simultaneously — no separate tracking logic per platform</div>
+      <div class="tags">
+        <span class="tag">Meta Pixel</span>
+        <span class="tag">GA4</span>
+        <span class="tag">Google Ads Tag</span>
+        <span class="tag">LinkedIn Insight Tag</span>
+        <span class="tag">X Pixel</span>
+        <span class="tag">HubSpot (roadmap)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow-arrow s2">
+    <div class="arrow-line"></div>
+    <div class="arrow-label">intent events classified by page &amp; behavior</div>
     <div class="arrow-line"></div>
     <div class="arrow-tip"></div>
   </div>
 
   <!-- LAYER 2 -->
   <div class="section s3">
-    <div class="layer-label">Layer 2 — Intent classification</div>
+    <div class="layer-label">Layer 2 — ABM intent classification</div>
     <div class="row">
       <div class="col card blu">
         <div class="card-title">TOFU — Educational intent</div>
-        <div class="card-sub">Reports · Surveys · Infographics · Educational resources</div>
-        <span class="pill p-blu">ResourceEngagement</span>
+        <div class="card-sub">Reports · Surveys · Case studies · Infographics · Webinars · Podcasts · Blog · Resources hub</div>
+        <span class="pill p-blu">educational_intent</span>
       </div>
       <div class="col card amb">
         <div class="card-title">MOFU — Consideration intent</div>
-        <div class="card-sub">Product pages · Use cases · Industry pages</div>
-        <span class="pill p-amb">ProductIntent</span>
+        <div class="card-sub">Product pages · Use-case pages · Industry pages · Documentation clicks</div>
+        <span class="pill p-amb">product_intent</span>
       </div>
       <div class="col card red">
         <div class="card-title">BOFU — Buying intent</div>
-        <div class="card-sub">Book demo click · Demo form submit</div>
-        <span class="pill p-red">BookDemoClick</span>
-        <span class="pill p-red">DemoFormSubmit</span>
+        <div class="card-sub">Demo clicks · Demo form submits · Trial clicks · Talk with expert clicks</div>
+        <span class="pill p-red">buying_intent</span>
       </div>
     </div>
   </div>
 
   <div class="flow-arrow s4">
     <div class="arrow-line"></div>
-    <div class="arrow-label">signals feed multi-dimensional audience engine</div>
+    <div class="arrow-label">standardized intent signals feed multi-dimensional audience engine</div>
     <div class="arrow-line"></div>
     <div class="arrow-tip"></div>
   </div>
@@ -446,19 +484,23 @@
     <div class="layer-label">Layer 3 — Channel distribution</div>
     <div class="row">
       <div class="col card blu">
-        <div class="card-title">Meta Ads</div>
+        <div class="card-title">Meta</div>
         <div class="card-sub">Custom audiences · Lookalikes · Exclusions</div>
       </div>
       <div class="col card blu">
-        <div class="card-title">LinkedIn Ads</div>
-        <div class="card-sub">ABM retargeting · Job-title targeting</div>
+        <div class="card-title">GA4</div>
+        <div class="card-sub">Behavioral analytics · Audience export · Funnel analysis</div>
       </div>
       <div class="col card blu">
         <div class="card-title">Google Ads</div>
         <div class="card-sub">RLSA · Display · YouTube retargeting</div>
       </div>
       <div class="col card blu">
-        <div class="card-title">X Ads</div>
+        <div class="card-title">LinkedIn</div>
+        <div class="card-sub">ABM retargeting · Job-title targeting</div>
+      </div>
+      <div class="col card blu">
+        <div class="card-title">X / Twitter</div>
         <div class="card-sub">Cybersecurity audience retargeting</div>
       </div>
     </div>
@@ -473,8 +515,8 @@
 
   <div class="section s9">
     <div class="card tel center">
-      <div class="card-title">HubSpot CRM</div>
-      <div class="card-sub">Contact enrichment · Lifecycle stages · Lead scoring · Sales follow-up · Audience sync back to platforms</div>
+      <div class="card-title">HubSpot CRM <span style="font-size:10px;font-weight:400;opacity:.7;margin-left:6px">· roadmap</span></div>
+      <div class="card-sub">Contact enrichment · Lifecycle stages · Lead scoring · Sales follow-up · Audience sync back to platforms via GTM</div>
     </div>
   </div>
 
