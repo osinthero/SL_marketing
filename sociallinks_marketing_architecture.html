@@ -271,7 +271,40 @@
     font-size: 9px; color: var(--text-muted); letter-spacing: .06em;
   }
 
-  /* Print */
+  /* Legend / Reference table */
+  .ref-zone {
+    border: 1px solid var(--border-mid);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--gry-fill);
+    margin-top: 0;
+  }
+  .ref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .ref-col { display: flex; flex-direction: column; gap: 6px; }
+  .ref-col-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; font-weight: 500; letter-spacing: .1em;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .ref-item {
+    font-size: 10px; padding: 4px 10px; border-radius: 6px;
+    border: 1px solid; background: rgba(255,255,255,.8);
+    line-height: 1.4;
+  }
+  .ref-item small {
+    display: block; font-size: 9px; opacity: .7; margin-top: 1px;
+  }
+  .ref-col.r-cor .ref-col-label { color: var(--cor-sub); }
+  .ref-col.r-cor .ref-item { border-color: var(--cor-item-border); color: var(--cor-text); }
+  .ref-col.r-pur .ref-col-label { color: var(--pur-sub); }
+  .ref-col.r-pur .ref-item { border-color: #CECBF6; color: var(--pur-text); }
+  .ref-col.r-amb .ref-col-label { color: var(--amb-sub); }
+  .ref-col.r-amb .ref-item { border-color: #EFC97A; color: var(--amb-text); }
+
   @media print {
     body { background: #fff; padding: 24px; }
     .seg-zone { background: #f5f5f0; }
@@ -313,15 +346,21 @@
   <!-- LAYER 1 -->
   <div class="section s1">
     <div class="layer-label">Layer 1 — Data collection &amp; orchestration</div>
-    <div class="card pur center">
-      <div class="card-title">Social Links website</div>
-      <div class="card-sub">Every visitor interaction — page view, click, scroll, form — pushes a standardized ABM intent event into the Data Layer</div>
+    <div class="row">
+      <div class="col card pur center">
+        <div class="card-title">Social Links website</div>
+        <div class="card-sub">Product pages · Use-case pages · Industry pages · Demo &amp; trial actions</div>
+      </div>
+      <div class="col card pur center">
+        <div class="card-title">Social Links blog</div>
+        <div class="card-sub">Articles · Guides · Reports · Resource hub · Educational content</div>
+      </div>
     </div>
   </div>
 
   <div class="flow-arrow s2">
     <div class="arrow-line"></div>
-    <div class="arrow-label">dataLayer.push({ event, product, use_case, industry, intent_stage })</div>
+    <div class="arrow-label">both sources push standardized events → dataLayer.push({ event, product, use_case, industry, intent_stage })</div>
     <div class="arrow-line"></div>
     <div class="arrow-tip"></div>
   </div>
@@ -542,6 +581,80 @@
       <div class="out-sub">roadmap</div>
     </div>
   </div>
+
+  <!-- REFERENCE LEGEND -->
+  <div class="flow-arrow s10">
+    <div class="arrow-line"></div>
+    <div class="arrow-line"></div>
+  </div>
+
+  <div class="section s10">
+    <div class="layer-label">Reference — tracked signals by dimension</div>
+    <div class="ref-zone">
+      <div class="ref-grid">
+
+        <div class="ref-col r-cor">
+          <div class="ref-col-label">Products</div>
+          <div class="ref-item">Crimewall
+            <small>sl-crimewall</small>
+          </div>
+          <div class="ref-item">SL API
+            <small>sl-api · real-time-data-api-for-x-twitter</small>
+          </div>
+        </div>
+
+        <div class="ref-col r-pur">
+          <div class="ref-col-label">Industries</div>
+          <div class="ref-item">LEAs &amp; Government
+            <small>leas_government</small>
+          </div>
+          <div class="ref-item">Cybersecurity
+            <small>cybersecurity</small>
+          </div>
+          <div class="ref-item">Corporate Security
+            <small>corporate_security</small>
+          </div>
+          <div class="ref-item">Business Consulting
+            <small>business_consulting</small>
+          </div>
+          <div class="ref-item">Transport &amp; Logistics
+            <small>transport_delivery_logistics</small>
+          </div>
+        </div>
+
+        <div class="ref-col r-amb">
+          <div class="ref-col-label">Use cases</div>
+          <div class="ref-item">Criminal Investigations
+            <small>criminal_investigations</small>
+          </div>
+          <div class="ref-item">Cybercrime Investigations
+            <small>cybercrime</small>
+          </div>
+          <div class="ref-item">Counter-Terrorism
+            <small>counter_terrorism</small>
+          </div>
+          <div class="ref-item">Cyber Threat Intelligence
+            <small>cyber_threat_intelligence</small>
+          </div>
+          <div class="ref-item">Digital Forensics
+            <small>digital_forensics</small>
+          </div>
+          <div class="ref-item">Corporate Investigations
+            <small>corporate_investigations</small>
+          </div>
+          <div class="ref-item">External Business Risks
+            <small>external_business_risks</small>
+          </div>
+          <div class="ref-item">Drug Trafficking
+            <small>drug_trafficking</small>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div style="height:12px"></div>
 
   <div class="footer">
     <div class="footer-left">Social Links · Marketing Operations · Confidential</div>
