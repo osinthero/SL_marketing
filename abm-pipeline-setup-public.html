@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABM Pipeline — Social Links Setup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: #F8FAFC;
+    color: #0F172A;
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* Header */
+  .header {
+    background: #0F172A;
+    padding: 48px 40px 40px;
+    border-bottom: 3px solid #2563EB;
+  }
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #2563EB;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+  }
+  .header p {
+    color: #94A3B8;
+    font-size: 14px;
+  }
+  .status-badge {
+    display: inline-block;
+    margin-top: 16px;
+    background: #16A34A;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 99px;
+  }
+
+  /* Layout */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 40px;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #2563EB;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  /* Cards */
+  .card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 4px;
+  }
+  .card-sub {
+    font-size: 13px;
+    color: #64748B;
+  }
+
+  /* Pipeline flow */
+  .pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .pipeline-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .pipeline-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 32px;
+  }
+  .step-dot {
+    width: 32px;
+    height: 32px;
+    background: #2563EB;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-line {
+    width: 2px;
+    flex: 1;
+    min-height: 24px;
+    background: #CBD5E1;
+    margin: 4px 0;
+  }
+  .pipeline-step:last-child .step-line {
+    display: none;
+  }
+  .step-content {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 8px;
+    flex: 1;
+  }
+  .step-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #2563EB;
+    margin-bottom: 4px;
+  }
+  .step-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 4px;
+  }
+  .step-desc {
+    font-size: 13px;
+    color: #64748B;
+  }
+
+  /* Status table */
+  .status-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .status-table th {
+    background: #F1F5F9;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748B;
+    padding: 10px 16px;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .status-table td {
+    padding: 12px 16px;
+    font-size: 13px;
+    border-bottom: 1px solid #F1F5F9;
+    vertical-align: top;
+  }
+  .status-table tr:last-child td {
+    border-bottom: none;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+  .badge-done { background: #DCFCE7; color: #16A34A; }
+  .badge-next { background: #FEF9C3; color: #854D0E; }
+  .badge-pending { background: #F1F5F9; color: #64748B; }
+
+  /* Code / URL blocks */
+  .code-block {
+    background: #F1F5F9;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    color: #0F172A;
+    word-break: break-all;
+    margin-bottom: 8px;
+  }
+  .code-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748B;
+    margin-bottom: 4px;
+  }
+
+  /* Stack grid */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .stack-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .stack-tool {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 2px;
+  }
+  .stack-role {
+    font-size: 12px;
+    color: #64748B;
+    margin-bottom: 8px;
+  }
+  .stack-plan {
+    font-size: 11px;
+    font-weight: 600;
+    color: #2563EB;
+  }
+
+  /* Constraint list */
+  .constraint-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .constraint-list li {
+    background: #FFF7ED;
+    border: 1px solid #FED7AA;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #7C2D12;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .constraint-list li::before {
+    content: "⚠";
+    flex-shrink: 0;
+  }
+
+  /* ICP segments */
+  .icp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .icp-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .icp-segment {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid;
+  }
+  .icp-card:nth-child(1) .icp-segment { color: #1D4ED8; border-color: #BFDBFE; }
+  .icp-card:nth-child(2) .icp-segment { color: #7C3AED; border-color: #DDD6FE; }
+  .icp-card:nth-child(3) .icp-segment { color: #0D9488; border-color: #CCFBF1; }
+  .icp-card:nth-child(4) .icp-segment { color: #DC2626; border-color: #FECACA; }
+  .icp-card:nth-child(5) .icp-segment { color: #D97706; border-color: #FDE68A; }
+  .icp-titles {
+    font-size: 12px;
+    color: #475569;
+    line-height: 1.8;
+  }
+
+  /* divider */
+  .divider {
+    height: 1px;
+    background: #E2E8F0;
+    margin: 32px 0;
+  }
+
+  /* footer */
+  .footer {
+    text-align: center;
+    font-size: 12px;
+    color: #94A3B8;
+    padding: 24px;
+    border-top: 1px solid #E2E8F0;
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 32px 20px; }
+    .container { padding: 24px 16px 60px; }
+    .stack-grid, .icp-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Social Links · Crimewall</div>
+  <h1>ABM Pipeline Setup</h1>
+  <p>Automated flow: anonymous visitors → identified companies → verified ICP contacts → HubSpot</p>
+  <span class="status-badge">✓ Live as of June 17, 2026</span>
+</div>
+
+<div class="container">
+
+  <!-- STACK -->
+  <div class="section">
+    <div class="section-title">Stack</div>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <div class="stack-tool">HubSpot</div>
+        <div class="stack-role">CRM + Buyer Intent</div>
+        <div class="stack-plan">Portal: Social Links</div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-tool">Clay</div>
+        <div class="stack-role">Enrichment & contacts</div>
+        <div class="stack-plan">Explorer — $349/mo</div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-tool">Make.com</div>
+        <div class="stack-role">Automation bridge</div>
+        <div class="stack-plan">Free tier (EU region)</div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-tool">HubSpot Breeze</div>
+        <div class="stack-role">Visitor identification</div>
+        <div class="stack-plan">348 credits available</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIPELINE FLOW -->
+  <div class="section">
+    <div class="section-title">Pipeline Flow</div>
+    <div class="pipeline">
+
+      <div class="pipeline-step">
+        <div class="pipeline-left">
+          <div class="step-dot">1</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-label">HubSpot Breeze</div>
+          <div class="step-title">Visitor Identification</div>
+          <div class="step-desc">Identifies visiting companies via Buyer Intent. Auto-add to CRM is ON via "Weekly digest" saved view.</div>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="pipeline-left">
+          <div class="step-dot">2</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-label">Make.com — Scenario 1</div>
+          <div class="step-title">HubSpot → Clay</div>
+          <div class="step-desc">Watches for new Companies in HubSpot (Created only). Sends domain to Clay webhook every 15 minutes.</div>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="pipeline-left">
+          <div class="step-dot">3</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-label">Clay — ABM Pipeline table</div>
+          <div class="step-title">Company Enrichment</div>
+          <div class="step-desc">Receives domain via webhook. Enriches company data via People Data Labs (name, domain, size).</div>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="pipeline-left">
+          <div class="step-dot">4</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-label">Clay — Contacts table</div>
+          <div class="step-title">ICP Contact Finding</div>
+          <div class="step-desc">Finds contacts at each company matching ICP job titles (security, intelligence, compliance, LEA, cyber). Limit: 3 per company. Email waterfall: Findymail → Prospeo → Hunter → Dropcontact → Datagma → Wiza. ZeroBounce validates final email.</div>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="pipeline-left">
+          <div class="step-dot">5</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <div class="step-label">Make.com — Scenario 2</div>
+          <div class="step-title">Clay → HubSpot</div>
+          <div class="step-desc">Clay HTTP API column POSTs verified contacts to Make.com webhook. Only runs when Work Email is not empty. Make.com creates/updates contact in HubSpot with: email, first name, last name, job title, LinkedIn URL, company domain.</div>
+        </div>
+      </div>
+
+      <div class="pipeline-step">
+        <div class="pipeline-left">
+          <div class="step-dot">6</div>
+        </div>
+        <div class="step-content">
+          <div class="step-label">HubSpot</div>
+          <div class="step-title">Verified ICP Contacts Live in CRM</div>
+          <div class="step-desc">Contacts appear under All Contacts sorted by Create Date. SDR team picks up from here.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BUILD STATUS -->
+  <div class="section">
+    <div class="section-title">Build Status</div>
+    <table class="status-table">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Status</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>HubSpot Breeze Buyer Intent</strong></td>
+          <td><span class="badge badge-done">Done</span></td>
+          <td>Weekly digest, auto-add ON, 348 credits</td>
+        </tr>
+        <tr>
+          <td><strong>Make.com Scenario 1</strong> (HubSpot→Clay)</td>
+          <td><span class="badge badge-done">Done</span></td>
+          <td>Active, runs every 15 min</td>
+        </tr>
+        <tr>
+          <td><strong>Clay — ABM Pipeline table</strong></td>
+          <td><span class="badge badge-done">Done</span></td>
+          <td>Webhook + PDL company enrichment</td>
+        </tr>
+        <tr>
+          <td><strong>Clay — Contacts table</strong></td>
+          <td><span class="badge badge-done">Done</span></td>
+          <td>363 contacts, ICP job titles, email waterfall</td>
+        </tr>
+        <tr>
+          <td><strong>Make.com Scenario 2</strong> (Clay→HubSpot)</td>
+          <td><span class="badge badge-done">Done</span></td>
+          <td>Active, contacts flowing in real time</td>
+        </tr>
+        <tr>
+          <td><strong>Cowork Monday Digest</strong> (#sdr-mktg)</td>
+          <td><span class="badge badge-next">Next</span></td>
+          <td>Slack channel ID: C03MUCG5YEA</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- KEY IDs & URLs -->
+  <div class="section">
+    <div class="section-title">Key IDs &amp; URLs</div>
+
+    <div class="code-label">Clay Webhook (ABM Pipeline ingest)</div>
+    <div class="code-block">https://api.clay.com/v3/sources/webhook/●●●●●●●●●●●●●●●●●●</div>
+
+    <div class="code-label">Make.com Webhook (Clay → HubSpot)</div>
+    <div class="code-block">https://hook.eu1.make.com/●●●●●●●●●●●●●●●●●●</div>
+
+    <div class="code-label">Make.com Scenario 1 (HubSpot → Clay)</div>
+    <div class="code-block">eu1.make.com/●●●●●●●/scenarios/●●●●●●●</div>
+
+    <div class="code-label">Make.com Scenario 2 (Clay → HubSpot)</div>
+    <div class="code-block">eu1.make.com/●●●●●●●/scenarios/●●●●●●●</div>
+
+    <div class="code-label">Slack Channel — #sdr-mktg</div>
+    <div class="code-block">C03MUCG5YEA</div>
+  </div>
+
+  <!-- CLAY TABLES -->
+  <div class="section">
+    <div class="section-title">Clay Tables</div>
+    <div class="card">
+      <div class="card-title">ABM Pipeline</div>
+      <div class="card-sub">One row per company. Source: Webhook (domain). Enrichment: PDL company name + domain. Columns: domain, company name, Hunter emails, ZeroBounce status, HTTP API (sends to Make.com — legacy, now replaced by Contacts table).</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Contacts</div>
+      <div class="card-sub">One row per person. Source: Find Contacts at Company (Clay native, ICP job titles filter). Email waterfall auto-built by Clay. HTTP API column sends verified contacts to Make.com Scenario 2. Run condition: <code style="background:#F1F5F9;padding:1px 5px;border-radius:4px;font-size:12px;">!!{Work Email}</code></div>
+    </div>
+  </div>
+
+  <!-- EMAIL WATERFALL -->
+  <div class="section">
+    <div class="section-title">Email Waterfall — Contacts Table</div>
+    <p style="font-size:13px;color:#64748B;margin-bottom:16px;">Clay built this waterfall automatically when "Work Email" enrichment was selected. Each step only runs if the previous step found no email — saving credits. The final <strong>Work Email</strong> column holds the best result.</p>
+    <table class="status-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tool</th>
+          <th>Cost</th>
+          <th>Logic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>Findymail</strong></td>
+          <td>~2.9 credits</td>
+          <td>Always runs first</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Prospeo</strong></td>
+          <td>~2.9 credits</td>
+          <td>Runs if Findymail returns no email</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Hunter</strong></td>
+          <td>~2.9 credits</td>
+          <td>Runs if Prospeo returns no email</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Dropcontact</strong></td>
+          <td>~2.9 credits</td>
+          <td>Runs if Hunter returns no email. Good European coverage.</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Datagma</strong></td>
+          <td>~2.9 credits</td>
+          <td>Runs if Dropcontact returns no email</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>Wiza</strong></td>
+          <td>~2.9 credits</td>
+          <td>Runs if Datagma returns no email</td>
+        </tr>
+        <tr style="background:#F0FDF4;">
+          <td>✓</td>
+          <td><strong>Work Email</strong> (output column)</td>
+          <td>—</td>
+          <td>Best email found across all steps. This is what gets sent to HubSpot.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="card" style="margin-top:12px;background:#F0FDF4;border-color:#BBF7D0;">
+      <div class="card-title" style="color:#15803D;">Run condition on HTTP API column</div>
+      <div class="card-sub" style="margin-top:4px;">Only sends to HubSpot if Work Email is not empty: <code style="background:#DCFCE7;padding:1px 6px;border-radius:4px;font-size:12px;">!!{Work Email}</code></div>
+    </div>
+  </div>
+
+  <!-- ICP SEGMENTS -->
+  <div class="section">
+    <div class="section-title">ICP Segments &amp; Key Titles</div>
+    <div class="icp-grid">
+      <div class="icp-card">
+        <div class="icp-segment">Corporate Security</div>
+        <div class="icp-titles">Chief Security Officer, VP Security, Director of Security, Head of Corporate Security, Head of Investigations, Head of Risk, Head of KYC, Head of Brand Protection, Risk Manager, Corporate Investigator, Insider Threat Analyst…</div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-segment">Financial Crime</div>
+        <div class="icp-titles">Chief Compliance Officer, Chief Financial Crime Officer, Director of AML, Head of Financial Crime, Head of Cryptocurrency Investigations, AML Manager, AML Investigator, Sanctions Analyst, MLRO, BSA Officer, Transaction Monitoring Analyst…</div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-segment">Law Enforcement</div>
+        <div class="icp-titles">Chief of Police, Commissioner, Superintendent, Head of OSINT, Head of Counter-Terrorism, Head of Criminal Investigations, Head of Military Intelligence, Detective Inspector, Senior OSINT Analyst, Intelligence Officer, Human Trafficking Investigator…</div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-segment">Cybersecurity</div>
+        <div class="icp-titles">CISO, VP Cybersecurity, Director of Security Operations, Head of Cyber Threat Intelligence, Head of SOC, Head of Digital Forensics, Threat Intelligence Manager, Cybercrime Investigator, Dark Web Analyst, Threat Hunter, DLP Manager…</div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-segment">Media / NGO</div>
+        <div class="icp-titles">Investigative Journalist, Investigative Reporter, OSINT Researcher, Disinformation Researcher, Information Warfare Analyst, Data Journalist, Open Source Researcher…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONSTRAINTS -->
+  <div class="section">
+    <div class="section-title">Important Constraints</div>
+    <ul class="constraint-list">
+      <li>Clay Explorer plan — no native HubSpot CRM sync (requires Growth $495/mo). Using Make.com HTTP webhook bridge instead.</li>
+      <li>HubSpot — Arthur has limited permissions (cannot create companies). Admin required for Make.com install and Backfill.</li>
+      <li>Apollo free plan exhausted. Not currently in use — replaced by Clay's native "Find Contacts at Company" source.</li>
+      <li>Dropcontact skipped — requires full name + domain. Webhook only sends domain. Can be added if Make.com payload is expanded.</li>
+      <li>Breeze data lives in Marketing → Buyer Intent → Visitors, not in standard CRM company fields.</li>
+      <li>ICP filtering: Clay Contacts table filters by job title at source. HTTP API column has run condition <code style="background:#FEE2E2;padding:1px 5px;border-radius:4px;font-size:12px;">!!{Work Email}</code> to skip empty rows.</li>
+    </ul>
+  </div>
+
+  <!-- MAKE.COM FIELD MAPPING -->
+  <div class="section">
+    <div class="section-title">Make.com Scenario 2 — Field Mapping</div>
+    <table class="status-table">
+      <thead>
+        <tr>
+          <th>HubSpot Field</th>
+          <th>Clay Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Email</td><td>Work Email (waterfall result)</td></tr>
+        <tr><td>First Name</td><td>First Name</td></tr>
+        <tr><td>Last Name</td><td>Last Name</td></tr>
+        <tr><td>Job Title</td><td>Job Title</td></tr>
+        <tr><td>Company Website</td><td>Company Domain</td></tr>
+        <tr><td>LinkedIn Bio</td><td>LinkedIn Profile</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- REMAINING TASKS -->
+  <div class="section">
+    <div class="section-title">Remaining Tasks</div>
+    <table class="status-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cowork Monday digest</strong> — weekly summary of new companies + contacts to #sdr-mktg</td>
+          <td><span class="badge badge-next">Next</span></td>
+        </tr>
+        <tr>
+          <td><strong>Add company_name to Make.com webhook payload</strong> — unlocks Dropcontact enrichment</td>
+          <td><span class="badge badge-pending">Later</span></td>
+        </tr>
+        <tr>
+          <td><strong>Apollo Basic upgrade</strong> ($49/mo) — adds job-title-filtered contact finding on top of Clay's source</td>
+          <td><span class="badge badge-pending">Optional</span></td>
+        </tr>
+        <tr>
+          <td><strong>ICP filtering pass</strong> — review first batch of contacts in HubSpot, refine job title list</td>
+          <td><span class="badge badge-pending">Later</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- UPGRADE PATH -->
+  <div class="section">
+    <div class="section-title">Upgrade Path (pitch to management)</div>
+    <div class="card">
+      <div class="card-title">Current state — fully functional on Clay Explorer + HubSpot</div>
+      <div class="card-sub" style="margin-top:6px;">Pipeline is live. Companies identified → ICP contacts found → verified emails → HubSpot. No additional subscriptions needed.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">+Apollo Basic ($49/mo) → better LEA &amp; gov coverage</div>
+      <div class="card-sub" style="margin-top:6px;">30,000 credits/year. Adds job-title-specific search on top of Clay's native source. Estimated usage: ~300 credits/month.</div>
+    </div>
+    <div class="card">
+      <div class="card-title">+Clay Growth ($495/mo) → native HubSpot sync, removes Make.com dependency</div>
+      <div class="card-sub" style="margin-top:6px;">Unlocks direct HubSpot export from Clay. Eliminates need for Make.com Scenario 2 and HTTP API column.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  ABM Pipeline · Social Links / Crimewall · Built June 2026 · Last updated June 17, 2026
+</div>
+
+</body>
+</html>
