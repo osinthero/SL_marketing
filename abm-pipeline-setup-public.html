@@ -3,702 +3,441 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ABM Pipeline — Social Links Setup</title>
+<title>ABM Pipeline — Social Links / Crimewall</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F7F6F3; --surface: #FFFFFF; --border: #E2E0D8; --bm: #C8C5BA;
+    --text: #1A1916; --muted: #7A7870;
+    --pur: #5340E0; --pur-bg: rgba(83,64,224,.07); --pur-bd: rgba(83,64,224,.22); --pur-dk: #2E20A8;
+    --tel: #0D9E9E; --tel-bg: rgba(13,158,158,.07); --tel-bd: rgba(13,158,158,.22); --tel-dk: #065858;
+    --amb: #C97D10; --amb-bg: rgba(201,125,16,.07); --amb-bd: rgba(201,125,16,.22); --amb-dk: #6B3D00;
+    --grn: #0A6644; --grn-bg: rgba(10,102,68,.07); --grn-bd: rgba(10,102,68,.22); --grn-dk: #064430;
+    --red: #D63355; --red-bg: rgba(214,51,85,.07); --red-bd: rgba(214,51,85,.22); --red-dk: #8C1530;
+    --slk: #4A154B; --slk-bg: rgba(74,21,75,.07); --slk-bd: rgba(74,21,75,.22); --slk-dk: #2D0D2E;
+    --gry: #444441; --gry-bg: #F1EFE8; --gry-bd: #B4B2A9;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); padding: 48px 32px 80px; max-width: 900px; margin: 0 auto; }
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-    background: #F8FAFC;
-    color: #0F172A;
-    line-height: 1.6;
-    font-size: 15px;
-  }
+  /* TYPOGRAPHY */
+  .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 32px; font-weight: 800; line-height: 1.1; margin-bottom: 6px; background: linear-gradient(120deg,#3C2FC0,#0A8585); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 44px; line-height: 1.6; max-width: 640px; }
+  .slabel { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+  .slabel::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* Header */
-  .header {
-    background: #0F172A;
-    padding: 48px 40px 40px;
-    border-bottom: 3px solid #2563EB;
-  }
-  .header-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #2563EB;
-    margin-bottom: 10px;
-  }
-  .header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #FFFFFF;
-    margin-bottom: 8px;
-  }
-  .header p {
-    color: #94A3B8;
-    font-size: 14px;
-  }
-  .status-badge {
-    display: inline-block;
-    margin-top: 16px;
-    background: #16A34A;
-    color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 99px;
-  }
+  /* STATUS BADGE */
+  .live-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 10px; padding: 4px 10px; border-radius: 20px; background: var(--grn-bg); border: 1px solid var(--grn-bd); color: var(--grn-dk); margin-bottom: 32px; }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--grn); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-  /* Layout */
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 24px 80px;
-  }
+  /* SECTION */
+  .section { margin-bottom: 40px; }
 
-  /* Section */
-  .section {
-    margin-bottom: 40px;
-  }
-  .section-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #2563EB;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #E2E8F0;
-  }
+  /* PIPELINE FLOW */
+  .flow { display: flex; flex-direction: column; gap: 0; margin-bottom: 8px; }
+  .flow-step { display: grid; grid-template-columns: 52px 1fr; align-items: start; }
+  .flow-spine { display: flex; flex-direction: column; align-items: center; padding-top: 14px; }
+  .flow-dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; border: 2px solid; background: var(--bg); flex-shrink: 0; z-index: 2; }
+  .flow-line { width: 2px; flex: 1; min-height: 18px; background: var(--border); }
+  .flow-body { padding: 10px 0 24px 14px; }
+  .flow-tool { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 3px; }
+  .flow-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .flow-desc { font-size: 11px; color: var(--muted); line-height: 1.65; }
+  .flow-desc code { font-family: 'DM Mono', monospace; font-size: 10px; background: var(--bg); border: 1px solid var(--border); padding: 1px 5px; border-radius: 3px; color: var(--pur-dk); }
+  .fd-pur .flow-dot { border-color: var(--pur); color: var(--pur); }
+  .fd-pur .flow-tool { color: var(--pur); }
+  .fd-tel .flow-dot { border-color: var(--tel); color: var(--tel); }
+  .fd-tel .flow-tool { color: var(--tel); }
+  .fd-amb .flow-dot { border-color: var(--amb); color: var(--amb); }
+  .fd-amb .flow-tool { color: var(--amb); }
+  .fd-grn .flow-dot { border-color: var(--grn); color: var(--grn); }
+  .fd-grn .flow-tool { color: var(--grn); }
+  .fd-slk .flow-dot { border-color: #7B2D7C; color: #7B2D7C; }
+  .fd-slk .flow-tool { color: #7B2D7C; }
 
-  /* Cards */
-  .card {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: 20px 24px;
-    margin-bottom: 12px;
-  }
-  .card-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: #0F172A;
-    margin-bottom: 4px;
-  }
-  .card-sub {
-    font-size: 13px;
-    color: #64748B;
-  }
+  /* CARDS GRID */
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 8px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .card-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .card-body { font-size: 11px; color: var(--muted); line-height: 1.65; }
+  .card-body strong { color: var(--text); }
+  .card-body code { font-family: 'DM Mono', monospace; font-size: 10px; background: var(--bg); border: 1px solid var(--border); padding: 1px 5px; border-radius: 3px; color: var(--pur-dk); }
+  .card.c-pur { border-color: var(--pur-bd); }
+  .card.c-pur .card-label { color: var(--pur); }
+  .card.c-tel { border-color: var(--tel-bd); }
+  .card.c-tel .card-label { color: var(--tel); }
+  .card.c-amb { border-color: var(--amb-bd); background: var(--amb-bg); }
+  .card.c-amb .card-label { color: var(--amb); }
+  .card.c-amb .card-body { color: var(--amb-dk); }
+  .card.c-grn { border-color: var(--grn-bd); background: var(--grn-bg); }
+  .card.c-grn .card-label { color: var(--grn); }
+  .card.c-grn .card-body { color: var(--grn-dk); }
+  .card.c-slk { border-color: var(--slk-bd); }
+  .card.c-slk .card-label { color: #7B2D7C; }
+  .cards-3 { grid-template-columns: repeat(3, 1fr); }
 
-  /* Pipeline flow */
-  .pipeline {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .pipeline-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  .pipeline-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 32px;
-  }
-  .step-dot {
-    width: 32px;
-    height: 32px;
-    background: #2563EB;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-  .step-line {
-    width: 2px;
-    flex: 1;
-    min-height: 24px;
-    background: #CBD5E1;
-    margin: 4px 0;
-  }
-  .pipeline-step:last-child .step-line {
-    display: none;
-  }
-  .step-content {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin-bottom: 8px;
-    flex: 1;
-  }
-  .step-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #2563EB;
-    margin-bottom: 4px;
-  }
-  .step-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #0F172A;
-    margin-bottom: 4px;
-  }
-  .step-desc {
-    font-size: 13px;
-    color: #64748B;
-  }
+  /* TABLE */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 11px; margin: 8px 0; }
+  .tbl th { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); background: #ECEAE3; }
+  .tbl td { padding: 8px 12px; border-bottom: 1px solid rgba(180,178,169,.4); vertical-align: top; line-height: 1.5; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl tr:hover td { background: rgba(83,64,224,.02); }
+  .tbl td:first-child { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
 
-  /* Status table */
-  .status-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .status-table th {
-    background: #F1F5F9;
-    text-align: left;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #64748B;
-    padding: 10px 16px;
-    border-bottom: 1px solid #E2E8F0;
-  }
-  .status-table td {
-    padding: 12px 16px;
-    font-size: 13px;
-    border-bottom: 1px solid #F1F5F9;
-    vertical-align: top;
-  }
-  .status-table tr:last-child td {
-    border-bottom: none;
-  }
-  .badge {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 99px;
-  }
-  .badge-done { background: #DCFCE7; color: #16A34A; }
-  .badge-next { background: #FEF9C3; color: #854D0E; }
-  .badge-pending { background: #F1F5F9; color: #64748B; }
+  /* PILL TAGS */
+  .tag { font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 4px; border: 1px solid; display: inline-block; }
+  .tg { background: var(--grn-bg); border-color: var(--grn-bd); color: var(--grn-dk); }
+  .ta { background: var(--amb-bg); border-color: var(--amb-bd); color: var(--amb-dk); }
+  .tp { background: var(--pur-bg); border-color: var(--pur-bd); color: var(--pur-dk); }
+  .tr { background: var(--red-bg); border-color: var(--red-bd); color: var(--red-dk); }
+  .tgy { background: var(--gry-bg); border-color: var(--gry-bd); color: var(--gry); }
 
-  /* Code / URL blocks */
-  .code-block {
-    background: #F1F5F9;
-    border: 1px solid #E2E8F0;
-    border-radius: 8px;
-    padding: 14px 16px;
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    font-size: 12px;
-    color: #0F172A;
-    word-break: break-all;
-    margin-bottom: 8px;
-  }
-  .code-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: #64748B;
-    margin-bottom: 4px;
-  }
+  /* CONSTRAINT BANNER */
+  .banner { padding: 14px 18px; border-radius: 9px; border: 1px solid; margin-bottom: 8px; display: flex; gap: 12px; font-size: 11px; line-height: 1.65; }
+  .banner.warn { background: var(--amb-bg); border-color: var(--amb-bd); color: var(--amb-dk); }
+  .banner.info { background: var(--pur-bg); border-color: var(--pur-bd); color: var(--pur-dk); }
+  .banner.ok { background: var(--grn-bg); border-color: var(--grn-bd); color: var(--grn-dk); }
+  .banner-icon { font-size: 14px; flex-shrink: 0; }
 
-  /* Stack grid */
-  .stack-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
-  }
-  .stack-card {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: 16px;
-  }
-  .stack-tool {
-    font-size: 14px;
-    font-weight: 700;
-    color: #0F172A;
-    margin-bottom: 2px;
-  }
-  .stack-role {
-    font-size: 12px;
-    color: #64748B;
-    margin-bottom: 8px;
-  }
-  .stack-plan {
-    font-size: 11px;
-    font-weight: 600;
-    color: #2563EB;
-  }
+  /* ICP PILLS */
+  .icp-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+  .icp-pill { font-family: 'DM Mono', monospace; font-size: 9px; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--muted); background: var(--surface); }
 
-  /* Constraint list */
-  .constraint-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .constraint-list li {
-    background: #FFF7ED;
-    border: 1px solid #FED7AA;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: #7C2D12;
-    display: flex;
-    gap: 8px;
-    align-items: flex-start;
-  }
-  .constraint-list li::before {
-    content: "⚠";
-    flex-shrink: 0;
-  }
+  /* NEXT STEPS */
+  .next-row { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .next-row:first-child { border-radius: 10px 10px 0 0; }
+  .next-row:last-child { border-bottom: none; border-radius: 0 0 10px 10px; }
+  .next-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .next-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 8px; }
+  .next-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+  .next-tags { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
 
-  /* ICP segments */
-  .icp-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
-  }
-  .icp-card {
-    background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: 16px;
-  }
-  .icp-segment {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid;
-  }
-  .icp-card:nth-child(1) .icp-segment { color: #1D4ED8; border-color: #BFDBFE; }
-  .icp-card:nth-child(2) .icp-segment { color: #7C3AED; border-color: #DDD6FE; }
-  .icp-card:nth-child(3) .icp-segment { color: #0D9488; border-color: #CCFBF1; }
-  .icp-card:nth-child(4) .icp-segment { color: #DC2626; border-color: #FECACA; }
-  .icp-card:nth-child(5) .icp-segment { color: #D97706; border-color: #FDE68A; }
-  .icp-titles {
-    font-size: 12px;
-    color: #475569;
-    line-height: 1.8;
-  }
+  /* DIGEST PREVIEW */
+  .slack-preview { border-radius: 10px; border: 1px solid var(--slk-bd); background: #1A1D21; overflow: hidden; margin-top: 8px; }
+  .slack-header { padding: 9px 14px; background: #2C2D30; border-bottom: 1px solid rgba(255,255,255,.08); display: flex; align-items: center; gap: 8px; }
+  .slack-hash { color: #72767D; font-size: 15px; }
+  .slack-channel { font-size: 13px; font-weight: 700; color: #D1D2D3; }
+  .slack-body { padding: 14px 16px; }
+  .slack-msg { display: flex; gap: 10px; }
+  .slack-avatar { width: 34px; height: 34px; border-radius: 6px; background: linear-gradient(135deg,#5340E0,#0D9E9E); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: white; }
+  .slack-sender { font-size: 13px; font-weight: 700; color: #D1D2D3; }
+  .slack-time { font-size: 11px; color: #72767D; margin-left: 6px; }
+  .slack-text { font-size: 13px; color: #D1D2D3; line-height: 1.65; margin-top: 4px; }
+  .slack-text strong { color: #FFFFFF; }
+  .slack-text em { color: #ADADB0; }
+  .slack-divider { height: 1px; background: rgba(255,255,255,.08); margin: 10px 0; }
+  .slack-thread { font-size: 11px; color: #4A9EDE; margin-top: 8px; cursor: pointer; }
 
-  /* divider */
-  .divider {
-    height: 1px;
-    background: #E2E8F0;
-    margin: 32px 0;
-  }
+  /* WATERFALL */
+  .wf-row { display: grid; grid-template-columns: 24px 120px 1fr auto; gap: 10px; align-items: center; padding: 8px 12px; border-bottom: 1px solid rgba(180,178,169,.4); font-size: 11px; }
+  .wf-row:last-child { border-bottom: none; }
+  .wf-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .wf-tool { font-weight: 700; }
+  .wf-logic { color: var(--muted); line-height: 1.5; }
+  .wf-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .wf-head { display: grid; grid-template-columns: 24px 120px 1fr auto; gap: 10px; padding: 7px 12px; background: #ECEAE3; border-bottom: 1px solid var(--border); }
+  .wf-head span { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 
-  /* footer */
-  .footer {
-    text-align: center;
-    font-size: 12px;
-    color: #94A3B8;
-    padding: 24px;
-    border-top: 1px solid #E2E8F0;
-  }
+  /* FIELD MAPPING */
+  .fm-row { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 8px; align-items: center; padding: 7px 12px; border-bottom: 1px solid rgba(180,178,169,.4); font-size: 11px; }
+  .fm-row:last-child { border-bottom: none; }
+  .fm-arrow { color: var(--muted); text-align: center; font-size: 10px; }
+  .fm-left { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--pur-dk); }
+  .fm-right { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--tel-dk); }
+  .fm-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .fm-head { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 8px; padding: 7px 12px; background: #ECEAE3; border-bottom: 1px solid var(--border); }
+  .fm-head span { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 
-  @media (max-width: 600px) {
-    .header { padding: 32px 20px; }
-    .container { padding: 24px 16px 60px; }
-    .stack-grid, .icp-grid { grid-template-columns: 1fr 1fr; }
-  }
+  /* FOOTER */
+  .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .footer-right { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-eyebrow">Social Links · Crimewall</div>
-  <h1>ABM Pipeline Setup</h1>
-  <p>Automated flow: anonymous visitors → identified companies → verified ICP contacts → HubSpot</p>
-  <span class="status-badge">✓ Live as of June 17, 2026</span>
+<!-- HEADER -->
+<div class="eyebrow">Social Links · Crimewall</div>
+<h1>ABM Pipeline</h1>
+<p class="subtitle">Single source of truth for the automated pipeline: anonymous website visitors → identified companies → verified ICP contacts → HubSpot CRM. Reference this when making any changes.</p>
+<div class="live-badge"><div class="live-dot"></div>Live since June 17, 2026</div>
+
+<!-- STACK -->
+<div class="section">
+  <div class="slabel">Stack</div>
+  <div class="cards cards-3">
+    <div class="card c-pur">
+      <div class="card-label">HubSpot</div>
+      <div class="card-title">CRM + Buyer Intent</div>
+      <div class="card-body">Portal: Social Links<br>Breeze credits: 348<br>Slack: <strong>#sdr-mktg</strong> · <code>C03MUCG5YEA</code></div>
+    </div>
+    <div class="card c-tel">
+      <div class="card-label">Clay</div>
+      <div class="card-title">Explorer — $349/mo</div>
+      <div class="card-body">Table: <strong>Pull in data from a Webhook</strong><br>2 sub-tables: Companies + Contacts<br>No native HubSpot sync on Explorer</div>
+    </div>
+    <div class="card c-tel">
+      <div class="card-label">Make.com</div>
+      <div class="card-title">Paid plan · EU region</div>
+      <div class="card-body">2 active scenarios<br>Monitor ops usage<br>Bridge: HubSpot ↔ Clay</div>
+    </div>
+  </div>
 </div>
 
-<div class="container">
+<!-- PIPELINE FLOW -->
+<div class="section">
+  <div class="slabel">Pipeline flow</div>
+  <div class="flow">
 
-  <!-- STACK -->
-  <div class="section">
-    <div class="section-title">Stack</div>
-    <div class="stack-grid">
-      <div class="stack-card">
-        <div class="stack-tool">HubSpot</div>
-        <div class="stack-role">CRM + Buyer Intent</div>
-        <div class="stack-plan">Portal: Social Links</div>
+    <div class="flow-step fd-pur">
+      <div class="flow-spine"><div class="flow-dot">1</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-tool">HubSpot Breeze</div>
+        <div class="flow-title">Visitor identification</div>
+        <div class="flow-desc">Identifies companies visiting sociallinks.io via Buyer Intent. Auto-add to CRM is ON via "Weekly digest" saved view. ~100 companies/week. Data lives in Marketing → Buyer Intent → Visitors, not standard CRM fields.</div>
       </div>
-      <div class="stack-card">
-        <div class="stack-tool">Clay</div>
-        <div class="stack-role">Enrichment & contacts</div>
-        <div class="stack-plan">Explorer — $349/mo</div>
+    </div>
+
+    <div class="flow-step fd-tel">
+      <div class="flow-spine"><div class="flow-dot">2</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-tool">Make.com — Scenario 1</div>
+        <div class="flow-title">HubSpot → Clay webhook</div>
+        <div class="flow-desc">Watches HubSpot for new Companies (Created only). Every 15 min sends payload to Clay webhook. Payload: <code>domain</code> + <code>Country/Region</code> (added June 19, 2026). Module: Watch CRM Objects → Clay "Create a record in table". Scenario URL: eu1.make.com/1903842/scenarios/6146312</div>
       </div>
-      <div class="stack-card">
-        <div class="stack-tool">Make.com</div>
-        <div class="stack-role">Automation bridge</div>
-        <div class="stack-plan">Free tier (EU region)</div>
+    </div>
+
+    <div class="flow-step fd-tel">
+      <div class="flow-spine"><div class="flow-dot">3</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-tool">Clay — Companies table</div>
+        <div class="flow-title">Company enrichment</div>
+        <div class="flow-desc">Receives domain via webhook. Enriches via People Data Labs (company name, domain). 170 rows, 8 columns. HTTP API column is legacy — kept but replaced by Contacts table flow.</div>
       </div>
-      <div class="stack-card">
-        <div class="stack-tool">HubSpot Breeze</div>
-        <div class="stack-role">Visitor identification</div>
-        <div class="stack-plan">348 credits available</div>
+    </div>
+
+    <div class="flow-step fd-amb">
+      <div class="flow-spine"><div class="flow-dot">4</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-tool">Clay — Contacts table</div>
+        <div class="flow-title">ICP contact finding + email waterfall</div>
+        <div class="flow-desc">Source: <strong>"Security and Risk Leadership"</strong> filter — Find people with filters, scoped to Companies table via Website column. Job title: "is similar to" + 183 ICP titles. Limit: <strong>5 per company</strong>. Email waterfall: Findymail → Prospeo → Hunter → Dropcontact → Datagma → Wiza. HTTP API column POSTs to Make.com. Run condition: <code>!!{Work Email}</code>. Currently: 109 rows, 27 columns.</div>
+      </div>
+    </div>
+
+    <div class="flow-step fd-tel">
+      <div class="flow-spine"><div class="flow-dot">5</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-tool">Make.com — Scenario 2</div>
+        <div class="flow-title">Clay → HubSpot contacts</div>
+        <div class="flow-desc">Receives Clay HTTP API POST. Sleep 1s → Create or Update Contact (dedup by email). Process data in order: ON. Scenario URL: eu1.make.com/1903842/scenarios/6158364</div>
+      </div>
+    </div>
+
+    <div class="flow-step fd-pur">
+      <div class="flow-spine"><div class="flow-dot">6</div></div>
+      <div class="flow-body">
+        <div class="flow-tool">HubSpot</div>
+        <div class="flow-title">Verified ICP contacts in CRM</div>
+        <div class="flow-desc">Contacts appear under All Contacts sorted by Create Date. SDR team works from here. Pipeline contacts identified by: <code>company_website</code> property has a value.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FIELD MAPPING -->
+<div class="section">
+  <div class="slabel">Make.com Scenario 2 — field mapping</div>
+  <div class="fm-wrap">
+    <div class="fm-head"><span>HubSpot field</span><span></span><span>Clay source</span></div>
+    <div class="fm-row"><div class="fm-left">email</div><div class="fm-arrow">→</div><div class="fm-right">Work Email (waterfall result)</div></div>
+    <div class="fm-row"><div class="fm-left">firstname</div><div class="fm-arrow">→</div><div class="fm-right">First Name</div></div>
+    <div class="fm-row"><div class="fm-left">lastname</div><div class="fm-arrow">→</div><div class="fm-right">Last Name</div></div>
+    <div class="fm-row"><div class="fm-left">jobtitle</div><div class="fm-arrow">→</div><div class="fm-right">Job Title</div></div>
+    <div class="fm-row"><div class="fm-left">company_website</div><div class="fm-arrow">→</div><div class="fm-right">Company Domain</div></div>
+    <div class="fm-row"><div class="fm-left">hs_linkedin_bio</div><div class="fm-arrow">→</div><div class="fm-right">LinkedIn Profile</div></div>
+  </div>
+</div>
+
+<!-- EMAIL WATERFALL -->
+<div class="section">
+  <div class="slabel">Email waterfall — Contacts table</div>
+  <div class="wf-wrap">
+    <div class="wf-head"><span>#</span><span>Tool</span><span>Logic</span><span>Cost</span></div>
+    <div class="wf-row"><div class="wf-num">1</div><div class="wf-tool">Findymail</div><div class="wf-logic">Always runs first</div><div><span class="tag tp">~2.9 cr</span></div></div>
+    <div class="wf-row"><div class="wf-num">2</div><div class="wf-tool">Prospeo</div><div class="wf-logic">Runs if Findymail returns no email</div><div><span class="tag tp">~2.9 cr</span></div></div>
+    <div class="wf-row"><div class="wf-num">3</div><div class="wf-tool">Hunter</div><div class="wf-logic">Runs if Prospeo returns no email</div><div><span class="tag tp">~2.9 cr</span></div></div>
+    <div class="wf-row"><div class="wf-num">4</div><div class="wf-tool">Dropcontact</div><div class="wf-logic">Runs if Hunter returns no email. Needs full name + domain — requires company_name in Make.com payload to unlock</div><div><span class="tag ta">~2.9 cr</span></div></div>
+    <div class="wf-row"><div class="wf-num">5</div><div class="wf-tool">Datagma</div><div class="wf-logic">Runs if Dropcontact returns no email</div><div><span class="tag tp">~2.9 cr</span></div></div>
+    <div class="wf-row"><div class="wf-num">6</div><div class="wf-tool">Wiza</div><div class="wf-logic">Runs if Datagma returns no email</div><div><span class="tag tp">~2.9 cr</span></div></div>
+    <div class="wf-row"><div class="wf-num">✓</div><div class="wf-tool">Work Email</div><div class="wf-logic">Best result from waterfall. This column triggers Make.com HTTP API POST.</div><div><span class="tag tg">output</span></div></div>
+  </div>
+</div>
+
+<!-- CONSTRAINTS -->
+<div class="section">
+  <div class="slabel">Known constraints</div>
+  <div class="banner warn"><div class="banner-icon">⚠</div><strong>Clay Explorer — no native HubSpot sync.</strong> Requires Growth ($495/mo). Using Make.com HTTP webhook bridge instead. If upgrading: replace Scenario 2 with Clay's native HubSpot export.</div>
+  <div class="banner warn"><div class="banner-icon">⚠</div><strong>Arthur has limited HubSpot permissions.</strong> Admin required for Make.com install and Backfill. Cannot create companies.</div>
+  <div class="banner warn"><div class="banner-icon">⚠</div><strong>Dropcontact currently skipped.</strong> Needs full name + company name. Make.com Scenario 1 only sends domain. To unlock: add company_name to payload.</div>
+  <div class="banner info"><div class="banner-icon">ℹ</div><strong>Make.com ops usage:</strong> monitor monthly consumption. Each contact = 2 ops (sleep + HubSpot module).</div>
+  <div class="banner info"><div class="banner-icon">ℹ</div><strong>Pipeline contacts filter in HubSpot:</strong> contacts where <code>company_website</code> has a value = came from ABM pipeline. Use this filter for the Cowork digest.</div>
+  <div class="banner warn"><div class="banner-icon">⚠</div><strong>ICP filter noise.</strong> Some non-ICP contacts slip through (airline captains match "Captain", researchers match "Investigator"). Exclusion rules to be added later. Current workaround: limit 5 per company reduces damage.</div>
+</div>
+
+<!-- ICP TITLES -->
+<div class="section">
+  <div class="slabel">ICP job titles — 183 titles across 5 segments</div>
+  <div class="cards">
+    <div class="card c-pur">
+      <div class="card-label">Corporate Security</div>
+      <div class="icp-wrap">
+        <span class="icp-pill">Chief Security Officer</span><span class="icp-pill">Chief Risk Officer</span><span class="icp-pill">VP Security</span><span class="icp-pill">VP Risk</span><span class="icp-pill">Director of Security</span><span class="icp-pill">Head of Corporate Security</span><span class="icp-pill">Head of Investigations</span><span class="icp-pill">Head of Risk</span><span class="icp-pill">Head of KYC</span><span class="icp-pill">Head of Brand Protection</span><span class="icp-pill">Head of VIP Protection</span><span class="icp-pill">Head of Travel Security</span><span class="icp-pill">Head of Insider Threat</span><span class="icp-pill">Corporate Security Manager</span><span class="icp-pill">Risk Manager</span><span class="icp-pill">Corporate Investigator</span><span class="icp-pill">Insider Threat Analyst</span><span class="icp-pill">Travel Risk Manager</span>
+      </div>
+    </div>
+    <div class="card c-amb">
+      <div class="card-label">Financial Crime & Compliance</div>
+      <div class="icp-wrap">
+        <span class="icp-pill">Chief Compliance Officer</span><span class="icp-pill">Chief Financial Crime Officer</span><span class="icp-pill">Director of AML</span><span class="icp-pill">Head of Financial Crime</span><span class="icp-pill">Head of Cryptocurrency Investigations</span><span class="icp-pill">Head of AML</span><span class="icp-pill">AML Manager</span><span class="icp-pill">AML Investigator</span><span class="icp-pill">AML Analyst</span><span class="icp-pill">Sanctions Analyst</span><span class="icp-pill">MLRO</span><span class="icp-pill">BSA Officer</span><span class="icp-pill">Transaction Monitoring Analyst</span><span class="icp-pill">KYC Analyst</span><span class="icp-pill">KYB Analyst</span><span class="icp-pill">Fraud Prevention Analyst</span>
+      </div>
+    </div>
+    <div class="card c-tel">
+      <div class="card-label">Law Enforcement & Government</div>
+      <div class="icp-wrap">
+        <span class="icp-pill">Chief of Police</span><span class="icp-pill">Commissioner</span><span class="icp-pill">Superintendent</span><span class="icp-pill">Chief Inspector</span><span class="icp-pill">Head of OSINT</span><span class="icp-pill">Head of Counter-Terrorism</span><span class="icp-pill">Head of Criminal Investigations</span><span class="icp-pill">Head of Military Intelligence</span><span class="icp-pill">Detective Inspector</span><span class="icp-pill">Senior OSINT Analyst</span><span class="icp-pill">Intelligence Officer</span><span class="icp-pill">Human Trafficking Investigator</span><span class="icp-pill">Detective</span><span class="icp-pill">OSINT Analyst</span><span class="icp-pill">Crime Analyst</span>
+      </div>
+    </div>
+    <div class="card c-pur">
+      <div class="card-label">Cybersecurity</div>
+      <div class="icp-wrap">
+        <span class="icp-pill">CISO</span><span class="icp-pill">Chief Information Security Officer</span><span class="icp-pill">VP Cybersecurity</span><span class="icp-pill">Director of Security Operations</span><span class="icp-pill">Head of Cyber Threat Intelligence</span><span class="icp-pill">Head of SOC</span><span class="icp-pill">Head of Digital Forensics</span><span class="icp-pill">Threat Intelligence Manager</span><span class="icp-pill">Cybercrime Investigator</span><span class="icp-pill">Dark Web Analyst</span><span class="icp-pill">Threat Hunter</span><span class="icp-pill">SOC Analyst</span><span class="icp-pill">DLP Manager</span>
       </div>
     </div>
   </div>
-
-  <!-- PIPELINE FLOW -->
-  <div class="section">
-    <div class="section-title">Pipeline Flow</div>
-    <div class="pipeline">
-
-      <div class="pipeline-step">
-        <div class="pipeline-left">
-          <div class="step-dot">1</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-content">
-          <div class="step-label">HubSpot Breeze</div>
-          <div class="step-title">Visitor Identification</div>
-          <div class="step-desc">Identifies visiting companies via Buyer Intent. Auto-add to CRM is ON via "Weekly digest" saved view.</div>
-        </div>
-      </div>
-
-      <div class="pipeline-step">
-        <div class="pipeline-left">
-          <div class="step-dot">2</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-content">
-          <div class="step-label">Make.com — Scenario 1</div>
-          <div class="step-title">HubSpot → Clay</div>
-          <div class="step-desc">Watches for new Companies in HubSpot (Created only). Sends domain to Clay webhook every 15 minutes.</div>
-        </div>
-      </div>
-
-      <div class="pipeline-step">
-        <div class="pipeline-left">
-          <div class="step-dot">3</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-content">
-          <div class="step-label">Clay — ABM Pipeline table</div>
-          <div class="step-title">Company Enrichment</div>
-          <div class="step-desc">Receives domain via webhook. Enriches company data via People Data Labs (name, domain, size).</div>
-        </div>
-      </div>
-
-      <div class="pipeline-step">
-        <div class="pipeline-left">
-          <div class="step-dot">4</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-content">
-          <div class="step-label">Clay — Contacts table</div>
-          <div class="step-title">ICP Contact Finding</div>
-          <div class="step-desc">Finds contacts at each company matching ICP job titles (security, intelligence, compliance, LEA, cyber). Limit: 3 per company. Email waterfall: Findymail → Prospeo → Hunter → Dropcontact → Datagma → Wiza. ZeroBounce validates final email.</div>
-        </div>
-      </div>
-
-      <div class="pipeline-step">
-        <div class="pipeline-left">
-          <div class="step-dot">5</div>
-          <div class="step-line"></div>
-        </div>
-        <div class="step-content">
-          <div class="step-label">Make.com — Scenario 2</div>
-          <div class="step-title">Clay → HubSpot</div>
-          <div class="step-desc">Clay HTTP API column POSTs verified contacts to Make.com webhook. Only runs when Work Email is not empty. Make.com creates/updates contact in HubSpot with: email, first name, last name, job title, LinkedIn URL, company domain.</div>
-        </div>
-      </div>
-
-      <div class="pipeline-step">
-        <div class="pipeline-left">
-          <div class="step-dot">6</div>
-        </div>
-        <div class="step-content">
-          <div class="step-label">HubSpot</div>
-          <div class="step-title">Verified ICP Contacts Live in CRM</div>
-          <div class="step-desc">Contacts appear under All Contacts sorted by Create Date. SDR team picks up from here.</div>
-        </div>
-      </div>
-
+  <div class="card" style="margin-top:8px">
+    <div class="card-label">Media & NGO</div>
+    <div class="icp-wrap">
+      <span class="icp-pill">Investigative Journalist</span><span class="icp-pill">Investigative Reporter</span><span class="icp-pill">Investigative Editor</span><span class="icp-pill">OSINT Researcher</span><span class="icp-pill">Disinformation Researcher</span><span class="icp-pill">Information Warfare Analyst</span><span class="icp-pill">Data Journalist</span><span class="icp-pill">Open Source Researcher</span>
     </div>
   </div>
+</div>
 
-  <!-- BUILD STATUS -->
-  <div class="section">
-    <div class="section-title">Build Status</div>
-    <table class="status-table">
-      <thead>
-        <tr>
-          <th>Component</th>
-          <th>Status</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>HubSpot Breeze Buyer Intent</strong></td>
-          <td><span class="badge badge-done">Done</span></td>
-          <td>Weekly digest, auto-add ON, 348 credits</td>
-        </tr>
-        <tr>
-          <td><strong>Make.com Scenario 1</strong> (HubSpot→Clay)</td>
-          <td><span class="badge badge-done">Done</span></td>
-          <td>Active, runs every 15 min</td>
-        </tr>
-        <tr>
-          <td><strong>Clay — ABM Pipeline table</strong></td>
-          <td><span class="badge badge-done">Done</span></td>
-          <td>Webhook + PDL company enrichment</td>
-        </tr>
-        <tr>
-          <td><strong>Clay — Contacts table</strong></td>
-          <td><span class="badge badge-done">Done</span></td>
-          <td>363 contacts, ICP job titles, email waterfall</td>
-        </tr>
-        <tr>
-          <td><strong>Make.com Scenario 2</strong> (Clay→HubSpot)</td>
-          <td><span class="badge badge-done">Done</span></td>
-          <td>Active, contacts flowing in real time</td>
-        </tr>
-        <tr>
-          <td><strong>Cowork Monday Digest</strong> (#sdr-mktg)</td>
-          <td><span class="badge badge-next">Next</span></td>
-          <td>Slack channel ID: C03MUCG5YEA</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- KEY IDs & URLs -->
-  <div class="section">
-    <div class="section-title">Key IDs &amp; URLs</div>
-
-    <div class="code-label">Clay Webhook (ABM Pipeline ingest)</div>
-    <div class="code-block">https://api.clay.com/v3/sources/webhook/●●●●●●●●●●●●●●●●●●</div>
-
-    <div class="code-label">Make.com Webhook (Clay → HubSpot)</div>
-    <div class="code-block">https://hook.eu1.make.com/●●●●●●●●●●●●●●●●●●</div>
-
-    <div class="code-label">Make.com Scenario 1 (HubSpot → Clay)</div>
-    <div class="code-block">eu1.make.com/●●●●●●●/scenarios/●●●●●●●</div>
-
-    <div class="code-label">Make.com Scenario 2 (Clay → HubSpot)</div>
-    <div class="code-block">eu1.make.com/●●●●●●●/scenarios/●●●●●●●</div>
-
-    <div class="code-label">Slack Channel — #sdr-mktg</div>
-    <div class="code-block">C03MUCG5YEA</div>
-  </div>
-
-  <!-- CLAY TABLES -->
-  <div class="section">
-    <div class="section-title">Clay Tables</div>
-    <div class="card">
-      <div class="card-title">ABM Pipeline</div>
-      <div class="card-sub">One row per company. Source: Webhook (domain). Enrichment: PDL company name + domain. Columns: domain, company name, Hunter emails, ZeroBounce status, HTTP API (sends to Make.com — legacy, now replaced by Contacts table).</div>
+<!-- SLACK DIGEST FORMAT -->
+<div class="section">
+  <div class="slabel">Weekly Slack digest — format & logic</div>
+  <div class="cards">
+    <div class="card c-slk">
+      <div class="card-label">Digest Agent 1 — Companies</div>
+      <div class="card-title">Visitor digest</div>
+      <div class="card-body">Already exists. Posts new companies identified by Breeze that week, grouped by region, to #sdr-mktg.</div>
     </div>
-    <div class="card">
-      <div class="card-title">Contacts</div>
-      <div class="card-sub">One row per person. Source: Find Contacts at Company (Clay native, ICP job titles filter). Email waterfall auto-built by Clay. HTTP API column sends verified contacts to Make.com Scenario 2. Run condition: <code style="background:#F1F5F9;padding:1px 5px;border-radius:4px;font-size:12px;">!!{Work Email}</code></div>
+    <div class="card c-slk">
+      <div class="card-label">Digest Agent 2 — Contacts</div>
+      <div class="card-title">Enrichment digest · To build</div>
+      <div class="card-body">Follows up on Agent 1. Pulls contacts from HubSpot where <code>company_website</code> has a value, created in last 7 days. Groups by region (inferred from city/location field). Posts summary message + replies in thread with full list.</div>
     </div>
   </div>
-
-  <!-- EMAIL WATERFALL -->
-  <div class="section">
-    <div class="section-title">Email Waterfall — Contacts Table</div>
-    <p style="font-size:13px;color:#64748B;margin-bottom:16px;">Clay built this waterfall automatically when "Work Email" enrichment was selected. Each step only runs if the previous step found no email — saving credits. The final <strong>Work Email</strong> column holds the best result.</p>
-    <table class="status-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Tool</th>
-          <th>Cost</th>
-          <th>Logic</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td><strong>Findymail</strong></td>
-          <td>~2.9 credits</td>
-          <td>Always runs first</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td><strong>Prospeo</strong></td>
-          <td>~2.9 credits</td>
-          <td>Runs if Findymail returns no email</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td><strong>Hunter</strong></td>
-          <td>~2.9 credits</td>
-          <td>Runs if Prospeo returns no email</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td><strong>Dropcontact</strong></td>
-          <td>~2.9 credits</td>
-          <td>Runs if Hunter returns no email. Good European coverage.</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td><strong>Datagma</strong></td>
-          <td>~2.9 credits</td>
-          <td>Runs if Dropcontact returns no email</td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td><strong>Wiza</strong></td>
-          <td>~2.9 credits</td>
-          <td>Runs if Datagma returns no email</td>
-        </tr>
-        <tr style="background:#F0FDF4;">
-          <td>✓</td>
-          <td><strong>Work Email</strong> (output column)</td>
-          <td>—</td>
-          <td>Best email found across all steps. This is what gets sent to HubSpot.</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="card" style="margin-top:12px;background:#F0FDF4;border-color:#BBF7D0;">
-      <div class="card-title" style="color:#15803D;">Run condition on HTTP API column</div>
-      <div class="card-sub" style="margin-top:4px;">Only sends to HubSpot if Work Email is not empty: <code style="background:#DCFCE7;padding:1px 6px;border-radius:4px;font-size:12px;">!!{Work Email}</code></div>
-    </div>
-  </div>
-
-  <!-- ICP SEGMENTS -->
-  <div class="section">
-    <div class="section-title">ICP Segments &amp; Key Titles</div>
-    <div class="icp-grid">
-      <div class="icp-card">
-        <div class="icp-segment">Corporate Security</div>
-        <div class="icp-titles">Chief Security Officer, VP Security, Director of Security, Head of Corporate Security, Head of Investigations, Head of Risk, Head of KYC, Head of Brand Protection, Risk Manager, Corporate Investigator, Insider Threat Analyst…</div>
+  <div class="slack-preview" style="margin-top:12px">
+    <div class="slack-header"><div class="slack-hash">#</div><div class="slack-channel">sdr-mktg</div></div>
+    <div class="slack-body">
+      <div class="slack-msg">
+        <div class="slack-avatar">C</div>
+        <div style="flex:1">
+          <div><span class="slack-sender">Cowork</span><span class="slack-time">Tuesday 8:00 AM</span></div>
+          <div class="slack-text">
+            🎯 <strong>Enrichment digest · Jun 12–19, 2026</strong><br>
+            <em>Following last week's visitor digest — here are the ICP contacts our pipeline extracted and added to HubSpot.</em>
+            <div class="slack-divider"></div>
+            <strong>38 companies enriched · 109 contacts added</strong><br><br>
+            🌍 EMEA · 52 contacts<br>
+            🌎 North America · 31 contacts<br>
+            🌏 APAC · 18 contacts<br>
+            🌎 LatAm · 8 contacts<br><br>
+            → <span style="color:#4A9EDE">View all contacts in HubSpot</span>
+            <div class="slack-thread">💬 3 replies · Full contact list by region in thread ↓</div>
+          </div>
+        </div>
       </div>
-      <div class="icp-card">
-        <div class="icp-segment">Financial Crime</div>
-        <div class="icp-titles">Chief Compliance Officer, Chief Financial Crime Officer, Director of AML, Head of Financial Crime, Head of Cryptocurrency Investigations, AML Manager, AML Investigator, Sanctions Analyst, MLRO, BSA Officer, Transaction Monitoring Analyst…</div>
-      </div>
-      <div class="icp-card">
-        <div class="icp-segment">Law Enforcement</div>
-        <div class="icp-titles">Chief of Police, Commissioner, Superintendent, Head of OSINT, Head of Counter-Terrorism, Head of Criminal Investigations, Head of Military Intelligence, Detective Inspector, Senior OSINT Analyst, Intelligence Officer, Human Trafficking Investigator…</div>
-      </div>
-      <div class="icp-card">
-        <div class="icp-segment">Cybersecurity</div>
-        <div class="icp-titles">CISO, VP Cybersecurity, Director of Security Operations, Head of Cyber Threat Intelligence, Head of SOC, Head of Digital Forensics, Threat Intelligence Manager, Cybercrime Investigator, Dark Web Analyst, Threat Hunter, DLP Manager…</div>
-      </div>
-      <div class="icp-card">
-        <div class="icp-segment">Media / NGO</div>
-        <div class="icp-titles">Investigative Journalist, Investigative Reporter, OSINT Researcher, Disinformation Researcher, Information Warfare Analyst, Data Journalist, Open Source Researcher…</div>
+      <div class="slack-divider" style="margin-top:16px"></div>
+      <div class="slack-msg" style="margin-top:12px">
+        <div class="slack-avatar" style="background:linear-gradient(135deg,#5340E0,#0D9E9E); font-size:10px">C</div>
+        <div style="flex:1">
+          <div><span class="slack-sender">Cowork</span><span class="slack-time">reply in thread</span></div>
+          <div class="slack-text">
+            🌍 <strong>EMEA</strong><br>
+            europa.eu · Ilaria Martin · Cabinet of EU Commissioner Roswall · <span style="color:#4A9EDE">View</span><br>
+            europa.eu · Mauro Gagliardi · Cabinet of Commissioner Brunner · <span style="color:#4A9EDE">View</span><br>
+            westchestergov.com · Christopher Calabrese · Chief Inspector · <span style="color:#4A9EDE">View</span><br>
+            <em style="font-size:11px">+ 49 more</em>
+            <div class="slack-divider"></div>
+            🌎 <strong>North America</strong><br>
+            westchestergov.com · Diane Atkins · First Deputy Commissioner · <span style="color:#4A9EDE">View</span><br>
+            sarasotasheriff.org · Ian Fulton · Cyber Security Analyst · <span style="color:#4A9EDE">View</span><br>
+            zoox.com · Kees Leune · CISO · <span style="color:#4A9EDE">View</span><br>
+            <em style="font-size:11px">+ 28 more</em>
+            <div class="slack-divider"></div>
+            🌏 <strong>APAC</strong> · <em style="font-size:11px">18 contacts…</em><br>
+            🌎 <strong>LatAm</strong> · <em style="font-size:11px">8 contacts…</em>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <div style="margin-top:8px; font-size:11px; color:var(--muted); font-family:'DM Mono',monospace;">Thread format per line: <code>company_website · First Last · Job Title · [View in HubSpot]</code> — region inferred from city/location field, no extra column needed</div>
 
-  <!-- CONSTRAINTS -->
-  <div class="section">
-    <div class="section-title">Important Constraints</div>
-    <ul class="constraint-list">
-      <li>Clay Explorer plan — no native HubSpot CRM sync (requires Growth $495/mo). Using Make.com HTTP webhook bridge instead.</li>
-      <li>HubSpot — Arthur has limited permissions (cannot create companies). Admin required for Make.com install and Backfill.</li>
-      <li>Apollo free plan exhausted. Not currently in use — replaced by Clay's native "Find Contacts at Company" source.</li>
-      <li>Dropcontact skipped — requires full name + domain. Webhook only sends domain. Can be added if Make.com payload is expanded.</li>
-      <li>Breeze data lives in Marketing → Buyer Intent → Visitors, not in standard CRM company fields.</li>
-      <li>ICP filtering: Clay Contacts table filters by job title at source. HTTP API column has run condition <code style="background:#FEE2E2;padding:1px 5px;border-radius:4px;font-size:12px;">!!{Work Email}</code> to skip empty rows.</li>
-    </ul>
-  </div>
-
-  <!-- MAKE.COM FIELD MAPPING -->
-  <div class="section">
-    <div class="section-title">Make.com Scenario 2 — Field Mapping</div>
-    <table class="status-table">
-      <thead>
-        <tr>
-          <th>HubSpot Field</th>
-          <th>Clay Source</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>Email</td><td>Work Email (waterfall result)</td></tr>
-        <tr><td>First Name</td><td>First Name</td></tr>
-        <tr><td>Last Name</td><td>Last Name</td></tr>
-        <tr><td>Job Title</td><td>Job Title</td></tr>
-        <tr><td>Company Website</td><td>Company Domain</td></tr>
-        <tr><td>LinkedIn Bio</td><td>LinkedIn Profile</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- REMAINING TASKS -->
-  <div class="section">
-    <div class="section-title">Remaining Tasks</div>
-    <table class="status-table">
-      <thead>
-        <tr>
-          <th>Task</th>
-          <th>Priority</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Cowork Monday digest</strong> — weekly summary of new companies + contacts to #sdr-mktg</td>
-          <td><span class="badge badge-next">Next</span></td>
-        </tr>
-        <tr>
-          <td><strong>Add company_name to Make.com webhook payload</strong> — unlocks Dropcontact enrichment</td>
-          <td><span class="badge badge-pending">Later</span></td>
-        </tr>
-        <tr>
-          <td><strong>Apollo Basic upgrade</strong> ($49/mo) — adds job-title-filtered contact finding on top of Clay's source</td>
-          <td><span class="badge badge-pending">Optional</span></td>
-        </tr>
-        <tr>
-          <td><strong>ICP filtering pass</strong> — review first batch of contacts in HubSpot, refine job title list</td>
-          <td><span class="badge badge-pending">Later</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- UPGRADE PATH -->
-  <div class="section">
-    <div class="section-title">Upgrade Path (pitch to management)</div>
-    <div class="card">
-      <div class="card-title">Current state — fully functional on Clay Explorer + HubSpot</div>
-      <div class="card-sub" style="margin-top:6px;">Pipeline is live. Companies identified → ICP contacts found → verified emails → HubSpot. No additional subscriptions needed.</div>
-    </div>
-    <div class="card">
-      <div class="card-title">+Apollo Basic ($49/mo) → better LEA &amp; gov coverage</div>
-      <div class="card-sub" style="margin-top:6px;">30,000 credits/year. Adds job-title-specific search on top of Clay's native source. Estimated usage: ~300 credits/month.</div>
-    </div>
-    <div class="card">
-      <div class="card-title">+Clay Growth ($495/mo) → native HubSpot sync, removes Make.com dependency</div>
-      <div class="card-sub" style="margin-top:6px;">Unlocks direct HubSpot export from Clay. Eliminates need for Make.com Scenario 2 and HTTP API column.</div>
-    </div>
-  </div>
 
 </div>
 
+<!-- NEXT STEPS -->
+<div class="section">
+  <div class="slabel">What's next</div>
+  <div class="next-wrap">
+    <div class="next-row">
+      <div>
+        <div class="next-title"><span class="tag tp">Next</span> Build Cowork enrichment digest agent</div>
+        <div class="next-desc">Cowork agent queries HubSpot for contacts where <code>company_website</code> has a value, created in last 7 days. Groups by region from location field. Posts main message + thread to #sdr-mktg every Tuesday 8am.</div>
+      </div>
+      <div class="next-tags"><span class="tag tgy">Cowork</span><span class="tag tgy">Slack</span></div>
+    </div>
+    <div class="next-row">
+      <div>
+        <div class="next-title"><span class="tag ta">Later</span> Add job title exclusions to Clay filter</div>
+        <div class="next-desc">Exclude non-ICP noise: airline captains, medical researchers, academics. Add exclusions in "Security and Risk Leadership" filter for terms like "airline", "pilot", "researcher", "docente", "investigador". Or exclude at Companies table level by domain.</div>
+      </div>
+      <div class="next-tags"><span class="tag tgy">Clay</span></div>
+    </div>
+    <div class="next-row">
+      <div>
+        <div class="next-title"><span class="tag ta">Later</span> Add company_name to Make.com Scenario 1 payload</div>
+        <div class="next-desc">Unlocks Dropcontact enrichment in the waterfall. Currently only domain is sent. Add company name from HubSpot company record to the Clay webhook payload in Scenario 1.</div>
+      </div>
+      <div class="next-tags"><span class="tag tgy">Make.com</span><span class="tag tgy">Clay</span></div>
+    </div>
+    <div class="next-row">
+      <div>
+        <div class="next-title"><span class="tag tgy">Optional</span> Apollo Basic — $49/mo</div>
+        <div class="next-desc">Better LEA and government contact coverage. 30,000 credits/year. Adds job-title-specific search on top of Clay's native source. Estimated: ~300 credits/month.</div>
+      </div>
+      <div class="next-tags"><span class="tag tgy">Apollo</span></div>
+    </div>
+    <div class="next-row">
+      <div>
+        <div class="next-title"><span class="tag tgy">Optional</span> Clay Growth — $495/mo</div>
+        <div class="next-desc">Native HubSpot sync. Removes Make.com dependency entirely. Eliminates Scenario 2 and HTTP API column. Justify with pipeline data after 4–6 weeks.</div>
+      </div>
+      <div class="next-tags"><span class="tag tgy">Clay</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
 <div class="footer">
-  ABM Pipeline · Social Links / Crimewall · Built June 2026 · Last updated June 17, 2026
+  <div class="footer-left">ABM Pipeline · Social Links / Crimewall · Built June 2026</div>
+  <div class="footer-right">Last updated June 19, 2026</div>
 </div>
 
 </body>
