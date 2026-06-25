@@ -259,7 +259,7 @@
     <div class="fm-row"><div class="fm-left">lastname</div><div class="fm-arrow">→</div><div class="fm-right">Last Name</div></div>
     <div class="fm-row"><div class="fm-left">jobtitle</div><div class="fm-arrow">→</div><div class="fm-right">Job Title</div></div>
     <div class="fm-row"><div class="fm-left">company_website</div><div class="fm-arrow">→</div><div class="fm-right">Company Domain</div></div>
-    <div class="fm-row"><div class="fm-left">hs_linkedin_bio</div><div class="fm-arrow">→</div><div class="fm-right">LinkedIn Profile</div></div>
+    <div class="fm-row"><div class="fm-left">LinkedIn (internal: linkedin)</div><div class="fm-arrow">→</div><div class="fm-right">LinkedIn Profile (linkedin_url)</div></div>
   </div>
 </div>
 
@@ -286,7 +286,7 @@
   <div class="banner warn"><div class="banner-icon">⚠</div><strong>Dropcontact currently skipped.</strong> Needs full name + company name. Make.com Scenario 1 only sends domain. To unlock: add company_name to payload.</div>
   <div class="banner info"><div class="banner-icon">ℹ</div><strong>Make.com ops usage:</strong> monitor monthly consumption. Each contact = 2 ops (sleep + HubSpot module).</div>
   <div class="banner info"><div class="banner-icon">ℹ</div><strong>Pipeline contacts filter in HubSpot:</strong> contacts where <code>company_website</code> has a value = came from ABM pipeline. Use this filter for the Cowork digest.</div>
-  <div class="banner warn"><div class="banner-icon">⚠</div><strong>ICP filter noise.</strong> Some non-ICP contacts slip through (airline captains match "Captain", researchers match "Investigator"). Exclusion rules to be added later. Current workaround: limit 5 per company reduces damage.</div>
+  <div class="banner warn"><div class="banner-icon">⚠</div><strong>ICP filter noise — partially resolved.</strong> Added exclusions June 24: <code>team captain</code>, <code>boat captain</code>, <code>ship captain</code>, <code>production captain</code>, <code>operations captain</code>, <code>hazardous</code>, <code>chief revenue</code>, <code>BDM</code>, <code>R&D project</code>. Additional domain-level exclusions (airlines, universities) still to be added.</div>
 </div>
 
 <!-- ICP TITLES -->
@@ -337,8 +337,8 @@
     </div>
     <div class="card c-slk">
       <div class="card-label">Digest Agent 2 — Contacts</div>
-      <div class="card-title">Enrichment digest · To build</div>
-      <div class="card-body">Follows up on Agent 1. Pulls contacts from HubSpot where <code>company_website</code> has a value, created in last 7 days. Groups by region (inferred from city/location field). Posts summary message + replies in thread with full list.</div>
+      <div class="card-title">Enrichment digest · Live</div>
+      <div class="card-body">Follows up on Agent 1. Pulls contacts from HubSpot where <code>company_website</code> has a value, created in last 7 days. Groups by region (inferred from city/location field). Posts summary message + replies in thread with full list. First digest posted to #new-sales June 24, 2026.</div>
     </div>
   </div>
   <div class="slack-preview" style="margin-top:12px">
@@ -398,20 +398,6 @@
   <div class="next-wrap">
     <div class="next-row">
       <div>
-        <div class="next-title"><span class="tag tp">Next</span> Build Cowork enrichment digest agent</div>
-        <div class="next-desc">Cowork agent queries HubSpot for contacts where <code>company_website</code> has a value, created in last 7 days. Groups by region from location field. Posts main message + thread to #sdr-mktg every Tuesday 8am.</div>
-      </div>
-      <div class="next-tags"><span class="tag tgy">Cowork</span><span class="tag tgy">Slack</span></div>
-    </div>
-    <div class="next-row">
-      <div>
-        <div class="next-title"><span class="tag ta">Later</span> Add job title exclusions to Clay filter</div>
-        <div class="next-desc">Exclude non-ICP noise: airline captains, medical researchers, academics. Add exclusions in "Security and Risk Leadership" filter for terms like "airline", "pilot", "researcher", "docente", "investigador". Or exclude at Companies table level by domain.</div>
-      </div>
-      <div class="next-tags"><span class="tag tgy">Clay</span></div>
-    </div>
-    <div class="next-row">
-      <div>
         <div class="next-title"><span class="tag ta">Later</span> Add company_name to Make.com Scenario 1 payload</div>
         <div class="next-desc">Unlocks Dropcontact enrichment in the waterfall. Currently only domain is sent. Add company name from HubSpot company record to the Clay webhook payload in Scenario 1.</div>
       </div>
@@ -424,20 +410,13 @@
       </div>
       <div class="next-tags"><span class="tag tgy">Apollo</span></div>
     </div>
-    <div class="next-row">
-      <div>
-        <div class="next-title"><span class="tag tgy">Optional</span> Clay Growth — $495/mo</div>
-        <div class="next-desc">Native HubSpot sync. Removes Make.com dependency entirely. Eliminates Scenario 2 and HTTP API column. Justify with pipeline data after 4–6 weeks.</div>
-      </div>
-      <div class="next-tags"><span class="tag tgy">Clay</span></div>
-    </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
   <div class="footer-left">ABM Pipeline · Social Links / Crimewall · Built June 2026</div>
-  <div class="footer-right">Last updated June 19, 2026</div>
+  <div class="footer-right">Last updated June 24, 2026</div>
 </div>
 
 </body>
