@@ -278,50 +278,227 @@
   </div>
 </div>
 
-<!-- CONSTRAINTS -->
-<div class="section">
-  <div class="slabel">Known constraints</div>
-  <div class="banner warn"><div class="banner-icon">⚠</div><strong>Clay Explorer — no native HubSpot sync.</strong> Requires Growth ($495/mo). Using Make.com HTTP webhook bridge instead. If upgrading: replace Scenario 2 with Clay's native HubSpot export.</div>
-  <div class="banner warn"><div class="banner-icon">⚠</div><strong>Arthur has limited HubSpot permissions.</strong> Admin required for Make.com install and Backfill. Cannot create companies.</div>
-  <div class="banner warn"><div class="banner-icon">⚠</div><strong>Dropcontact currently skipped.</strong> Needs full name + company name. Make.com Scenario 1 only sends domain. To unlock: add company_name to payload.</div>
-  <div class="banner info"><div class="banner-icon">ℹ</div><strong>Make.com ops usage:</strong> monitor monthly consumption. Each contact = 2 ops (sleep + HubSpot module).</div>
-  <div class="banner info"><div class="banner-icon">ℹ</div><strong>Pipeline contacts filter in HubSpot:</strong> contacts where <code>company_website</code> has a value = came from ABM pipeline. Use this filter for the Cowork digest.</div>
-  <div class="banner warn"><div class="banner-icon">⚠</div><strong>ICP filter noise — partially resolved.</strong> Added exclusions June 24: <code>team captain</code>, <code>boat captain</code>, <code>ship captain</code>, <code>production captain</code>, <code>operations captain</code>, <code>hazardous</code>, <code>chief revenue</code>, <code>BDM</code>, <code>R&D project</code>. Additional domain-level exclusions (airlines, universities) still to be added.</div>
-</div>
+
 
 <!-- ICP TITLES -->
 <div class="section">
-  <div class="slabel">ICP job titles — 183 titles across 5 segments</div>
-  <div class="cards">
-    <div class="card c-pur">
-      <div class="card-label">Corporate Security</div>
-      <div class="icp-wrap">
-        <span class="icp-pill">Chief Security Officer</span><span class="icp-pill">Chief Risk Officer</span><span class="icp-pill">VP Security</span><span class="icp-pill">VP Risk</span><span class="icp-pill">Director of Security</span><span class="icp-pill">Head of Corporate Security</span><span class="icp-pill">Head of Investigations</span><span class="icp-pill">Head of Risk</span><span class="icp-pill">Head of KYC</span><span class="icp-pill">Head of Brand Protection</span><span class="icp-pill">Head of VIP Protection</span><span class="icp-pill">Head of Travel Security</span><span class="icp-pill">Head of Insider Threat</span><span class="icp-pill">Corporate Security Manager</span><span class="icp-pill">Risk Manager</span><span class="icp-pill">Corporate Investigator</span><span class="icp-pill">Insider Threat Analyst</span><span class="icp-pill">Travel Risk Manager</span>
-      </div>
-    </div>
-    <div class="card c-amb">
-      <div class="card-label">Financial Crime & Compliance</div>
-      <div class="icp-wrap">
-        <span class="icp-pill">Chief Compliance Officer</span><span class="icp-pill">Chief Financial Crime Officer</span><span class="icp-pill">Director of AML</span><span class="icp-pill">Head of Financial Crime</span><span class="icp-pill">Head of Cryptocurrency Investigations</span><span class="icp-pill">Head of AML</span><span class="icp-pill">AML Manager</span><span class="icp-pill">AML Investigator</span><span class="icp-pill">AML Analyst</span><span class="icp-pill">Sanctions Analyst</span><span class="icp-pill">MLRO</span><span class="icp-pill">BSA Officer</span><span class="icp-pill">Transaction Monitoring Analyst</span><span class="icp-pill">KYC Analyst</span><span class="icp-pill">KYB Analyst</span><span class="icp-pill">Fraud Prevention Analyst</span>
-      </div>
-    </div>
-    <div class="card c-tel">
-      <div class="card-label">Law Enforcement & Government</div>
-      <div class="icp-wrap">
-        <span class="icp-pill">Chief of Police</span><span class="icp-pill">Commissioner</span><span class="icp-pill">Superintendent</span><span class="icp-pill">Chief Inspector</span><span class="icp-pill">Head of OSINT</span><span class="icp-pill">Head of Counter-Terrorism</span><span class="icp-pill">Head of Criminal Investigations</span><span class="icp-pill">Head of Military Intelligence</span><span class="icp-pill">Detective Inspector</span><span class="icp-pill">Senior OSINT Analyst</span><span class="icp-pill">Intelligence Officer</span><span class="icp-pill">Human Trafficking Investigator</span><span class="icp-pill">Detective</span><span class="icp-pill">OSINT Analyst</span><span class="icp-pill">Crime Analyst</span>
-      </div>
-    </div>
-    <div class="card c-pur">
-      <div class="card-label">Cybersecurity</div>
-      <div class="icp-wrap">
-        <span class="icp-pill">CISO</span><span class="icp-pill">Chief Information Security Officer</span><span class="icp-pill">VP Cybersecurity</span><span class="icp-pill">Director of Security Operations</span><span class="icp-pill">Head of Cyber Threat Intelligence</span><span class="icp-pill">Head of SOC</span><span class="icp-pill">Head of Digital Forensics</span><span class="icp-pill">Threat Intelligence Manager</span><span class="icp-pill">Cybercrime Investigator</span><span class="icp-pill">Dark Web Analyst</span><span class="icp-pill">Threat Hunter</span><span class="icp-pill">SOC Analyst</span><span class="icp-pill">DLP Manager</span>
-      </div>
+  <div class="slabel">ICP job titles — 5 segments · English + Italian + Spanish + German</div>
+
+  <style>
+    .icp-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .icp-tab { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); color: var(--muted); cursor: pointer; background: var(--surface); transition: all .15s; }
+    .icp-tab.active { background: var(--pur-bg); border-color: var(--pur-bd); color: var(--pur-dk); }
+    .icp-segment { display: none; }
+    .icp-segment.active { display: block; }
+    .icp-tbl { width: 100%; border-collapse: collapse; font-size: 11px; margin: 0; }
+    .icp-tbl th { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); background: #ECEAE3; }
+    .icp-tbl th:first-child { border-radius: 0; }
+    .icp-tbl td { padding: 7px 12px; border-bottom: 1px solid rgba(180,178,169,.3); vertical-align: top; line-height: 1.5; font-size: 11px; color: var(--text); }
+    .icp-tbl tr:last-child td { border-bottom: none; }
+    .icp-tbl tr:hover td { background: var(--pur-bg); }
+    .icp-tbl td.it { color: var(--amb-dk); }
+    .icp-tbl td.es { color: var(--tel-dk); }
+    .icp-tbl td.de { color: var(--pur-dk); }
+    .icp-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  </style>
+
+  <div class="icp-tabs">
+    <div class="icp-tab active" onclick="showSeg('corp')">Corporate Security</div>
+    <div class="icp-tab" onclick="showSeg('fin')">Financial Crime</div>
+    <div class="icp-tab" onclick="showSeg('lea')">Law Enforcement</div>
+    <div class="icp-tab" onclick="showSeg('cyber')">Cybersecurity</div>
+    <div class="icp-tab" onclick="showSeg('media')">Media & NGO</div>
+  </div>
+
+  <!-- CORPORATE SECURITY -->
+  <div class="icp-segment active" id="seg-corp">
+    <div class="icp-wrap">
+      <table class="icp-tbl">
+        <thead><tr><th>English</th><th>🇮🇹 Italian</th><th>🇪🇸 Spanish</th><th>🇩🇪 German</th></tr></thead>
+        <tbody>
+          <tr><td>Chief Security Officer</td><td class="it">Direttore della Sicurezza</td><td class="es">Director de Seguridad</td><td class="de">Sicherheitschef</td></tr>
+          <tr><td>Chief Risk Officer</td><td class="it">Direttore del Rischio</td><td class="es">Director de Riesgos</td><td class="de">Risikovorstand</td></tr>
+          <tr><td>VP Security</td><td class="it">VP Sicurezza</td><td class="es">VP de Seguridad</td><td class="de">VP Sicherheit</td></tr>
+          <tr><td>VP Risk</td><td class="it">VP Rischio</td><td class="es">VP de Riesgos</td><td class="de">VP Risiko</td></tr>
+          <tr><td>Director of Security</td><td class="it">Direttore Sicurezza</td><td class="es">Director de Seguridad</td><td class="de">Sicherheitsdirektor</td></tr>
+          <tr><td>Director of Corporate Security</td><td class="it">Direttore Sicurezza Aziendale</td><td class="es">Director de Seguridad Corporativa</td><td class="de">Leiter Unternehmenssicherheit</td></tr>
+          <tr><td>Director of Risk</td><td class="it">Direttore del Rischio</td><td class="es">Director de Riesgos</td><td class="de">Risikovorstand</td></tr>
+          <tr><td>Head of Corporate Security</td><td class="it">Responsabile Sicurezza Aziendale</td><td class="es">Responsable de Seguridad Corporativa</td><td class="de">Leiter Unternehmenssicherheit</td></tr>
+          <tr><td>Head of Global Security</td><td class="it">Responsabile Sicurezza Globale</td><td class="es">Responsable de Seguridad Global</td><td class="de">Leiter Globale Sicherheit</td></tr>
+          <tr><td>Head of Investigations</td><td class="it">Responsabile Investigazioni</td><td class="es">Responsable de Investigaciones</td><td class="de">Leiter Ermittlungen</td></tr>
+          <tr><td>Head of Corporate Investigations</td><td class="it">Responsabile Indagini Aziendali</td><td class="es">Responsable de Investigaciones Corporativas</td><td class="de">Leiter Unternehmensermittlungen</td></tr>
+          <tr><td>Head of Risk</td><td class="it">Responsabile del Rischio</td><td class="es">Responsable de Riesgos</td><td class="de">Leiter Risikomanagement</td></tr>
+          <tr><td>Head of Brand Protection</td><td class="it">Responsabile Protezione del Marchio</td><td class="es">Responsable de Protección de Marca</td><td class="de">Leiter Markenschutz</td></tr>
+          <tr><td>Head of KYC</td><td class="it">Responsabile KYC</td><td class="es">Responsable de KYC</td><td class="de">Leiter KYC</td></tr>
+          <tr><td>Head of Due Diligence</td><td class="it">Responsabile Due Diligence</td><td class="es">Responsable de Due Diligence</td><td class="de">Leiter Due Diligence</td></tr>
+          <tr><td>Head of VIP Protection</td><td class="it">Responsabile Protezione VIP</td><td class="es">Responsable de Protección VIP</td><td class="de">Leiter VIP-Schutz</td></tr>
+          <tr><td>Head of Travel Security</td><td class="it">Responsabile Sicurezza nei Viaggi</td><td class="es">Responsable de Seguridad en Viajes</td><td class="de">Leiter Reisesicherheit</td></tr>
+          <tr><td>Head of Insider Threat</td><td class="it">Responsabile Minacce Interne</td><td class="es">Responsable de Amenazas Internas</td><td class="de">Leiter Insider-Bedrohungen</td></tr>
+          <tr><td>Corporate Security Manager</td><td class="it">Manager Sicurezza Aziendale</td><td class="es">Gerente de Seguridad Corporativa</td><td class="de">Manager Unternehmenssicherheit</td></tr>
+          <tr><td>Global Security Manager</td><td class="it">Manager Sicurezza Globale</td><td class="es">Gerente de Seguridad Global</td><td class="de">Manager Globale Sicherheit</td></tr>
+          <tr><td>Risk Manager</td><td class="it">Responsabile Rischi</td><td class="es">Gerente de Riesgos</td><td class="de">Risikomanager</td></tr>
+          <tr><td>Investigations Manager</td><td class="it">Manager Investigazioni</td><td class="es">Gerente de Investigaciones</td><td class="de">Manager Ermittlungen</td></tr>
+          <tr><td>Compliance Manager</td><td class="it">Manager Compliance</td><td class="es">Gerente de Cumplimiento</td><td class="de">Compliance-Manager</td></tr>
+          <tr><td>Crisis Management Director</td><td class="it">Direttore Gestione Crisi</td><td class="es">Director de Gestión de Crisis</td><td class="de">Krisenmanagement-Direktor</td></tr>
+          <tr><td>Business Continuity Manager</td><td class="it">Manager Continuità Aziendale</td><td class="es">Gerente de Continuidad del Negocio</td><td class="de">Manager Geschäftskontinuität</td></tr>
+          <tr><td>Physical Security Manager</td><td class="it">Manager Sicurezza Fisica</td><td class="es">Gerente de Seguridad Física</td><td class="de">Manager Physische Sicherheit</td></tr>
+          <tr><td>Corporate Investigator</td><td class="it">Investigatore Aziendale</td><td class="es">Investigador Corporativo</td><td class="de">Unternehmensermittler</td></tr>
+          <tr><td>Security Analyst</td><td class="it">Analista della Sicurezza</td><td class="es">Analista de Seguridad</td><td class="de">Sicherheitsanalyst</td></tr>
+          <tr><td>Risk Analyst</td><td class="it">Analista del Rischio</td><td class="es">Analista de Riesgos</td><td class="de">Risikoanalyst</td></tr>
+          <tr><td>Intelligence Analyst</td><td class="it">Analista Intelligence</td><td class="es">Analista de Inteligencia</td><td class="de">Geheimdienstanalyst</td></tr>
+          <tr><td>Geopolitical Risk Analyst</td><td class="it">Analista Rischio Geopolitico</td><td class="es">Analista de Riesgo Geopolítico</td><td class="de">Geopolitischer Risikoanalyst</td></tr>
+          <tr><td>Travel Risk Manager</td><td class="it">Manager Rischio Viaggi</td><td class="es">Gerente de Riesgo de Viajes</td><td class="de">Reisesicherheitsmanager</td></tr>
+          <tr><td>Insider Threat Analyst</td><td class="it">Analista Minacce Interne</td><td class="es">Analista de Amenazas Internas</td><td class="de">Insider-Bedrohungsanalyst</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  <div class="card" style="margin-top:8px">
-    <div class="card-label">Media & NGO</div>
+
+  <!-- FINANCIAL CRIME -->
+  <div class="icp-segment" id="seg-fin">
     <div class="icp-wrap">
-      <span class="icp-pill">Investigative Journalist</span><span class="icp-pill">Investigative Reporter</span><span class="icp-pill">Investigative Editor</span><span class="icp-pill">OSINT Researcher</span><span class="icp-pill">Disinformation Researcher</span><span class="icp-pill">Information Warfare Analyst</span><span class="icp-pill">Data Journalist</span><span class="icp-pill">Open Source Researcher</span>
+      <table class="icp-tbl">
+        <thead><tr><th>English</th><th>🇮🇹 Italian</th><th>🇪🇸 Spanish</th><th>🇩🇪 German</th></tr></thead>
+        <tbody>
+          <tr><td>Chief Compliance Officer</td><td class="it">Responsabile Compliance</td><td class="es">Director de Cumplimiento</td><td class="de">Compliance-Beauftragter</td></tr>
+          <tr><td>Chief Financial Crime Officer</td><td class="it">Responsabile Crimini Finanziari</td><td class="es">Responsable de Crimen Financiero</td><td class="de">Leiter Finanzkriminalität</td></tr>
+          <tr><td>VP Compliance</td><td class="it">VP Compliance</td><td class="es">VP de Cumplimiento</td><td class="de">VP Compliance</td></tr>
+          <tr><td>Director of AML</td><td class="it">Responsabile Antiriciclaggio</td><td class="es">Responsable de AML</td><td class="de">Leiter Geldwäschebekämpfung</td></tr>
+          <tr><td>Director of Financial Intelligence</td><td class="it">Responsabile Intelligence Finanziaria</td><td class="es">Responsable de Inteligencia Financiera</td><td class="de">Leiter Finanzintelligenz</td></tr>
+          <tr><td>Director of Fraud Prevention</td><td class="it">Responsabile Prevenzione Frodi</td><td class="es">Responsable de Prevención del Fraude</td><td class="de">Leiter Betrugsprävention</td></tr>
+          <tr><td>Head of AML</td><td class="it">Responsabile Antiriciclaggio</td><td class="es">Responsable de AML</td><td class="de">Leiter Geldwäschebekämpfung</td></tr>
+          <tr><td>Head of Financial Crime</td><td class="it">Responsabile Crimini Finanziari</td><td class="es">Responsable de Crimen Financiero</td><td class="de">Leiter Finanzkriminalität</td></tr>
+          <tr><td>Head of Cryptocurrency Investigations</td><td class="it">Responsabile Indagini Criptovalute</td><td class="es">Responsable de Investigaciones de Criptomonedas</td><td class="de">Leiter Kryptowährungsermittlungen</td></tr>
+          <tr><td>Head of Fraud Prevention</td><td class="it">Responsabile Prevenzione Frodi</td><td class="es">Responsable de Prevención del Fraude</td><td class="de">Leiter Betrugsprävention</td></tr>
+          <tr><td>AML Manager</td><td class="it">Manager Antiriciclaggio</td><td class="es">Gerente de AML</td><td class="de">AML-Manager</td></tr>
+          <tr><td>Financial Crime Manager</td><td class="it">Manager Crimini Finanziari</td><td class="es">Gerente de Crimen Financiero</td><td class="de">Finanzkriminalitätsmanager</td></tr>
+          <tr><td>AML Analyst</td><td class="it">Analista Antiriciclaggio</td><td class="es">Analista de AML</td><td class="de">AML-Analyst</td></tr>
+          <tr><td>AML Investigator</td><td class="it">Investigatore Antiriciclaggio</td><td class="es">Investigador AML</td><td class="de">AML-Ermittler</td></tr>
+          <tr><td>Financial Crime Analyst</td><td class="it">Analista Crimini Finanziari</td><td class="es">Analista de Crimen Financiero</td><td class="de">Finanzkriminalitätsanalyst</td></tr>
+          <tr><td>Compliance Analyst</td><td class="it">Analista Compliance</td><td class="es">Analista de Cumplimiento</td><td class="de">Compliance-Analyst</td></tr>
+          <tr><td>KYC Analyst</td><td class="it">Analista KYC</td><td class="es">Analista KYC</td><td class="de">KYC-Analyst</td></tr>
+          <tr><td>KYB Analyst</td><td class="it">Analista KYB</td><td class="es">Analista KYB</td><td class="de">KYB-Analyst</td></tr>
+          <tr><td>Due Diligence Analyst</td><td class="it">Analista Due Diligence</td><td class="es">Analista de Due Diligence</td><td class="de">Due-Diligence-Analyst</td></tr>
+          <tr><td>Cryptocurrency Investigator</td><td class="it">Investigatore Criptovalute</td><td class="es">Investigador de Criptomonedas</td><td class="de">Kryptowährungsermittler</td></tr>
+          <tr><td>Sanctions Analyst</td><td class="it">Analista Sanzioni</td><td class="es">Analista de Sanciones</td><td class="de">Sanktionsanalyst</td></tr>
+          <tr><td>Transaction Monitoring Analyst</td><td class="it">Analista Monitoraggio Transazioni</td><td class="es">Analista de Monitoreo de Transacciones</td><td class="de">Transaktionsüberwachungsanalyst</td></tr>
+          <tr><td>Fraud Prevention Analyst</td><td class="it">Analista Prevenzione Frodi</td><td class="es">Analista de Prevención del Fraude</td><td class="de">Betrugsbekämpfungsanalyst</td></tr>
+          <tr><td>MLRO</td><td class="it">MLRO</td><td class="es">MLRO</td><td class="de">Geldwäschebeauftragter</td></tr>
+          <tr><td>BSA Officer</td><td class="it">BSA Officer</td><td class="es">BSA Officer</td><td class="de">BSA-Beauftragter</td></tr>
+          <tr><td>Regulatory Compliance Officer</td><td class="it">Responsabile Conformità Normativa</td><td class="es">Oficial de Cumplimiento Regulatorio</td><td class="de">Regulatorischer Compliance-Beauftragter</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- LAW ENFORCEMENT -->
+  <div class="icp-segment" id="seg-lea">
+    <div class="icp-wrap">
+      <table class="icp-tbl">
+        <thead><tr><th>English</th><th>🇮🇹 Italian</th><th>🇪🇸 Spanish</th><th>🇩🇪 German</th></tr></thead>
+        <tbody>
+          <tr><td>Chief of Police</td><td class="it">Capo della Polizia</td><td class="es">Jefe de Policía</td><td class="de">Polizeichef</td></tr>
+          <tr><td>Commissioner</td><td class="it">Commissario</td><td class="es">Comisario</td><td class="de">Kommissar</td></tr>
+          <tr><td>Deputy Commissioner</td><td class="it">Vice Commissario</td><td class="es">Subcomisario</td><td class="de">Stellvertretender Kommissar</td></tr>
+          <tr><td>Superintendent</td><td class="it">Sovrintendente</td><td class="es">Superintendente</td><td class="de">Superintendent</td></tr>
+          <tr><td>Chief Inspector</td><td class="it">Ispettore Capo</td><td class="es">Inspector Jefe</td><td class="de">Chefinspektor</td></tr>
+          <tr><td>Head of Criminal Investigations</td><td class="it">Responsabile Indagini Penali</td><td class="es">Responsable de Investigaciones Criminales</td><td class="de">Leiter Kriminalermittlungen</td></tr>
+          <tr><td>Head of OSINT</td><td class="it">Responsabile OSINT</td><td class="es">Responsable de OSINT</td><td class="de">Leiter OSINT</td></tr>
+          <tr><td>Head of Counter-Terrorism</td><td class="it">Responsabile Antiterrorismo</td><td class="es">Responsable de Contraterrorismo</td><td class="de">Leiter Terrorismusbekämpfung</td></tr>
+          <tr><td>Head of Intelligence</td><td class="it">Responsabile Intelligence</td><td class="es">Responsable de Inteligencia</td><td class="de">Leiter Nachrichtendienst</td></tr>
+          <tr><td>Director of Intelligence</td><td class="it">Direttore Intelligence</td><td class="es">Director de Inteligencia</td><td class="de">Direktor Nachrichtendienst</td></tr>
+          <tr><td>Director of Investigations</td><td class="it">Direttore Investigazioni</td><td class="es">Director de Investigaciones</td><td class="de">Direktor Ermittlungen</td></tr>
+          <tr><td>Senior Intelligence Analyst</td><td class="it">Analista Intelligence Senior</td><td class="es">Analista de Inteligencia Senior</td><td class="de">Leitender Geheimdienstanalyst</td></tr>
+          <tr><td>Senior OSINT Analyst</td><td class="it">Analista OSINT Senior</td><td class="es">Analista OSINT Senior</td><td class="de">Leitender OSINT-Analyst</td></tr>
+          <tr><td>OSINT Analyst</td><td class="it">Analista OSINT</td><td class="es">Analista OSINT</td><td class="de">OSINT-Analyst</td></tr>
+          <tr><td>Digital Investigator</td><td class="it">Investigatore Digitale</td><td class="es">Investigador Digital</td><td class="de">Digitaler Ermittler</td></tr>
+          <tr><td>Counter-Terrorism Analyst</td><td class="it">Analista Antiterrorismo</td><td class="es">Analista de Contraterrorismo</td><td class="de">Terrorismusbekämpfungsanalyst</td></tr>
+          <tr><td>Detective</td><td class="it">Investigatore</td><td class="es">Detective</td><td class="de">Ermittler</td></tr>
+          <tr><td>Investigator</td><td class="it">Investigatore</td><td class="es">Investigador</td><td class="de">Ermittler</td></tr>
+          <tr><td>OSINT Specialist</td><td class="it">Specialista OSINT</td><td class="es">Especialista OSINT</td><td class="de">OSINT-Spezialist</td></tr>
+          <tr><td>Intelligence Officer</td><td class="it">Ufficiale Intelligence</td><td class="es">Oficial de Inteligencia</td><td class="de">Geheimdienstoffizier</td></tr>
+          <tr><td>Crime Analyst</td><td class="it">Analista Criminalità</td><td class="es">Analista Criminal</td><td class="de">Kriminalanalyst</td></tr>
+          <tr><td>Digital Forensics Investigator</td><td class="it">Investigatore Forense Digitale</td><td class="es">Investigador Forense Digital</td><td class="de">Digitaler Forensikermittler</td></tr>
+          <tr><td>Human Trafficking Investigator</td><td class="it">Investigatore Tratta di Esseri Umani</td><td class="es">Investigador de Trata de Personas</td><td class="de">Ermittler Menschenhandel</td></tr>
+          <tr><td>Economic Crime Officer</td><td class="it">Ufficiale Crimini Economici</td><td class="es">Oficial de Crimen Económico</td><td class="de">Wirtschaftskriminalitätsbeauftragter</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CYBERSECURITY -->
+  <div class="icp-segment" id="seg-cyber">
+    <div class="icp-wrap">
+      <table class="icp-tbl">
+        <thead><tr><th>English</th><th>🇮🇹 Italian</th><th>🇪🇸 Spanish</th><th>🇩🇪 German</th></tr></thead>
+        <tbody>
+          <tr><td>CISO</td><td class="it">CISO</td><td class="es">CISO</td><td class="de">CISO</td></tr>
+          <tr><td>Chief Information Security Officer</td><td class="it">Responsabile Sicurezza Informatica</td><td class="es">Director de Seguridad Informática</td><td class="de">Informationssicherheitsbeauftragter</td></tr>
+          <tr><td>VP Cybersecurity</td><td class="it">VP Cybersecurity</td><td class="es">VP de Ciberseguridad</td><td class="de">VP Cybersicherheit</td></tr>
+          <tr><td>Director of Cybersecurity</td><td class="it">Direttore Cybersecurity</td><td class="es">Director de Ciberseguridad</td><td class="de">Direktor Cybersicherheit</td></tr>
+          <tr><td>Director of Security Operations</td><td class="it">Direttore Operazioni Sicurezza</td><td class="es">Director de Operaciones de Seguridad</td><td class="de">Direktor Sicherheitsoperationen</td></tr>
+          <tr><td>Head of Cybersecurity</td><td class="it">Responsabile Cybersecurity</td><td class="es">Responsable de Ciberseguridad</td><td class="de">Leiter Cybersicherheit</td></tr>
+          <tr><td>Head of Cyber Threat Intelligence</td><td class="it">Responsabile Cyber Threat Intelligence</td><td class="es">Responsable de Inteligencia de Amenazas Cibernéticas</td><td class="de">Leiter Cyber-Bedrohungsanalyse</td></tr>
+          <tr><td>Head of Digital Forensics</td><td class="it">Responsabile Forense Digitale</td><td class="es">Responsable de Forense Digital</td><td class="de">Leiter Digitale Forensik</td></tr>
+          <tr><td>Head of Incident Response</td><td class="it">Responsabile Incident Response</td><td class="es">Responsable de Respuesta a Incidentes</td><td class="de">Leiter Incident Response</td></tr>
+          <tr><td>Head of SOC</td><td class="it">Responsabile SOC</td><td class="es">Responsable del SOC</td><td class="de">Leiter SOC</td></tr>
+          <tr><td>Head of Trust and Safety</td><td class="it">Responsabile Trust and Safety</td><td class="es">Responsable de Confianza y Seguridad</td><td class="de">Leiter Trust und Safety</td></tr>
+          <tr><td>Cybersecurity Manager</td><td class="it">Manager Cybersecurity</td><td class="es">Gerente de Ciberseguridad</td><td class="de">Cybersicherheitsmanager</td></tr>
+          <tr><td>SOC Manager</td><td class="it">Manager SOC</td><td class="es">Gerente SOC</td><td class="de">SOC-Manager</td></tr>
+          <tr><td>Threat Intelligence Manager</td><td class="it">Manager Threat Intelligence</td><td class="es">Gerente de Inteligencia de Amenazas</td><td class="de">Bedrohungsanalysemanager</td></tr>
+          <tr><td>Incident Response Manager</td><td class="it">Responsabile Incident Response</td><td class="es">Gerente de Respuesta a Incidentes</td><td class="de">Incident-Response-Manager</td></tr>
+          <tr><td>Threat Intelligence Analyst</td><td class="it">Analista Threat Intelligence</td><td class="es">Analista de Inteligencia de Amenazas</td><td class="de">Bedrohungsanalyst</td></tr>
+          <tr><td>Digital Forensics Analyst</td><td class="it">Analista Forense Digitale</td><td class="es">Analista Forense Digital</td><td class="de">Digitaler Forensikanalyst</td></tr>
+          <tr><td>SOC Analyst</td><td class="it">Analista SOC</td><td class="es">Analista SOC</td><td class="de">SOC-Analyst</td></tr>
+          <tr><td>Malware Analyst</td><td class="it">Analista Malware</td><td class="es">Analista de Malware</td><td class="de">Malware-Analyst</td></tr>
+          <tr><td>Vulnerability Analyst</td><td class="it">Analista Vulnerabilità</td><td class="es">Analista de Vulnerabilidades</td><td class="de">Schwachstellenanalyst</td></tr>
+          <tr><td>Cybercrime Investigator</td><td class="it">Investigatore Cybercrime</td><td class="es">Investigador de Cibercrimen</td><td class="de">Cyberkrimeermittler</td></tr>
+          <tr><td>Dark Web Analyst</td><td class="it">Analista Dark Web</td><td class="es">Analista de Dark Web</td><td class="de">Dark-Web-Analyst</td></tr>
+          <tr><td>Threat Hunter</td><td class="it">Threat Hunter</td><td class="es">Cazador de Amenazas</td><td class="de">Bedrohungsjäger</td></tr>
+          <tr><td>Counterintelligence Analyst</td><td class="it">Analista Controspionaggio</td><td class="es">Analista de Contrainteligencia</td><td class="de">Gegenspionageanalyst</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MEDIA & NGO -->
+  <div class="icp-segment" id="seg-media">
+    <div class="icp-wrap">
+      <table class="icp-tbl">
+        <thead><tr><th>English</th><th>🇮🇹 Italian</th><th>🇪🇸 Spanish</th><th>🇩🇪 German</th></tr></thead>
+        <tbody>
+          <tr><td>Investigative Journalist</td><td class="it">Giornalista Investigativo</td><td class="es">Periodista de Investigación</td><td class="de">Investigativjournalist</td></tr>
+          <tr><td>Investigative Reporter</td><td class="it">Reporter Investigativo</td><td class="es">Reportero de Investigación</td><td class="de">Investigativreporter</td></tr>
+          <tr><td>Investigative Editor</td><td class="it">Redattore Investigativo</td><td class="es">Editor de Investigación</td><td class="de">Investigativredakteur</td></tr>
+          <tr><td>Head of Research</td><td class="it">Responsabile Ricerca</td><td class="es">Responsable de Investigación</td><td class="de">Leiter Forschung</td></tr>
+          <tr><td>Research Director</td><td class="it">Direttore Ricerca</td><td class="es">Director de Investigación</td><td class="de">Forschungsdirektor</td></tr>
+          <tr><td>OSINT Researcher</td><td class="it">Ricercatore OSINT</td><td class="es">Investigador OSINT</td><td class="de">OSINT-Forscher</td></tr>
+          <tr><td>Open Source Researcher</td><td class="it">Ricercatore Open Source</td><td class="es">Investigador de Fuentes Abiertas</td><td class="de">Open-Source-Forscher</td></tr>
+          <tr><td>Data Journalist</td><td class="it">Giornalista dei Dati</td><td class="es">Periodista de Datos</td><td class="de">Datenjournalist</td></tr>
+          <tr><td>Disinformation Researcher</td><td class="it">Ricercatore Disinformazione</td><td class="es">Investigador de Desinformación</td><td class="de">Desinformationsforscher</td></tr>
+          <tr><td>Information Warfare Analyst</td><td class="it">Analista Guerra dell'Informazione</td><td class="es">Analista de Guerra de Información</td><td class="de">Informationskriegsanalyst</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function showSeg(id) {
+      document.querySelectorAll('.icp-segment').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.icp-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('seg-' + id).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+</div>
+
+<!-- EXCLUDED POSITIONS -->
+<div class="section">
+  <div class="slabel">Excluded job titles</div>
+  <div class="card">
+    <div class="card-label">These titles are actively filtered out to reduce noise</div>
+    <div class="icp-wrap" style="margin-top:10px">
+      <span class="icp-pill">team captain</span><span class="icp-pill">production captain</span><span class="icp-pill">operations captain</span><span class="icp-pill">boat captain</span><span class="icp-pill">ship captain</span><span class="icp-pill">hazardous</span><span class="icp-pill">chief revenue</span><span class="icp-pill">BDM</span><span class="icp-pill">R&D project</span><span class="icp-pill">pilot</span><span class="icp-pill">flight</span><span class="icp-pill">airline</span><span class="icp-pill">investigador</span><span class="icp-pill">docente</span><span class="icp-pill">researcher</span><span class="icp-pill">chemist</span><span class="icp-pill">oncologist</span>
     </div>
   </div>
 </div>
@@ -392,9 +569,8 @@
 
 </div>
 
-<!-- NEXT STEPS -->
+
 <div class="section">
-  <div class="slabel">What's next</div>
   <div class="next-wrap">
     <div class="next-row">
       <div>
