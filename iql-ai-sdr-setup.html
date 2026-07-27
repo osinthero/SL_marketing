@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IQL AI SDR — Social Links / Crimewall</title>
+<style>
+  :root {
+    --bg: #fcfcfb;
+    --card: #fff;
+    --ink: #17191c;
+    --ink2: #4b5158;
+    --muted: #868d95;
+    --line: #e4e6ea;
+    --line2: #eff1f3;
+    --hs: #ff5c35;
+    --clay: #3d6ce0;
+    --make: #2a9d6e;
+    --slack: #7c3aed;
+    --cw: #b8734a;
+    --stop: #c4453f;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 44px 24px 80px; }
+  code, .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .87em; background: #f1f3f5; padding: 1px 5px;
+    border-radius: 4px; color: #2c3136;
+  }
+
+  .crumb {
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; margin-bottom: 14px;
+  }
+  h1 { font-size: 38px; line-height: 1.15; letter-spacing: -.9px; margin: 0 0 14px; font-weight: 700; }
+  .lede { font-size: 16.5px; color: var(--ink2); max-width: 660px; margin: 0 0 18px; }
+  .status {
+    display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600;
+    background: #fff6ed; color: #9a5a19; border: 1px solid #f5d5b0;
+    padding: 5px 12px; border-radius: 20px;
+  }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: #e8912f; }
+
+  h2 {
+    font-size: 12.5px; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700;
+    margin: 56px 0 18px; padding-bottom: 9px; border-bottom: 1px solid var(--line);
+  }
+  h2 .hint { float: right; text-transform: none; letter-spacing: 0; font-weight: 500; color: #adb3ba; }
+
+  /* stack cards */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 15px 16px;
+  }
+  .card .top { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+  .card .role { font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+  .card .facts { font-size: 13px; color: var(--ink2); line-height: 1.75; }
+  .card .facts b { color: var(--ink); }
+  .card.hs   { border-top: 3px solid var(--hs); }
+  .card.clay { border-top: 3px solid var(--clay); }
+  .card.make { border-top: 3px solid var(--make); }
+  .card.sl   { border-top: 3px solid var(--slack); }
+  .card.cw   { border-top: 3px solid var(--cw); }
+
+  /* flow steps */
+  .step { display: flex; gap: 18px; padding: 20px 0; border-bottom: 1px solid var(--line2); }
+  .step:last-child { border-bottom: 0; }
+  .num {
+    flex: 0 0 34px; height: 34px; border-radius: 50%;
+    background: var(--ink); color: #fff; font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .num.h { background: #fff; color: var(--cw); border: 2px solid var(--cw); }
+  .sbody { flex: 1; min-width: 0; }
+  .stool { font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  .stool.hs { color: var(--hs); }
+  .stool.clay { color: var(--clay); }
+  .stool.make { color: var(--make); }
+  .stool.sl { color: var(--slack); }
+  .stool.human { color: var(--cw); }
+  .stitle { font-size: 17px; font-weight: 650; margin: 2px 0 6px; letter-spacing: -.2px; }
+  .sdesc { font-size: 14px; color: var(--ink2); }
+  .sdesc b { color: var(--ink); font-weight: 600; }
+
+  .callout {
+    background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--ink);
+    border-radius: 0 8px 8px 0; padding: 13px 16px; font-size: 14px; color: var(--ink2);
+    margin: 16px 0;
+  }
+  .callout b { color: var(--ink); }
+  .callout.warn { border-left-color: var(--stop); background: #fffafa; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  th {
+    text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; padding: 0 10px 8px; border-bottom: 1px solid var(--line);
+  }
+  td { padding: 9px 10px; border-bottom: 1px solid var(--line2); color: var(--ink2); vertical-align: top; }
+  td:first-child, th:first-child { padding-left: 0; }
+  td strong { color: var(--ink); font-weight: 650; }
+  tr:last-child td { border-bottom: 0; }
+  .grp { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+
+  /* slack mock */
+  .slackbox {
+    background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  }
+  .slackhead {
+    display: flex; align-items: center; gap: 8px; padding: 11px 16px;
+    border-bottom: 1px solid var(--line2); font-weight: 700; font-size: 14px;
+  }
+  .slackhead .hash { color: var(--muted); font-weight: 500; }
+  .msg { display: flex; gap: 11px; padding: 15px 16px; }
+  .av {
+    flex: 0 0 34px; height: 34px; border-radius: 7px; background: var(--cw);
+    color: #fff; font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mhead { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .mhead span { font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 6px; }
+  .mbody { font-size: 13.5px; line-height: 1.65; color: var(--ink2); }
+  .mbody b { color: var(--ink); }
+  .thread {
+    border-top: 1px solid var(--line2); background: #fcfcfc;
+    padding: 13px 16px 15px 61px; font-size: 13px; color: var(--ink2);
+  }
+  .thread .tlabel { color: var(--clay); font-weight: 650; font-size: 12.5px; margin-bottom: 7px; }
+
+  ul.plain { margin: 0; padding-left: 20px; font-size: 14px; color: var(--ink2); }
+  ul.plain li { margin-bottom: 6px; }
+  ul.plain li b { color: var(--ink); }
+
+  .gates { display: grid; gap: 8px; }
+  .gate {
+    display: flex; gap: 12px; align-items: baseline;
+    background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 11px 14px;
+  }
+  .gnum { flex: 0 0 46px; font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--muted); }
+  .gtxt { font-size: 13.5px; color: var(--ink2); }
+  .gtxt b { color: var(--ink); }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 12.5px; background: #fff; border: 1px solid var(--line);
+    border-radius: 5px; padding: 4px 9px; color: var(--ink2);
+  }
+  .tag.seg { font-weight: 650; color: var(--ink); border-color: #c9ced6; }
+
+  footer {
+    margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+  @media (max-width: 700px) {
+    .cards { grid-template-columns: 1fr; }
+    h1 { font-size: 30px; }
+    .wrap { padding: 32px 18px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="crumb">Social Links · Crimewall</div>
+  <h1>IQL AI SDR — Pilot A</h1>
+  <p class="lede">
+    Single source of truth for the IQL pipeline: content-download lead → enriched and qualified →
+    deterministically routed → automated email → human SDR on reply. Reference this when making any changes.
+  </p>
+  <div class="status"><span class="dot"></span> Spec v1.1 · not built yet · awaiting Gate 1 audit</div>
+
+  <div class="callout">
+    <b>Operating principle.</b> Before a genuine reply, automation owns enrichment, analysis, routing and
+    follow-up. After a genuine reply, a human SDR owns everything. The routing decision itself is
+    deterministic — AI supplies evidence and confidence, rules decide who gets contacted.
+  </div>
+
+  <!-- ─────────── STACK ─────────── -->
+  <h2>Stack</h2>
+  <div class="cards">
+    <div class="card hs">
+      <div class="top">HubSpot</div>
+      <div class="role">CRM · Forms · Workflows</div>
+      <div class="facts">
+        Portal: <b>Social Links</b><br>
+        Sales Ent · Mktg Pro · Service Pro · Data Hub Pro<br>
+        Form: <b>OSINT Landscape 2026</b><br>
+        Native enrichment: ON, <b>no credits</b>
+      </div>
+    </div>
+    <div class="card hs">
+      <div class="top">Breeze agents</div>
+      <div class="role">Data Agent + Prospecting Agent</div>
+      <div class="facts">
+        Data Agent: <b>1 call per lead</b>, JSON out<br>
+        Prospecting Agent: sends 1:1 email<br>
+        Credits: <b>confirm balance</b> (348 as of Jun 24)<br>
+        Monthly cap + alert required
+      </div>
+    </div>
+    <div class="card clay">
+      <div class="top">Clay</div>
+      <div class="role">Explorer — $349/mo</div>
+      <div class="facts">
+        New table: <b>IQL — Fallback Enrichment</b><br>
+        <b>Not</b> the ABM Contacts table<br>
+        No contact-finding, no email waterfall<br>
+        Fallback only — fills blanks
+      </div>
+    </div>
+    <div class="card make">
+      <div class="top">Make.com</div>
+      <div class="role">Paid plan · EU region</div>
+      <div class="facts">
+        2 new scenarios (on top of ABM's 2)<br>
+        S3: JSON fan-out to 11 fields<br>
+        S4: daily Slack digest<br>
+        Monitor ops usage
+      </div>
+    </div>
+    <div class="card sl">
+      <div class="top">Slack</div>
+      <div class="role">Daily digest destination</div>
+      <div class="facts">
+        ABM digest posts to <b>#new-sales</b><br>
+        Brief references <b>#sdr-mktg</b> <code>C03MUCG5YEA</code><br>
+        <b>Decision needed:</b> which channel<br>
+        One message/day, no per-lead alerts
+      </div>
+    </div>
+    <div class="card cw">
+      <div class="top">Claude Cowork</div>
+      <div class="role">Builder — not a runtime</div>
+      <div class="facts">
+        Audit · property map · taxonomy<br>
+        Prompt design · test evidence · change log<br>
+        HubSpot connector is <b>read-only</b><br>
+        Property/workflow creation: UI or API
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── FLOW ─────────── -->
+  <h2>Pipeline flow <span class="hint">9 stages · automated through stage 6</span></h2>
+
+  <div class="step">
+    <div class="num">1</div>
+    <div class="sbody">
+      <div class="stool hs">HubSpot Forms + Tracking</div>
+      <div class="stitle">IQL intake</div>
+      <div class="sdesc">
+        Visitor submits the <b>OSINT Landscape 2026</b> form. Captures first/last name, business email, phone,
+        job title, organisation, role, existing-customer answer, consent. Pre-submission page history associated
+        via tracking code where consent and cookie continuity allow. Sets <code>iql_processing_status</code> =
+        <i>Waiting enrichment</i>. All IQLs are content downloads — no separate IQL type property needed.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">2</div>
+    <div class="sbody">
+      <div class="stool hs">HubSpot native enrichment</div>
+      <div class="stitle">Primary enrichment — free</div>
+      <div class="sdesc">
+        Requires business email on the contact and a domain on the company. Fills <b>blanks only</b> — never
+        overwrites what the person typed into the form. Adds LinkedIn URL, country, seniority, employment role;
+        company name, domain, industry, employee range, revenue range, description.
+        <b>Consumes no HubSpot credits.</b>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">3</div>
+    <div class="sbody">
+      <div class="stool clay">Clay — IQL Fallback Enrichment</div>
+      <div class="stitle">Fallback, gated on a 45-minute check</div>
+      <div class="sdesc">
+        Native enrichment is asynchronous with no completion event, so this runs on a clock, not a signal.
+        <b>+45 min after submission</b>, check five critical fields: contact LinkedIn URL, company domain,
+        company industry, employee range, contact seniority. If any is blank, send
+        <code>hs_contact_id</code> + <code>hs_company_id</code> + email + submitted org/title to Clay.
+        Update <b>by HubSpot object ID</b> — never create replacement contacts. <b>2-hour ceiling</b>, then
+        move on regardless. Revenue is useful but never blocks. Records source, date, status, no-match reason.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn">
+    <b>Do not reuse the ABM Contacts table.</b> That flow finds up to 5 different people per company and runs
+    the 6-step email waterfall. Pilot A enriches <b>the exact person who filled in the form</b> and nobody else.
+  </div>
+
+  <div class="step">
+    <div class="num">4</div>
+    <div class="sbody">
+      <div class="stool hs">HubSpot lists + workflow</div>
+      <div class="stitle">Behaviour normalisation</div>
+      <div class="sdesc">
+        The Data Agent prompt does not receive the CRM timeline, so page activity has to become properties
+        first. 6–8 URL-pattern lists (<code>/products/crimewall</code>, <code>/solutions/financial-crime</code>,
+        <code>/case-studies/</code>, <code>/demo</code>, <code>/pricing</code>) set
+        <code>iql_relevant_website_activity</code> (text) and <code>iql_viewed_commercial_page</code> (boolean).
+        Two properties, not five — the per-category multi-checkboxes were cut.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">5</div>
+    <div class="sbody">
+      <div class="stool hs">Breeze Data Agent → <span class="stool make" style="text-transform:none;font-size:12px">Make.com S3</span></div>
+      <div class="stitle">AI analysis — one call, JSON out</div>
+      <div class="sdesc">
+        A Data Agent workflow action writes to <b>one</b> property per run, so 11 separate actions would mean 11×
+        credits. Instead: <b>one call</b> returns JSON into <code>ai_analysis_raw</code>, then Make.com Scenario 3
+        parses and fans out to the 11 structured fields. Prompt receives only what's explicitly inserted —
+        contact, company, acquisition, normalised behaviour. Hard rule in the prompt: a content download alone
+        is <b>low intent</b>; missing facts lower confidence rather than getting invented.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">6</div>
+    <div class="sbody">
+      <div class="stool hs">HubSpot workflow</div>
+      <div class="stitle">Decision gate — rules, not AI</div>
+      <div class="sdesc">
+        Mandatory checks: communication permitted · valid, non-bounced email · <b>not an existing customer by
+        lifecycle stage and deal history</b> (not the form radio button) · no open or closed-won deal ·
+        <b>no other IQL from the same company enrolled in the last 14 days</b> · not in another active sequence ·
+        not internal, spam or supplier · analysis completed. Then one of four routes below. Checks
+        <code>ai_sdr_master_enabled</code> first — the kill switch.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">7</div>
+    <div class="sbody">
+      <div class="stool hs">Breeze Prospecting Agent</div>
+      <div class="stitle">Automated email — review mode first</div>
+      <div class="sdesc">
+        Profile <b>Social Links — IQL Content Download</b>. Sends 1:1 from the contact owner's real mailbox,
+        approved fallback sender where no inbox exists. <b>Max 3 emails, 3–4 business days apart</b>, approved
+        send window and time zone. <b>Review-required for the first 10 business days</b> — the SDR approves every
+        send before it goes — then automatic on sign-off. English only in phase 1.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num h">8</div>
+    <div class="sbody">
+      <div class="stool human">Human SDR</div>
+      <div class="stitle">Reply stops everything</div>
+      <div class="sdesc">
+        <b>Any</b> reply halts automation — no out-of-office classification in phase 1, humans triage instead.
+        Also stops on meeting booked, opt-out, hard bounce, or max emails reached. Sets
+        <code>reply_received_date</code>, <code>ai_sdr_handoff_date</code>, and
+        <code>human_followup_status</code> = <i>Pending</i>. From here the conversation is entirely human —
+        AI never handles a sales conversation.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num h">9</div>
+    <div class="sbody">
+      <div class="stool make">Make.com S4</div>
+      <div class="stitle">Daily Slack digest</div>
+      <div class="sdesc">
+        One consolidated message, reusing the proven ABM digest pattern — same auth, same posting logic, same
+        thread structure. Runs on Make rather than a Cowork scheduled task, because a business-critical daily
+        job needs a runtime that's already load-tested here. Funnel counts, replies needing attention,
+        exceptions. <code>last_included_in_digest</code> prevents duplicate listings.
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────── ROUTES ─────────── -->
+  <h2>Route rules <span class="hint">set by stage 6</span></h2>
+  <table>
+    <thead><tr><th style="width:170px">Route</th><th>Criteria</th><th style="width:200px">Action</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Priority Outreach</strong><br><span style="color:var(--muted);font-size:12px">75% of qualified</span></td>
+        <td>Strong ICP · relevant contact · medium or high intent · high confidence · all mandatory checks passed</td>
+        <td>Assign owner, enrol in Breeze</td>
+      </tr>
+      <tr>
+        <td><strong>Holdback</strong><br><span style="color:var(--muted);font-size:12px">25% of qualified</span></td>
+        <td>Identical quality bar — randomly selected. The control group.</td>
+        <td>Standard human SDR process. No AI outreach.</td>
+      </tr>
+      <tr>
+        <td><strong>Human Review</strong></td>
+        <td>Strong or medium fit but conflicting data, unclear persona or product, failed analysis, medium/low confidence</td>
+        <td>One task, named owner, <b>2 business-day SLA</b>, escalates on breach</td>
+      </tr>
+      <tr>
+        <td><strong>Nurture</strong></td>
+        <td>Strong or medium fit, low commercial intent</td>
+        <td>Marketing segment, re-score on new activity</td>
+      </tr>
+      <tr>
+        <td><strong>Exclude</strong></td>
+        <td>No permission · existing customer · invalid, spam or internal · irrelevant contact · no ICP fit</td>
+        <td>Stop. Reason stored in <code>ai_sdr_exclusion_reason</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <b>Why hold back 25%.</b> Without a control group the pilot produces a reply rate nobody can interpret.
+    With one, you can state whether the AI SDR beat the existing human process — which is the actual question
+    being asked.
+  </div>
+
+  <!-- ─────────── PROPERTIES ─────────── -->
+  <h2>Property model <span class="hint">audit first — reuse before creating</span></h2>
+  <table>
+    <thead><tr><th style="width:100px">Group</th><th style="width:260px">Property</th><th>Values</th></tr></thead>
+    <tbody>
+      <tr><td class="grp">Processing</td><td><code>iql_processing_status</code></td><td>Waiting enrichment / Enriching / Waiting analysis / Routed / Outreach / Finished / Error</td></tr>
+      <tr><td class="grp">Kill switch</td><td><code>ai_sdr_master_enabled</code></td><td>Boolean — checked before every enrolment</td></tr>
+      <tr><td class="grp">Enrichment</td><td><code>iql_enrichment_source</code></td><td>HubSpot / Clay fallback / Both / No match</td></tr>
+      <tr><td class="grp">Enrichment</td><td><code>iql_enrichment_status</code></td><td>Waiting / Completed / Partial / Failed</td></tr>
+      <tr><td class="grp">Behaviour</td><td><code>iql_relevant_website_activity</code></td><td>Normalised categories, text</td></tr>
+      <tr><td class="grp">Behaviour</td><td><code>iql_viewed_commercial_page</code></td><td>Boolean</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_analysis_raw</code></td><td>JSON staging — Make S3 parses this</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_icp_match</code></td><td>Strong / Medium / Weak / No</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_icp_segment</code></td><td>The 5 ABM segments — see below</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_contact_relevance</code></td><td>Decision-maker / Influencer / Practitioner / Irrelevant</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_intent_level</code></td><td>High / Medium / Low</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_likely_product</code></td><td>Approved product list</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_likely_use_case</code></td><td>Approved use-case list</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_intent_evidence</code></td><td>Specific factual signals</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_qualification_summary</code></td><td>Short SDR-ready explanation</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_confidence</code></td><td>High / Medium / Low</td></tr>
+      <tr><td class="grp">Analysis</td><td><code>ai_missing_information</code></td><td>Gaps that would strengthen the decision</td></tr>
+      <tr><td class="grp">Routing</td><td><code>ai_sdr_route</code></td><td>Priority / Holdback / Human Review / Nurture / Exclude</td></tr>
+      <tr><td class="grp">Routing</td><td><code>ai_sdr_route_reason</code></td><td>Short evidence-based explanation</td></tr>
+      <tr><td class="grp">Outreach</td><td><code>ai_sdr_outreach_status</code></td><td>Not enrolled / Enrolled / In progress / Replied / Meeting booked / Completed no reply / Error</td></tr>
+      <tr><td class="grp">Handoff</td><td><code>reply_received_date</code></td><td>Datetime — drives digest selection</td></tr>
+      <tr><td class="grp">Handoff</td><td><code>human_followup_status</code></td><td>Pending / In progress / Completed</td></tr>
+      <tr><td class="grp">Digest</td><td><code>last_included_in_digest</code></td><td>Datetime — prevents duplicate listings</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:13px;color:var(--muted);margin-top:10px">
+    ~22 properties, down from 33 in v1.0. Dropped: three per-category behaviour checkboxes,
+    <code>ai_recommended_case_study</code> (picked at send time instead), and several status duplicates.
+  </p>
+
+  <!-- ─────────── EMAIL ─────────── -->
+  <h2>Email sequence <span class="hint">max 3 · 3–4 business days apart</span></h2>
+  <table>
+    <thead><tr><th style="width:90px">Touch</th><th style="width:170px">Purpose</th><th>Content rule</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Email 1</strong></td><td>Relevant introduction</td><td>Acknowledge the report, connect role and company context to one likely problem, ask one simple question</td></tr>
+      <tr><td><strong>Email 2</strong></td><td>Useful proof</td><td>One approved case study or practical example matched to the likely use case</td></tr>
+      <tr><td><strong>Email 3</strong></td><td>Close the loop</td><td>Short, respectful final follow-up with an easy way to respond or decline</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <b>Messaging guardrails.</b> Never say or imply "I saw you visited this page" or describe tracking
+    behaviour. Never invent customer results, product capabilities, integrations, legal claims or case-study
+    facts. One product and one use case per email — no portfolio dumps. No manufactured urgency. Browsing
+    history may inform relevance but must never be described back to the recipient.
+  </div>
+
+  <!-- ─────────── DIGEST ─────────── -->
+  <h2>Daily Slack digest <span class="hint">Make.com S4 · weekdays 09:00</span></h2>
+  <div class="slackbox">
+    <div class="slackhead"><span class="hash">#</span> sdr-mktg</div>
+    <div class="msg">
+      <div class="av">C</div>
+      <div>
+        <div class="mhead">Cowork <span>Today at 9:00 AM</span></div>
+        <div class="mbody">
+          🤖 <b>AI SDR daily digest · 27 Jul 2026</b><br><br>
+          <b>Last 24 hours</b><br>
+          New IQLs: <b>18</b><br>
+          Enriched: 15 · exceptions: 3<br>
+          Analysis completed: 14 · failed: 1<br>
+          Priority: 7 · Holdback: 2 · Review: 2 · Nurture: 5 · Excluded: 1<br>
+          Active outreach: <b>11</b> · Replies: <b>3</b> · Meetings: <b>1</b><br><br>
+          💬 <b>3 replies need a human</b> — full list in thread ↓
+        </div>
+      </div>
+    </div>
+    <div class="thread">
+      <div class="tlabel">3 replies · reply in thread</div>
+      <b>Anna Müller</b> — Head of Financial Crime, Example Bank<br>
+      Owner: J. Petrov · Crimewall / crypto investigations · Replied 26 Jul 16:42 · Follow-up: <b>Pending</b> · View in HubSpot<br><br>
+      <b>David Lee</b> — Threat Intelligence Manager, Example Security<br>
+      Owner: M. Ozols · SL Professional / threat intelligence · Replied 26 Jul 09:15 · Follow-up: <b>Pending</b> · View in HubSpot<br><br>
+      <span style="color:var(--muted)">⚠️ Exceptions · 2 IQLs missing company domain after HubSpot + Clay · 1 contact has no eligible sender mailbox</span>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--muted);margin-top:10px">
+    Format per reply line: <code>Name · Job Title, Company · Owner · Product/use case · Replied · Follow-up · [View]</code>.
+    Reply body summary and sentiment classification are <b>not</b> in phase 1.
+  </p>
+
+  <!-- ─────────── TAXONOMY ─────────── -->
+  <h2>Taxonomy — reuse from ABM <span class="hint">Gate 2 is mostly done already</span></h2>
+  <p style="font-size:14px;color:var(--ink2);margin:0 0 14px">
+    The ABM pipeline already defines the five segments and 183 ICP job titles across English, Italian, Spanish
+    and German. The Data Agent should classify against <b>the same taxonomy</b> — a lead scored differently by
+    the two pipelines is a bug, not a feature.
+  </p>
+  <div class="tags" style="margin-bottom:14px">
+    <span class="tag seg">Corporate Security</span>
+    <span class="tag seg">Financial Crime</span>
+    <span class="tag seg">Law Enforcement</span>
+    <span class="tag seg">Cybersecurity</span>
+    <span class="tag seg">Media &amp; NGO</span>
+  </div>
+  <p style="font-size:13px;color:var(--muted);margin:0 0 8px">Excluded title patterns — reuse the ABM exclusion list:</p>
+  <div class="tags">
+    <span class="tag">team captain</span><span class="tag">boat captain</span><span class="tag">ship captain</span>
+    <span class="tag">production captain</span><span class="tag">chief revenue</span><span class="tag">BDM</span>
+    <span class="tag">R&amp;D project</span><span class="tag">pilot</span><span class="tag">flight</span>
+    <span class="tag">airline</span><span class="tag">docente</span><span class="tag">researcher</span>
+    <span class="tag">chemist</span><span class="tag">oncologist</span><span class="tag">investigador</span>
+  </div>
+  <p style="font-size:13px;color:var(--muted);margin-top:12px">
+    Still to define: the approved <b>product list</b>, <b>use-case list</b> and <b>case-study list</b>.
+    Those three are the only genuinely new taxonomy work.
+  </p>
+
+  <!-- ─────────── GATES ─────────── -->
+  <h2>Approval gates <span class="hint">nothing goes live without the one before it</span></h2>
+  <div class="gates">
+    <div class="gate"><div class="gnum">GATE 1</div><div class="gtxt"><b>Read-only audit approved.</b> Existing properties, workflows, lists, integrations, permissions, sender inboxes, credit balance and monthly cap documented. Plus: GDPR Art. 14 position on Clay enrichment and a review of the form's actual consent wording against sales outreach.</div></div>
+    <div class="gate"><div class="gnum">GATE 2</div><div class="gtxt"><b>Data model and taxonomy approved.</b> Property reuse/create map, product and use-case lists. No live changes yet.</div></div>
+    <div class="gate"><div class="gnum">GATE 3</div><div class="gtxt"><b>Built but disabled.</b> Properties, workflows, Clay table, Make scenarios, digest. Change log and screenshots reviewed.</div></div>
+    <div class="gate"><div class="gnum">GATE 4</div><div class="gtxt"><b>Analysis tested on historical records.</b> Routing accuracy accepted against manual judgement.</div></div>
+    <div class="gate"><div class="gnum">GATE 5</div><div class="gtxt"><b>Email previews approved.</b> Internal seed-list test completed. At least 3 representative IQLs reviewed end to end.</div></div>
+    <div class="gate"><div class="gnum">GATE 6</div><div class="gtxt"><b>Controlled pilot live in review mode.</b> Small cohort, SDR approves every send, 10 business days.</div></div>
+    <div class="gate"><div class="gnum">GATE 7</div><div class="gtxt"><b>Automatic sending enabled.</b> Only after quality, deliverability and handoff metrics hold — including the digest delivering reliably for 5 consecutive business days.</div></div>
+  </div>
+
+  <!-- ─────────── DECISIONS ─────────── -->
+  <h2>Decisions needed from you</h2>
+  <ul class="plain">
+    <li><b>Digest channel.</b> ABM posts to #new-sales, the brief says #sdr-mktg. Pick one, plus the post time.</li>
+    <li><b>Sender ownership rule.</b> Which SDR mailbox sends, who owns replies, and the fallback sender when no inbox exists. The SDR whose mailbox is used needs to agree — it's their domain reputation.</li>
+    <li><b>Product, use-case and case-study lists.</b> The only new taxonomy work; blocks Gate 2.</li>
+    <li><b>Nurture destination.</b> Which marketing list or workflow strong-fit / low-intent IQLs land in.</li>
+    <li><b>Send window and time zone.</b> Needed for the Breeze profile.</li>
+    <li><b>Pilot cohort size and duration.</b> Defines rollout risk and how long before Gate 7.</li>
+    <li><b>Credit cap.</b> Monthly HubSpot credit ceiling and who gets the alert when it's hit.</li>
+  </ul>
+
+  <footer>
+    <span>IQL AI SDR · Pilot A · Social Links / Crimewall · Spec v1.1</span>
+    <span>Companion to the ABM Pipeline doc · 27 July 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
