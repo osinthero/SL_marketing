@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T-Frame — Chrome Web Store Extension SEO Promotion Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F6F3; --surface: #FFFFFF; --border: #E2E0D8; --bm: #C8C5BA;
+    --text: #1A1916; --muted: #7A7870;
+    --pur: #5340E0; --pur-bg: rgba(83,64,224,.07); --pur-bd: rgba(83,64,224,.22); --pur-dk: #2E20A8;
+    --tel: #0D9E9E; --tel-bg: rgba(13,158,158,.07); --tel-bd: rgba(13,158,158,.22); --tel-dk: #065858;
+    --amb: #C97D10; --amb-bg: rgba(201,125,16,.07); --amb-bd: rgba(201,125,16,.22); --amb-dk: #6B3D00;
+    --grn: #0A6644; --grn-bg: rgba(10,102,68,.07); --grn-bd: rgba(10,102,68,.22); --grn-dk: #064430;
+    --red: #D63355; --red-bg: rgba(214,51,85,.07); --red-bd: rgba(214,51,85,.22); --red-dk: #8C1530;
+    --gry: #444441; --gry-bg: #F1EFE8; --gry-bd: #B4B2A9;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text);
+         padding: 48px 32px 80px; max-width: 900px; margin: 0 auto; }
+
+  /* TYPOGRAPHY */
+  .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .2em;
+             text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  h1 { font-size: 32px; font-weight: 800; line-height: 1.1; margin-bottom: 6px;
+       background: linear-gradient(120deg,#3C2FC0,#0A8585); -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent; background-clip: text; }
+  .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 40px; line-height: 1.6; max-width: 660px; }
+
+  /* SECTION HEADINGS */
+  .section { margin-bottom: 44px; }
+  .snum { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .25em;
+          text-transform: uppercase; color: var(--muted); display: flex; align-items: center;
+          gap: 12px; margin-bottom: 11px; }
+  .snum::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  h2 { font-size: 21px; font-weight: 800; line-height: 1.25; letter-spacing: -.015em;
+       margin-bottom: 9px; max-width: 780px; }
+  h3 { font-size: 14px; font-weight: 700; line-height: 1.35; margin: 24px 0 10px;
+       display: flex; align-items: baseline; gap: 9px; }
+  h3 .hn { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 400;
+           color: var(--muted); letter-spacing: .1em; }
+  h3:first-of-type { margin-top: 4px; }
+  .snote { font-size: 12px; color: var(--muted); line-height: 1.75; margin-bottom: 16px; max-width: 720px; }
+  .snote strong { color: var(--text); }
+  .snote + .snote { margin-top: -8px; }
+
+  /* STATUS BADGE */
+  .live-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace;
+                font-size: 10px; padding: 4px 10px; border-radius: 20px; background: var(--amb-bg);
+                border: 1px solid var(--amb-bd); color: var(--amb-dk); margin-bottom: 34px; }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amb); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  /* ROADMAP FLOW */
+  .flow { display: flex; flex-direction: column; gap: 0; margin-bottom: 4px; }
+  .flow-step { display: grid; grid-template-columns: 52px 1fr; align-items: start; }
+  .flow-spine { display: flex; flex-direction: column; align-items: center; padding-top: 14px;
+                align-self: stretch; }
+  .flow-dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center;
+              justify-content: center; font-family: 'DM Mono', monospace; font-size: 10px;
+              font-weight: 500; border: 2px solid; background: var(--bg); flex-shrink: 0; z-index: 2; }
+  .flow-line { width: 2px; flex: 1; min-height: 18px; background: var(--border); }
+  .flow-body { padding: 10px 0 22px 14px; }
+  .flow-step:last-child .flow-body { padding-bottom: 4px; }
+  .flow-when { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .1em;
+               text-transform: uppercase; margin-bottom: 3px; }
+  .flow-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .flow-desc { font-size: 11px; color: var(--muted); line-height: 1.65; }
+  .flow-meta { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+  .fd-pur .flow-dot { border-color: var(--pur); color: var(--pur); }
+  .fd-pur .flow-when { color: var(--pur); }
+  .fd-tel .flow-dot { border-color: var(--tel); color: var(--tel); }
+  .fd-tel .flow-when { color: var(--tel); }
+  .fd-amb .flow-dot { border-color: var(--amb); color: var(--amb); }
+  .fd-amb .flow-when { color: var(--amb); }
+  .fd-grn .flow-dot { border-color: var(--grn); color: var(--grn); }
+  .fd-grn .flow-when { color: var(--grn); }
+
+  /* CARDS GRID */
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 8px; }
+  .cards-3 { grid-template-columns: repeat(3, 1fr); }
+  .cards-1 { grid-template-columns: 1fr; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .card-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em;
+                text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; line-height: 1.35; }
+  .card-body { font-size: 11px; color: var(--muted); line-height: 1.65; }
+  .card-body strong { color: var(--text); }
+  .card-body + .card-body { margin-top: 7px; }
+  .card-body code { font-family: 'DM Mono', monospace; font-size: 10px; background: var(--bg);
+                    border: 1px solid var(--border); padding: 1px 5px; border-radius: 3px; color: var(--pur-dk); }
+  .card.c-pur { border-color: var(--pur-bd); }
+  .card.c-pur .card-label { color: var(--pur); }
+  .card.c-tel { border-color: var(--tel-bd); }
+  .card.c-tel .card-label { color: var(--tel); }
+  .card.c-amb { border-color: var(--amb-bd); background: var(--amb-bg); }
+  .card.c-amb .card-label { color: var(--amb); }
+  .card.c-amb .card-body { color: var(--amb-dk); }
+  .card.c-grn { border-color: var(--grn-bd); background: var(--grn-bg); }
+  .card.c-grn .card-label { color: var(--grn); }
+  .card.c-grn .card-body { color: var(--grn-dk); }
+  .card.c-red { border-color: var(--red-bd); background: var(--red-bg); }
+  .card.c-red .card-label { color: var(--red); }
+  .card.c-red .card-body { color: var(--red-dk); }
+
+  /* TABLE */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 11px; margin: 0; }
+  .tbl th { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em;
+            text-transform: uppercase; color: var(--muted); padding: 8px 12px; text-align: left;
+            border-bottom: 1px solid var(--border); background: #ECEAE3; }
+  .tbl td { padding: 8px 12px; border-bottom: 1px solid rgba(180,178,169,.4);
+            vertical-align: top; line-height: 1.5; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl tr:hover td { background: rgba(83,64,224,.02); }
+  .tbl td.kw { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--pur-dk); white-space: nowrap; }
+  .tbl td.ctr { text-align: center; font-family: 'DM Mono', monospace; font-size: 12px; }
+  .tbl td.on { color: var(--grn); }
+  .tbl td.off { color: var(--bm); }
+  .tbl td.half { color: var(--amb); }
+  .tbl td.note { color: var(--muted); }
+  .tbl th.ctr { text-align: center; }
+  .tbl-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+
+  /* PILL TAGS */
+  .tag { font-family: 'DM Mono', monospace; font-size: 9px; padding: 2px 7px; border-radius: 4px;
+         border: 1px solid; display: inline-block; white-space: nowrap; }
+  .tg { background: var(--grn-bg); border-color: var(--grn-bd); color: var(--grn-dk); }
+  .ta { background: var(--amb-bg); border-color: var(--amb-bd); color: var(--amb-dk); }
+  .tp { background: var(--pur-bg); border-color: var(--pur-bd); color: var(--pur-dk); }
+  .tt { background: var(--tel-bg); border-color: var(--tel-bd); color: var(--tel-dk); }
+  .tr { background: var(--red-bg); border-color: var(--red-bd); color: var(--red-dk); }
+  .tgy { background: var(--gry-bg); border-color: var(--gry-bd); color: var(--gry); }
+
+  /* BANNER */
+  .banner { padding: 14px 18px; border-radius: 9px; border: 1px solid; margin-bottom: 8px;
+            display: flex; gap: 12px; font-size: 11px; line-height: 1.7; }
+  .banner.warn { background: var(--amb-bg); border-color: var(--amb-bd); color: var(--amb-dk); }
+  .banner.info { background: var(--pur-bg); border-color: var(--pur-bd); color: var(--pur-dk); }
+  .banner.ok { background: var(--grn-bg); border-color: var(--grn-bd); color: var(--grn-dk); }
+  .banner-icon { font-size: 14px; flex-shrink: 0; }
+  .banner strong { font-weight: 700; }
+
+  /* KEYWORD PILLS */
+  .kw-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
+  .kw-pill { font-family: 'DM Mono', monospace; font-size: 9px; padding: 3px 8px; border-radius: 4px;
+             border: 1px solid var(--border); color: var(--muted); background: var(--surface); }
+  .kw-pill.p1 { border-color: var(--pur-bd); color: var(--pur-dk); background: var(--pur-bg); }
+  .kw-pill.p2 { border-color: var(--tel-bd); color: var(--tel-dk); background: var(--tel-bg); }
+
+  /* NAME OPTIONS + TRUNCATION */
+  .nm-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); }
+  .nm-row { padding: 15px 18px; border-bottom: 1px solid var(--border); }
+  .nm-row:last-child { border-bottom: none; }
+  .nm-row.pick { background: var(--grn-bg); }
+  .nm-row.risk { background: var(--amb-bg); }
+  .nm-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .nm-id { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .14em;
+           text-transform: uppercase; color: var(--muted); }
+  .nm-cc { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); margin-left: auto; }
+  .nm { font-family: 'DM Mono', monospace; font-size: 13px; line-height: 2; padding: 8px 11px;
+        background: var(--bg); border: 1px solid var(--border); border-radius: 6px; word-break: break-word; }
+  .nm .on { color: var(--text); background: rgba(10,102,68,.11);
+            box-shadow: 0 0 0 1px var(--grn-bd); border-radius: 2px; }
+  .nm .off { color: var(--bm); }
+  .nm .cut { display: inline-block; width: 0; border-left: 2px dashed var(--amb);
+             height: 1.1em; vertical-align: -.2em; margin: 0 4px; }
+  .nm-why { font-size: 11px; color: var(--muted); line-height: 1.7; margin-top: 10px; }
+  .nm-why strong { color: var(--text); }
+  .nm-key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px;
+            font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); }
+  .nm-key i { font-style: normal; display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+
+  /* COPY BLOCKS */
+  .copyblk { font-family: 'DM Mono', monospace; font-size: 11px; line-height: 1.8;
+             background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+             padding: 11px 13px; white-space: pre-wrap; word-break: break-word; color: var(--text); }
+  .copyblk mark { background: var(--tel-bg); box-shadow: 0 0 0 1px var(--tel-bd);
+                  color: var(--tel-dk); border-radius: 2px; padding: 0 2px; }
+  .copyblk b { font-weight: 500; color: var(--pur-dk); }
+  .copyblk .fold { display: block; margin: 14px 0 12px; border-top: 1px dashed var(--amb-bd);
+                   padding-top: 7px; font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+                   color: var(--amb-dk); }
+  .copyblk .h { color: var(--muted); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+
+  .draft { display: grid; grid-template-columns: minmax(0,1.6fr) minmax(0,1fr); gap: 10px; align-items: start; }
+  .ann { display: grid; gap: 8px; }
+  .ann-i { background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+           padding: 11px 13px; border-left: 2px solid var(--tel-bd); }
+  .ann-i strong { display: block; font-size: 11.5px; font-weight: 700; margin-bottom: 4px; }
+  .ann-i p { font-size: 10.5px; color: var(--muted); line-height: 1.6; }
+
+  /* DECISIONS */
+  .next-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .next-row { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start;
+              padding: 14px 16px; border-bottom: 1px solid var(--border); background: var(--surface); }
+  .next-row:last-child { border-bottom: none; }
+  .next-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .next-desc { font-size: 11px; color: var(--muted); line-height: 1.6; }
+  .next-tags { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+
+  /* FOOTER */
+  .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .footer-left, .footer-right { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  @media (max-width: 760px) {
+    body { padding: 32px 20px 60px; }
+    .cards, .cards-3 { grid-template-columns: 1fr; }
+    .draft { grid-template-columns: 1fr; }
+    h1 { font-size: 25px; }
+    h2 { font-size: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="eyebrow">Trusterity · T-Frame</div>
+<h1>Chrome Web Store Extension SEO Promotion Plan</h1>
+<p class="subtitle">How we name the T-Frame extension and write its two descriptions so that it appears in Chrome Web Store search for the queries our users actually type. Covers the keyword list, the three text fields, and the placement rules that keep the listing inside store policy. Promotional images, reviews and external traffic are handled in separate documents.</p>
+<div class="live-badge"><div class="live-dot"></div>Draft — pending autocomplete validation</div>
+
+<!-- ROADMAP -->
+<div class="section">
+  <div class="snum">Roadmap</div>
+  <h2>Implementation in five steps, from keyword research to localized listings</h2>
+  <p class="snote">Order is forced rather than chosen: the name cannot be written before the keyword research is done, and it cannot be changed cheaply after publishing. Detail for each step is in the sections that follow.</p>
+
+  <div class="flow">
+
+    <div class="flow-step fd-pur">
+      <div class="flow-spine"><div class="flow-dot">01</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-when">Week 1 · 2–3 days</div>
+        <div class="flow-title">Validate the keyword list</div>
+        <div class="flow-desc">Run the tier-1 terms through Web Store autocomplete, cross-check Google volume, and mine competitor reviews for real user phrasing. Everything downstream depends on this output. <strong>See section 02.</strong></div>
+        <div class="flow-meta"><span class="tag tp">Blocking</span><span class="tag tgy">Marketing</span></div>
+      </div>
+    </div>
+
+    <div class="flow-step fd-amb">
+      <div class="flow-spine"><div class="flow-dot">02</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-when">Week 1 · 1 day</div>
+        <div class="flow-title">Lock the extension name</div>
+        <div class="flow-desc">Option A unless autocomplete says otherwise. Treat as near-permanent — renaming later goes back through review and resets accumulated recognition. <strong>See section 03.</strong></div>
+        <div class="flow-meta"><span class="tag ta">Sign-off needed</span></div>
+      </div>
+    </div>
+
+    <div class="flow-step fd-tel">
+      <div class="flow-spine"><div class="flow-dot">03</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-when">Week 2</div>
+        <div class="flow-title">Finalize both descriptions and clear legal</div>
+        <div class="flow-desc">Pick one short-description variant, finish the detailed description, and get legal review on the Social Links trust claim and the privacy wording — which must match the Privacy tab and the published policy exactly. <strong>See sections 04–06.</strong></div>
+        <div class="flow-meta"><span class="tag tr">Blocking</span><span class="tag tgy">Legal</span></div>
+      </div>
+    </div>
+
+    <div class="flow-step fd-grn">
+      <div class="flow-spine"><div class="flow-dot">04</div><div class="flow-line"></div></div>
+      <div class="flow-body">
+        <div class="flow-when">Weeks 3–8</div>
+        <div class="flow-title">Publish the English listing and watch which queries surface it</div>
+        <div class="flow-desc">Search our own target terms weekly and record where we appear. This is the only way to verify the field weightings this plan assumes, since Google publishes no ranking data.</div>
+        <div class="flow-meta"><span class="tag tgy">Marketing</span></div>
+      </div>
+    </div>
+
+    <div class="flow-step fd-pur">
+      <div class="flow-spine"><div class="flow-dot">05</div></div>
+      <div class="flow-body">
+        <div class="flow-when">Month 2–3</div>
+        <div class="flow-title">Localize wave 1</div>
+        <div class="flow-desc">pt-BR, es, id and hi — each with its own autocomplete pass, not a translation of the English copy. Worth doing once the English listing has shown which terms actually pull traffic. <strong>See section 08.</strong></div>
+        <div class="flow-meta"><span class="tag tgy">Marketing</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="banner warn">
+    <span class="banner-icon">▲</span>
+    <span><strong>What this roadmap does not cover.</strong> Copy determines which queries we are eligible for, but ranking among eligible extensions is largely settled by install base. The first few thousand installs have to come from outside the store, and that work sits in a separate plan. See section 09.</span>
+  </div>
+</div>
+
+<!-- 01 -->
+<div class="section">
+  <div class="snum">Section 01</div>
+  <h2>The three text fields that Chrome Web Store search reads</h2>
+  <p class="snote">Everything the store's search algorithm knows about us comes from three inputs. They are not weighted equally, and <strong>the shortest field carries the most weight</strong> — which is the opposite of how effort usually gets spent on a store listing.</p>
+  <div class="cards cards-3">
+    <div class="card c-pur">
+      <div class="card-label">Field 1 · heaviest weight</div>
+      <div class="card-title">Extension name</div>
+      <div class="card-body"><code>max 75</code> characters, but only about 35 survive truncation in search results. Keyword-in-name outranks keyword-in-description consistently.</div>
+    </div>
+    <div class="card c-tel">
+      <div class="card-label">Field 2 · high weight</div>
+      <div class="card-title">Short description</div>
+      <div class="card-body"><code>max 132</code> characters. Appears under our name in store search results, and doubles as the meta snippet when the listing surfaces in Google.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Field 3 · moderate weight</div>
+      <div class="card-title">Detailed description</div>
+      <div class="card-body">Long form, folds after two or three lines. Those visible lines do the converting; everything below the fold is keyword surface.</div>
+    </div>
+  </div>
+  <div class="banner info">
+    <span class="banner-icon">◈</span>
+    <span><strong>How confident are these weightings?</strong> Google publishes no ranking guide. The only documented position is that results are ranked on a number of criteria including listing metadata. The field weightings above and the ~35-character truncation point are practitioner consensus, so treat them as directional and verify against live search results before sign-off.</span>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="section">
+  <div class="snum">Section 02</div>
+  <h2>Target keyword list, grouped by competition and by which field it belongs in</h2>
+  <p class="snote">No tool reports in-store search volume, so the tiering below comes from triangulating three sources: <strong>Web Store autocomplete</strong> for what people actually type, <strong>Google search volume on "[keyword] chrome extension"</strong> as a proxy, and <strong>competitor review threads</strong> for the words users reach for unprompted.</p>
+  <div class="cards cards-3">
+    <div class="card c-pur">
+      <div class="card-label">Tier 1</div>
+      <div class="card-title">Head terms — must appear in the name or the short description</div>
+      <div class="card-body">High intent, high competition. If a term isn't in one of the top two fields, we don't compete for it at all.</div>
+      <div class="kw-wrap">
+        <span class="kw-pill p1">scam checker</span>
+        <span class="kw-pill p1">phishing</span>
+        <span class="kw-pill p1">link checker</span>
+        <span class="kw-pill p1">scam detector</span>
+        <span class="kw-pill p1">fraud detection</span>
+      </div>
+    </div>
+    <div class="card c-tel">
+      <div class="card-label">Tier 2</div>
+      <div class="card-title">Modifiers — short and detailed description</div>
+      <div class="card-body">Lower volume individually, but collectively they define what we actually check.</div>
+      <div class="kw-wrap">
+        <span class="kw-pill p2">safe link</span>
+        <span class="kw-pill p2">fake website</span>
+        <span class="kw-pill p2">url checker</span>
+        <span class="kw-pill p2">verify link</span>
+        <span class="kw-pill p2">phishing protection</span>
+        <span class="kw-pill p2">anti-scam</span>
+        <span class="kw-pill p2">message checker</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Tier 3</div>
+      <div class="card-title">Natural language — detailed description only</div>
+      <div class="card-body">How non-technical users phrase it. Almost no competitor writes this way, which is exactly why it's available to us.</div>
+      <div class="kw-wrap">
+        <span class="kw-pill">is this link safe</span>
+        <span class="kw-pill">check suspicious message</span>
+        <span class="kw-pill">fake invoice</span>
+        <span class="kw-pill">QR code scam</span>
+        <span class="kw-pill">crypto scam check</span>
+        <span class="kw-pill">delivery text scam</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="section">
+  <div class="snum">Section 03 · Field 1</div>
+  <h2>Naming the extension: five options, compared by what survives truncation</h2>
+  <p class="snote">The real constraint is not the 75-character limit, it is what still reads after the cut in search results. In the options below, <strong>green is what a user sees and grey is indexed but never displayed.</strong></p>
+
+  <div class="nm-wrap">
+
+    <div class="nm-row pick">
+      <div class="nm-head">
+        <span class="nm-id">Option A</span>
+        <span class="tag tg">Recommended</span>
+        <span class="nm-cc">33 chars · nothing truncated</span>
+      </div>
+      <div class="nm"><span class="on">T-Frame — Scam &amp; Phishing Checker</span><span class="cut"></span></div>
+      <p class="nm-why">Fits entirely inside the visible window, so the brand and both head terms survive. <strong>Balanced pick:</strong> the brand builds recognition for later while "scam" and "phishing" do the search work now. No wasted characters.</p>
+    </div>
+
+    <div class="nm-row">
+      <div class="nm-head">
+        <span class="nm-id">Option B</span>
+        <span class="tag tt">Broader reach</span>
+        <span class="nm-cc">35 chars · at the line</span>
+      </div>
+      <div class="nm"><span class="on">T-Frame: Scam Checker &amp; Link Safety</span><span class="cut"></span></div>
+      <p class="nm-why">Swaps "phishing" for "link safety", which reaches people who don't know the word phishing — a real share of our audience. Trades a tier-1 term for a tier-2 one. <strong>Take this only if autocomplete shows "phishing" underperforms with consumers.</strong></p>
+    </div>
+
+    <div class="nm-row risk">
+      <div class="nm-head">
+        <span class="nm-id">Option C</span>
+        <span class="tag ta">Search-max, brand cut off</span>
+        <span class="nm-cc">42 chars · brand truncated</span>
+      </div>
+      <div class="nm"><span class="on">Scam Checker &amp; Phishing Detector</span><span class="cut"></span><span class="off"> — T-Frame</span></div>
+      <p class="nm-why">Strongest for pure search: both head terms lead, plus "detector" as a variant. But the brand falls past the cut, so nobody browsing ever sees who made it. <strong>Wrong trade for us</strong> — a security product that hides its publisher is fighting its own trust problem.</p>
+    </div>
+
+    <div class="nm-row risk">
+      <div class="nm-head">
+        <span class="nm-id">Option D</span>
+        <span class="tag ta">Query-match, distinctive</span>
+        <span class="nm-cc">41 chars · tail truncated</span>
+      </div>
+      <div class="nm"><span class="on">T-Frame — Is This Link Safe?</span><span class="cut"></span><span class="off"> Scam Checker</span></div>
+      <p class="nm-why">Matches how people actually phrase the question, and stands out sharply among noun-phrase competitors. Risk: "scam checker" sits past the cut, and a question mark in a store name reads as gimmicky to some reviewers. <strong>Test as a variant later, not at launch.</strong></p>
+    </div>
+
+    <div class="nm-row">
+      <div class="nm-head">
+        <span class="nm-id">Option E</span>
+        <span class="tag tgy">Scope-signalling</span>
+        <span class="nm-cc">42 chars · tail truncated</span>
+      </div>
+      <div class="nm"><span class="on">T-Frame Scam Checker: Links,</span><span class="cut"></span><span class="off"> Texts &amp; Sites</span></div>
+      <p class="nm-why">Communicates breadth — we check more than links. But the useful part is exactly what gets cut, leaving a trailing comma on display. <strong>Move this content to the short description</strong>, where there is room for it.</p>
+    </div>
+
+  </div>
+
+  <div class="nm-key">
+    <i><span class="sw" style="background:rgba(10,102,68,.3)"></span> Visible in search results</i>
+    <i><span class="sw" style="background:var(--amb)"></span> ~35-character truncation point</i>
+    <i><span class="sw" style="background:var(--bm)"></span> Indexed but never seen</i>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="section">
+  <div class="snum">Section 04 · Field 2</div>
+  <h2>Short description: three drafts within the 132-character limit</h2>
+  <p class="snote">This field does double duty — the line under our name in store search, and the snippet in Google — so it has to carry keywords and still read like a sentence a human wrote. <strong>Highlighted terms are the ones being targeted.</strong></p>
+
+  <div class="cards cards-1">
+    <div class="card c-tel">
+      <div class="card-label">Variant 1 · benefit-led &nbsp;·&nbsp; 117 / 132</div>
+      <div class="copyblk">Check if a <mark>link</mark>, <mark>message</mark> or <mark>website</mark> is a <mark>scam</mark> before you click. Instant <mark>phishing</mark> and <mark>fraud detection</mark> in your browser.</div>
+      <div class="card-body" style="margin-top:9px"><strong>Leads with the action</strong>, names all three input types, closes on the two head terms. Safest choice — reads naturally, nothing feels bolted on.</div>
+    </div>
+
+    <div class="card c-tel">
+      <div class="card-label">Variant 2 · coverage-max &nbsp;·&nbsp; 117 / 132</div>
+      <div class="copyblk">Free <mark>scam checker</mark> for <mark>links</mark>, texts, emails and <mark>websites</mark>. Spot <mark>phishing</mark> and <mark>fraud</mark> in seconds, before you click or pay.</div>
+      <div class="card-body" style="margin-top:9px"><strong>Opens on the exact head term</strong> and adds "free", which lifts click-through on a security product where users assume a paywall. Denser, slightly more list-like.</div>
+    </div>
+
+    <div class="card c-tel">
+      <div class="card-label">Variant 3 · query-match &nbsp;·&nbsp; 114 / 132</div>
+      <div class="copyblk"><mark>Is this link safe?</mark> Paste any <mark>message</mark>, link or <mark>invoice</mark> and get an instant <mark>scam</mark> and <mark>phishing</mark> verdict. Free to check.</div>
+      <div class="card-body" style="margin-top:9px"><strong>Mirrors the phrase people type</strong>, which matters more for the Google snippet than for in-store search. Pair with name Option A so the question doesn't appear in both fields.</div>
+    </div>
+  </div>
+
+  <div class="banner warn">
+    <span class="banner-icon">▲</span>
+    <span><strong>Pick one variant, do not blend them.</strong> All three are within budget, so the temptation is to merge the best clauses from each. That is how you end up with 131 characters of keyword list. If a version needs a comma splice to fit another term, the term belongs in the detailed description instead.</span>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="section">
+  <div class="snum">Section 05 · Field 3</div>
+  <h2>Detailed description: full draft, annotated section by section</h2>
+  <p class="snote">Google's own listing guidance asks for an overview paragraph followed by a short feature list. Only the first two or three lines display before the fold, so those lines do the conversion work while everything below the fold does the keyword work.</p>
+
+  <div class="draft">
+    <div class="copyblk">Paste a suspicious <mark>message</mark>, <mark>link</mark>, invoice or <mark>QR code</mark> and T-Frame tells you whether it's <mark>safe</mark> — in seconds, before you click, pay or reply.
+
+Built by the team behind Social Links, whose tools are used by investigators worldwide.<span class="fold">— fold · below is keyword surface —</span><span class="h">WHAT T-FRAME CHECKS</span>
+• <mark>Links and URLs</mark> — spot a <mark>fake website</mark> or <mark>phishing</mark> page before you open it
+• <mark>Messages</mark> — paste a text, DM or email and get a <mark>scam</mark> verdict
+• Invoices and payment details — catch a <mark>fake invoice</mark> or swapped bank account
+• <mark>QR codes</mark> — check where a code actually leads
+• Profiles and identities — see whether the person contacting you is real
+
+<span class="h">HOW IT WORKS</span>
+1. Paste or right-click whatever looks off
+2. T-Frame checks it against live <mark>fraud</mark> and <mark>phishing</mark> signals
+3. You get a plain-language verdict: safe, suspicious, or dangerous
+
+<span class="h">WHO IT'S FOR</span>
+Anyone who has ever stared at a message and thought "<mark>is this real?</mark>" — a <mark>delivery text</mark> that wants a small fee, a job offer that seems too good, an invoice with new bank details, a <mark>crypto</mark> opportunity from a stranger, a dating match who moves fast.
+
+<span class="h">PRIVACY</span>
+We don't keep what you paste. Your message is checked and discarded — only an anonymised result is retained. <b>[CONFIRM WORDING WITH LEGAL]</b>
+
+<span class="h">FREE TO USE</span>
+Check as much as you like. No account needed to get a verdict.</div>
+
+    <div class="ann">
+      <div class="ann-i">
+        <strong>Lines 1–2 are conversion, not SEO</strong>
+        <p>They open on the user's moment of doubt rather than on the product. Everything a browsing user reads is decided here.</p>
+      </div>
+      <div class="ann-i">
+        <strong>Trust anchor comes next</strong>
+        <p>Social Links answers "who are you" before the user has to ask. Verify the exact claim wording with legal.</p>
+      </div>
+      <div class="ann-i">
+        <strong>Feature list carries tier-2 terms</strong>
+        <p>Each bullet names a check type in the words users would search, not in internal product language.</p>
+      </div>
+      <div class="ann-i">
+        <strong>"Who it's for" carries tier-3 terms</strong>
+        <p>Natural-language phrasings fit here without stuffing, because describing scenarios is a legitimate reason to name them.</p>
+      </div>
+      <div class="ann-i">
+        <strong>The privacy section is not optional</strong>
+        <p>Users installing a scam checker will wonder where their pasted message goes. Answering it in copy removes the objection, and the wording must match the Privacy tab and the policy exactly.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="section">
+  <div class="snum">Section 06</div>
+  <h2>Which keyword goes in which field, and why each one is assigned there</h2>
+  <p class="snote">Every target term is assigned to a specific field rather than repeated across all three. <strong>Repeating a term across fields does not compound its effect — it just reads as stuffing</strong>, which is the behaviour the store's spam policy is written to catch.</p>
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <thead>
+        <tr><th>Term</th><th class="ctr">Name</th><th class="ctr">Short</th><th class="ctr">Detailed</th><th>Why it sits there</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="kw">scam / scam checker</td>
+          <td class="ctr on">●</td><td class="ctr on">●</td><td class="ctr on">●</td>
+          <td class="note">The one term that earns a place in all three. Our primary head term, and unavoidable in natural copy.</td>
+        </tr>
+        <tr>
+          <td class="kw">phishing</td>
+          <td class="ctr on">●</td><td class="ctr on">●</td><td class="ctr on">●</td>
+          <td class="note">Second head term. High store volume, but lower recognition among non-technical users.</td>
+        </tr>
+        <tr>
+          <td class="kw">link checker / safe link</td>
+          <td class="ctr off">—</td><td class="ctr on">●</td><td class="ctr on">●</td>
+          <td class="note">Kept out of the name to protect the truncation window. Fully covered in the other two fields.</td>
+        </tr>
+        <tr>
+          <td class="kw">fraud detection</td>
+          <td class="ctr off">—</td><td class="ctr on">●</td><td class="ctr on">●</td>
+          <td class="note">Broad and slightly corporate. Works as a closing phrase, too vague to lead with.</td>
+        </tr>
+        <tr>
+          <td class="kw">fake website / fake invoice</td>
+          <td class="ctr off">—</td><td class="ctr off">—</td><td class="ctr on">●</td>
+          <td class="note">Tier-2 specifics. The feature list is the natural home — one bullet each, no repetition.</td>
+        </tr>
+        <tr>
+          <td class="kw">QR code / crypto / delivery text</td>
+          <td class="ctr off">—</td><td class="ctr off">—</td><td class="ctr on">●</td>
+          <td class="note">Scenario terms. Only defensible inside a "who it's for" section, where naming situations is the point.</td>
+        </tr>
+        <tr>
+          <td class="kw">is this link safe / is this real</td>
+          <td class="ctr off">—</td><td class="ctr half">◐</td><td class="ctr on">●</td>
+          <td class="note">Natural-language match. In the short description only if we run Variant 3 — otherwise detailed only.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="section">
+  <div class="snum">Section 07</div>
+  <h2>Copy rules: practices to follow, and practices that get the listing removed</h2>
+  <p class="snote">Store enforcement on listing text is blunter than Google Search enforcement. Tactics that would earn a ranking penalty on a website earn a <strong>removal</strong> here, so the second group below is not a matter of taste.</p>
+
+  <h3><span class="hn">7.1</span> Practices to follow</h3>
+  <div class="cards">
+    <div class="card c-grn">
+      <div class="card-label">Do</div>
+      <div class="card-title">Write in the user's words, not ours</div>
+      <div class="card-body">Mine competitor review threads for unprompted phrasing. Someone writes "I got a weird text saying my package was held" — not "I encountered a smishing attempt". The first version is what they will search.</div>
+    </div>
+    <div class="card c-grn">
+      <div class="card-label">Do</div>
+      <div class="card-title">Front-load every field</div>
+      <div class="card-body">The name truncates near 35 characters, the short description clips in some surfaces, and the detailed description folds after two or three lines. Load-bearing words go first, in all three.</div>
+    </div>
+    <div class="card c-grn">
+      <div class="card-label">Do</div>
+      <div class="card-title">Keep to one idea per line</div>
+      <div class="card-body">Google asks for an overview paragraph then a short feature list. That structure is also the most scannable, so there is no tension to resolve between policy and readability.</div>
+    </div>
+    <div class="card c-grn">
+      <div class="card-label">Do</div>
+      <div class="card-title">Treat the name as near-permanent</div>
+      <div class="card-body">Renaming after launch goes back through review and resets accumulated recognition. The descriptions can be iterated freely, so spend the deliberation budget on the name.</div>
+    </div>
+  </div>
+
+  <h3><span class="hn">7.2</span> Practices that risk removal</h3>
+  <div class="cards">
+    <div class="card c-red">
+      <div class="card-label">Don't</div>
+      <div class="card-title">Append a keyword list to the description</div>
+      <div class="card-body">No <code>Tags: scam, phishing, fraud…</code> block at the end. This is the most common spam-policy trigger in listing text, and enforcement is removal rather than demotion.</div>
+    </div>
+    <div class="card c-red">
+      <div class="card-label">Don't</div>
+      <div class="card-title">Repeat a term to raise density</div>
+      <div class="card-body">Repetition across fields does not compound. Use the placement table in section 06: one term, one home, one or two natural mentions.</div>
+    </div>
+    <div class="card c-red">
+      <div class="card-label">Don't</div>
+      <div class="card-title">Name competitors in our copy</div>
+      <div class="card-body">No "alternative to [X]" and no competitor brand names to catch their branded searches. Trademark exposure plus a policy violation, for traffic that would not convert anyway.</div>
+    </div>
+    <div class="card c-red">
+      <div class="card-label">Don't</div>
+      <div class="card-title">Promise to catch every scam</div>
+      <div class="card-body">Specific to us: "blocks all scams" is both a policy exposure and a one-star magnet the first time we miss one. Keep the copy on speed and second opinions, not guarantees.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="section">
+  <div class="snum">Section 08</div>
+  <h2>Localized descriptions: priority locales and the local terms people actually search</h2>
+  <p class="snote">The detailed description is localizable per locale, and each locale is effectively its own search index with a fraction of the competition. Critically, this is <strong>keyword research repeated per language, not translation</strong> — "phishing" travels between languages, local scam vocabulary does not.</p>
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <thead>
+        <tr><th>Locale</th><th>Priority</th><th>Local head terms</th><th>Why this locale</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="kw">pt-BR</td><td><span class="tag tp">Wave 1</span></td>
+          <td class="kw">golpe · phishing · site falso</td>
+          <td class="note">"Golpe" is the everyday word and has no direct English equivalent in register. Huge Chrome base, heavy scam prevalence, thin local competition.</td>
+        </tr>
+        <tr>
+          <td class="kw">es</td><td><span class="tag tp">Wave 1</span></td>
+          <td class="kw">estafa · fraude · enlace seguro</td>
+          <td class="note">"Estafa" beats "fraude" for consumer search intent. Broad reach across two continents.</td>
+        </tr>
+        <tr>
+          <td class="kw">id</td><td><span class="tag tp">Wave 1</span></td>
+          <td class="kw">penipuan · link palsu</td>
+          <td class="note">Very high scam prevalence and very thin local competition. Same profile as Brazil.</td>
+        </tr>
+        <tr>
+          <td class="kw">hi</td><td><span class="tag tp">Wave 1</span></td>
+          <td class="kw">धोखाधड़ी · scam · fake link</td>
+          <td class="note">Mixed-script search behaviour is normal here — English terms often outperform transliteration.</td>
+        </tr>
+        <tr>
+          <td class="kw">de</td><td><span class="tag tgy">Wave 2</span></td>
+          <td class="kw">Betrug · Phishing · Fake-Shop</td>
+          <td class="note">"Fake-Shop" is an established German search term with no English parallel. Higher willingness to pay.</td>
+        </tr>
+        <tr>
+          <td class="kw">pl</td><td><span class="tag tgy">Wave 2</span></td>
+          <td class="kw">oszustwo · phishing</td>
+          <td class="note">Second wave.</td>
+        </tr>
+        <tr>
+          <td class="kw">tr</td><td><span class="tag tgy">Wave 2</span></td>
+          <td class="kw">dolandırıcılık · sahte site</td>
+          <td class="note">Second wave.</td>
+        </tr>
+        <tr>
+          <td class="kw">ru</td><td><span class="tag tgy">Wave 2</span></td>
+          <td class="kw">мошенничество · фишинг</td>
+          <td class="note">Second wave.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="banner warn">
+    <span class="banner-icon">▲</span>
+    <span><strong>Two constraints on localized copy.</strong> Localized metadata must not significantly change the described feature set, and the dashboard analyzes submissions automatically — so adapt vocabulary, not the product story. And run autocomplete research inside each locale before writing: a translator gives correct language, but only autocomplete tells you which of two correct words people actually type.</span>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="section">
+  <div class="snum">Section 09</div>
+  <h2>What listing copy can influence, and what it cannot</h2>
+  <p class="snote">Worth stating plainly, because this document is copy-only by design and it would be easy to read it as a complete growth plan.</p>
+  <div class="cards">
+    <div class="card c-grn">
+      <div class="card-label">Copy decides this</div>
+      <div class="card-title">Which queries we are eligible to appear for</div>
+      <div class="card-body">If a term is not in our text, we do not appear for it at any user count. Copy sets the entire addressable surface, and it is the cheapest lever in this document to change.</div>
+      <div class="card-body">It also drives click-through from search results and install rate from the listing page — both of which feed back into ranking.</div>
+    </div>
+    <div class="card c-amb">
+      <div class="card-label">Copy cannot decide this</div>
+      <div class="card-title">Where we rank among everyone else who is eligible</div>
+      <div class="card-body">Active users and rating are ranking inputs, so among extensions all targeting "scam checker", position is largely settled by install base. Perfect copy on a listing with 40 users does not outrank mediocre copy on one with 400,000.</div>
+      <div class="card-body"><strong>Practical reading:</strong> copy is necessary, cheap, and raises the ceiling — but the first few thousand installs still have to come from outside the store.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section">
+  <div class="snum">Section 10</div>
+  <h2>Decisions needed before the copy can be locked</h2>
+  <div class="next-wrap">
+    <div class="next-row">
+      <div>
+        <div class="next-title">Run the autocomplete validation pass</div>
+        <div class="next-desc">Check the tier-1 list against Web Store autocomplete before any copy is locked. Every other decision below depends on the result.</div>
+      </div>
+      <div class="next-tags"><span class="tag tp">Blocking</span><span class="tag tgy">Marketing</span></div>
+    </div>
+    <div class="next-row">
+      <div>
+        <div class="next-title">Approve the name — Option A</div>
+        <div class="next-desc">Unless autocomplete shows "phishing" underperforms with consumers, in which case Option B. Near-permanent once published.</div>
+      </div>
+      <div class="next-tags"><span class="tag ta">Sign-off</span></div>
+    </div>
+    <div class="next-row">
+      <div>
+        <div class="next-title">Choose one short-description variant</div>
+        <div class="next-desc">Variant 1 is the safe default. Variant 2 if we want "free" in the snippet. Variant 3 if the Google snippet matters more than in-store search.</div>
+      </div>
+      <div class="next-tags"><span class="tag ta">Sign-off</span></div>
+    </div>
+    <div class="next-row">
+      <div>
+        <div class="next-title">Legal review on two claims</div>
+        <div class="next-desc">The Social Links trust anchor wording, and the privacy line — which must match the Privacy tab, the limited-use certification and the published policy exactly.</div>
+      </div>
+      <div class="next-tags"><span class="tag tr">Blocking</span><span class="tag tgy">Legal</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-left">Sources: Chrome for Developers docs · practitioner consensus (directional)</div>
+  <div class="footer-right">T-Frame · SEO promotion plan v0.2</div>
+</div>
+
+</body>
+</html>
