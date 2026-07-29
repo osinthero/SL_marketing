@@ -112,6 +112,14 @@
   .kwrow.t2 .kwrow-h { color:var(--tel); }
   .kwrow.t3 .kwrow-h { color:var(--muted); }
   .kwrow.t4 .kwrow-h { color:var(--amb); }
+  .kwrow.tx { background:var(--red-bg); }
+  .kwrow.tx .kwrow-h { color:var(--red-dk); }
+  .kwrow.tx .kw-pill { border-color:var(--red-bd); color:var(--red-dk); background:var(--surface);
+                       text-decoration:line-through; }
+  .kwnote { font-size:11.5px; color:var(--muted); line-height:1.7; margin-top:8px; }
+  .kwnote strong { color:var(--text); }
+  .kwlead { font-size:12px; color:var(--muted); line-height:1.7; margin-bottom:12px; max-width:640px; }
+  .kwlead strong { color:var(--text); }
   .kw-wrap { display:flex; flex-wrap:wrap; gap:5px; }
   .kw-pill { font-family:'DM Mono',monospace; font-size:10px; padding:3px 8px; border-radius:4px;
              border:1px solid var(--border); color:var(--muted); background:var(--bg); }
@@ -158,29 +166,32 @@
 
 <!-- KEYWORDS -->
 <div class="divider">Keywords we target</div>
+<p class="kwlead">Estimated three ways: Chrome Web Store autocomplete, Google volume for "[keyword] chrome extension", and the words people use in competitor reviews. <strong>All of it needs confirming with autocomplete in step 1 before we lock the name.</strong></p>
 <div class="kwbox">
   <div class="kwrow t1">
-    <div class="kwrow-h">Tier 1 — main terms · go in the name or short description</div>
+    <div class="kwrow-h">Tier 1 — main terms · must be in the name or short description</div>
     <div class="kw-wrap">
       <span class="kw-pill">scam checker</span>
-      <span class="kw-pill">impersonation</span>
-      <span class="kw-pill">fake sender</span>
-      <span class="kw-pill">verify message</span>
+      <span class="kw-pill">scam detector</span>
       <span class="kw-pill">link checker</span>
+      <span class="kw-pill">fake sender</span>
+      <span class="kw-pill">fake email</span>
     </div>
+    <p class="kwnote">Highest volume terms we can honestly claim. If a word is not in one of those two fields, we do not compete for it at all.</p>
   </div>
   <div class="kwrow t2">
     <div class="kwrow-h">Tier 2 — work fraud · short + detailed description</div>
     <div class="kw-wrap">
       <span class="kw-pill">fake invoice</span>
+      <span class="kw-pill">invoice fraud</span>
       <span class="kw-pill">payment fraud</span>
+      <span class="kw-pill">impersonation</span>
       <span class="kw-pill">sender verification</span>
       <span class="kw-pill">IBAN check</span>
       <span class="kw-pill">vendor check</span>
       <span class="kw-pill">phishing</span>
-      <span class="kw-pill">phone number check</span>
-      <span class="kw-pill">email verification</span>
     </div>
+    <p class="kwnote">Less searched, far less competition, and closest to who actually buys us. <strong>"Phishing" lives here, not in tier 1</strong> — it is one of six checks, and Chrome already warns about it for free.</p>
   </div>
   <div class="kwrow t3">
     <div class="kwrow-h">Tier 3 — plain language · detailed description only</div>
@@ -188,19 +199,32 @@
       <span class="kw-pill">is this email real</span>
       <span class="kw-pill">is this link safe</span>
       <span class="kw-pill">is this invoice legit</span>
+      <span class="kw-pill">is this person real</span>
       <span class="kw-pill">fake support agent</span>
       <span class="kw-pill">bank security alert</span>
       <span class="kw-pill">parcel delivery fee</span>
     </div>
+    <p class="kwnote">How people type when they are worried rather than shopping. Almost no competitor writes this way, so these are free to take.</p>
   </div>
   <div class="kwrow t4">
-    <div class="kwrow-h">Tier 4 — our own words · detailed description</div>
+    <div class="kwrow-h">Tier 4 — our own words · detailed description only</div>
     <div class="kw-wrap">
       <span class="kw-pill">Trust Score</span>
-      <span class="kw-pill">deepfake detection</span>
-      <span class="kw-pill">AI impersonation</span>
       <span class="kw-pill">business email compromise</span>
+      <span class="kw-pill">CEO fraud</span>
     </div>
+    <p class="kwnote">Few searches today, cheap to hold. <strong>Trust Score is a product name — always capitalise it.</strong> Write BEC and CEO fraud as plain language in the copy ("someone claiming to be your CEO"), because nobody types the jargon.</p>
+  </div>
+  <div class="kwrow tx">
+    <div class="kwrow-h">Do not target</div>
+    <div class="kw-wrap">
+      <span class="kw-pill">deepfake detection</span>
+      <span class="kw-pill">AI content detection</span>
+      <span class="kw-pill">email verification</span>
+      <span class="kw-pill">antivirus</span>
+      <span class="kw-pill">VPN</span>
+    </div>
+    <p class="kwnote"><strong>Deepfake and AI content detection belong to TrustMonitor, not T-Frame</strong> — claiming them is a false claim. <strong>"Email verification" has the wrong intent</strong> — in the store it mostly means bulk list validation for marketers, so it brings traffic that will not install. Antivirus and VPN are not what we do and would attract one-star reviews.</p>
   </div>
 </div>
 
@@ -215,22 +239,6 @@
     <span class="step-t">Choose the name</span>
   </div>
   <p class="step-lead">Only ~35 characters show in search results. A keyword here counts more than the same keyword anywhere else. Renaming after launch means another review and loses recognition, so decide now.</p>
-
-  <div class="banner stop">
-    <span class="banner-icon">◆</span>
-    <span><strong>Rule: never end on a bare noun pair.</strong> "Scam &amp; Impersonation" reads like we built a tool <em>for</em> scamming and impersonating — the same way "Photo &amp; Video Editor" means it edits them. Every name needs a verb (Spot, Check) or an agent noun (Checker, Detector) to make the direction clear.</span>
-  </div>
-
-  <div class="banner info">
-    <span class="banner-icon">◈</span>
-    <span><strong>You can fit two of three things in 35 characters.</strong> The brand (Trusterity), the volume word (scam), and the thing that makes us different (fake senders / impersonation). Pick which two matter more. <strong>"Phishing" is deliberately in none of them</strong> — it is one of six checks, Chrome already warns about it for free, and it is the most crowded word in the category.</span>
-  </div>
-
-  <ul class="acts">
-    <li>Type our tier-1 keywords into Chrome Web Store search and note what it suggests. <span class="sub">Also try "scam a", "scam b", "scam c" — each letter gives different suggestions. Use a clean browser profile.</span></li>
-    <li>Check which gets more suggestions: "scam checker" or "scam detector". That decides between A and B.</li>
-    <li>Pick one option. Get brand sign-off.</li>
-  </ul>
 
   <div class="opt pick">
     <div class="opt-h"><span class="opt-id">Option A</span><span class="tag tg">Recommended</span><span class="opt-cc">34 chars · nothing cut</span></div>
