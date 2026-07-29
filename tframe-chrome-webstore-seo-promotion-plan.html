@@ -50,6 +50,7 @@
   .step-when { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted); margin-left:auto; }
   .step-t { font-size:18px; font-weight:800; line-height:1.25; letter-spacing:-.01em; width:100%; }
   .step-lead { font-size:12px; color:var(--muted); line-height:1.7; }
+  .step-lead strong { color:var(--text); }
 
   .acts { list-style:none; margin-top:12px; display:grid; gap:7px; }
   .acts li { font-size:12.5px; line-height:1.65; padding-left:19px; position:relative; }
@@ -76,7 +77,7 @@
   .copyblk mark { background:var(--tel-bg); box-shadow:0 0 0 1px var(--tel-bd);
                   color:var(--tel-dk); border-radius:2px; padding:0 2px; }
   .copyblk b { font-weight:500; color:var(--pur-dk); }
-  .copyblk .h { color:var(--muted); font-size:9px; letterered-spacing:.14em; letter-spacing:.14em;
+  .copyblk .h { color:var(--muted); font-size:9px; letter-spacing:.14em;
                 text-transform:uppercase; }
   .copyblk .fold { display:block; margin:13px 0 11px; border-top:1px dashed var(--amb-bd);
                    padding-top:7px; font-size:9px; letter-spacing:.14em; text-transform:uppercase;
@@ -103,6 +104,8 @@
   .opt-why strong { color:var(--text); }
 
   /* KEYWORDS */
+  .kwlead { font-size:12px; color:var(--muted); line-height:1.7; margin-bottom:12px; max-width:660px; }
+  .kwlead strong { color:var(--text); }
   .kwbox { border:1px solid var(--border); border-radius:10px; overflow:hidden; background:var(--surface); }
   .kwrow { padding:14px 18px; border-bottom:1px solid var(--border); }
   .kwrow:last-child { border-bottom:none; }
@@ -116,16 +119,14 @@
   .kwrow.tx .kwrow-h { color:var(--red-dk); }
   .kwrow.tx .kw-pill { border-color:var(--red-bd); color:var(--red-dk); background:var(--surface);
                        text-decoration:line-through; }
-  .kwnote { font-size:11.5px; color:var(--muted); line-height:1.7; margin-top:8px; }
-  .kwnote strong { color:var(--text); }
-  .kwlead { font-size:12px; color:var(--muted); line-height:1.7; margin-bottom:12px; max-width:640px; }
-  .kwlead strong { color:var(--text); }
   .kw-wrap { display:flex; flex-wrap:wrap; gap:5px; }
   .kw-pill { font-family:'DM Mono',monospace; font-size:10px; padding:3px 8px; border-radius:4px;
              border:1px solid var(--border); color:var(--muted); background:var(--bg); }
   .kwrow.t1 .kw-pill { border-color:var(--pur-bd); color:var(--pur-dk); background:var(--pur-bg); }
   .kwrow.t2 .kw-pill { border-color:var(--tel-bd); color:var(--tel-dk); background:var(--tel-bg); }
   .kwrow.t4 .kw-pill { border-color:var(--amb-bd); color:var(--amb-dk); background:var(--amb-bg); }
+  .kwnote { font-size:11.5px; color:var(--muted); line-height:1.7; margin-top:8px; }
+  .kwnote strong { color:var(--text); }
 
   /* BANNER */
   .banner { padding:13px 17px; border-radius:9px; border:1px solid; margin-top:11px;
@@ -162,26 +163,27 @@
 <div class="eyebrow">Trusterity · T-Frame</div>
 <h1>How to Publish &amp; Promote T-Frame in the Chrome Web Store</h1>
 <p class="subtitle">Step-by-step. Every step has actions you can execute. Ready-to-paste text is included where it exists. SEO only — no paid ads, no images brief.</p>
-<div class="live-badge"><div class="live-dot"></div>v1.0 · ready to execute</div>
+<div class="live-badge"><div class="live-dot"></div>v1.1 · name selected</div>
 
 <!-- KEYWORDS -->
 <div class="divider">Keywords we target</div>
-<p class="kwlead">Estimated three ways: Chrome Web Store autocomplete, Google volume for "[keyword] chrome extension", and the words people use in competitor reviews. <strong>All of it needs confirming with autocomplete in step 1 before we lock the name.</strong></p>
+<p class="kwlead"><strong>No tool shows Chrome Web Store search volume</strong> — Google does not publish it, and no third party has it. We estimate three ways: store autocomplete (gives ordering, not numbers), Google volume for "[keyword] chrome extension", and install counts of competitors using the term (chrome-stats.com).</p>
 <div class="kwbox">
   <div class="kwrow t1">
-    <div class="kwrow-h">Tier 1 — main terms · must be in the name or short description</div>
+    <div class="kwrow-h">Tier 1 — main terms · covered by the name and short description</div>
     <div class="kw-wrap">
-      <span class="kw-pill">scam checker</span>
       <span class="kw-pill">scam detector</span>
+      <span class="kw-pill">fraud detector</span>
+      <span class="kw-pill">scam checker</span>
       <span class="kw-pill">link checker</span>
-      <span class="kw-pill">fake sender</span>
-      <span class="kw-pill">fake email</span>
     </div>
-    <p class="kwnote">Highest volume terms we can honestly claim. If a word is not in one of those two fields, we do not compete for it at all.</p>
+    <p class="kwnote">Highest-volume terms we can honestly claim. The chosen name carries <strong>scam detector</strong> and <strong>fraud detector</strong> exactly. "Scam" + "check" + "link" appear in the short description, which covers the checker searches too.</p>
   </div>
   <div class="kwrow t2">
     <div class="kwrow-h">Tier 2 — work fraud · short + detailed description</div>
     <div class="kw-wrap">
+      <span class="kw-pill">fake sender</span>
+      <span class="kw-pill">fake email</span>
       <span class="kw-pill">fake invoice</span>
       <span class="kw-pill">invoice fraud</span>
       <span class="kw-pill">payment fraud</span>
@@ -191,7 +193,7 @@
       <span class="kw-pill">vendor check</span>
       <span class="kw-pill">phishing</span>
     </div>
-    <p class="kwnote">Less searched, far less competition, and closest to who actually buys us. <strong>"Phishing" lives here, not in tier 1</strong> — it is one of six checks, and Chrome already warns about it for free.</p>
+    <p class="kwnote">Less searched, far less competition, closest to who buys us. <strong>"Fake sender" moved here from tier 1</strong> — the chosen name spends its slots on scam + fraud, so the descriptions carry the differentiator. <strong>"Phishing" stays here too</strong> — it is one of six checks, and Chrome already warns about it for free.</p>
   </div>
   <div class="kwrow t3">
     <div class="kwrow-h">Tier 3 — plain language · detailed description only</div>
@@ -235,30 +237,30 @@
 <div class="step lock">
   <div class="step-head">
     <span class="step-n">Step 1</span>
-    <span class="step-when">2–3 days · cannot be undone later</span>
-    <span class="step-t">Choose the name</span>
+    <span class="step-when">Decided · locks at publish</span>
+    <span class="step-t">Lock the name</span>
   </div>
-  <p class="step-lead">Only ~35 characters show in search results. A keyword here counts more than the same keyword anywhere else. Renaming after launch means another review and loses recognition, so decide now.</p>
+  <p class="step-lead">Only ~35 characters show in search results. Renaming after launch means another review and loses the recognition we built — so this is final at publish.</p>
 
   <div class="opt pick">
-    <div class="opt-h"><span class="opt-id">Option A</span><span class="tag tg">Recommended</span><span class="opt-cc">34 chars · nothing cut</span></div>
-    <div class="nm"><span class="on">T-Frame — Scam &amp; Fake Sender Check</span><span class="cut"></span></div>
-    <p class="opt-why"><strong>Volume word plus our differentiator, and "Check" makes the direction obvious.</strong> "Fake sender" covers fake executives, fake vendors and fake support in words people actually type — and it is the part competitors do not do. "Check" also helps match "scam checker" searches. <strong>Cost:</strong> no brand prefix.</p>
-  </div>
-
-  <div class="opt">
-    <div class="opt-h"><span class="opt-id">Option B</span><span class="tag tt">Safest wording</span><span class="opt-cc">31 chars · nothing cut</span></div>
+    <div class="opt-h"><span class="opt-id">Selected</span><span class="tag tg">Decided</span><span class="opt-cc">31 chars · nothing cut</span></div>
     <div class="nm"><span class="on">T-Frame — Scam &amp; Fraud Detector</span><span class="cut"></span></div>
-    <p class="opt-why">"Detector" is instantly clear, like smoke detector. And "scam detector" is a real search term in its own right. <strong>Cost:</strong> generic. It says we find bad things, not what kind — so we lose the fake-sender angle that sets us apart.</p>
+    <p class="opt-why">Carries <strong>"scam detector" and "fraud detector" as exact search matches</strong>. "Detector" pairs with threat words — "scam detector" works, "email detector" means nothing — which is why it beats "checker" and "scanner" here. Trade-off accepted: scam and fraud overlap, so the fake-sender differentiator moves to the descriptions.</p>
   </div>
 
   <div class="opt">
-    <div class="opt-h"><span class="opt-id">Option C</span><span class="tag ta">Brand first</span><span class="opt-cc">31 chars · nothing cut</span></div>
-    <div class="nm"><span class="on">Trusterity T-Frame — Scam Check</span><span class="cut"></span></div>
-    <p class="opt-why">Keeps the brand and the volume word, drops the differentiator. TrustMonitor and our OSINT tool can use the same prefix, so the store reads as one suite. <strong>Pick this if brand recognition matters more than standing out on the listing.</strong></p>
+    <div class="opt-h"><span class="opt-id">Fallback 1</span><span class="tag tgy">If plans change</span><span class="opt-cc">34 chars · nothing cut</span></div>
+    <div class="nm"><span class="on">T-Frame — Scam &amp; Fake Sender Check</span><span class="cut"></span></div>
+    <p class="opt-why">Puts the differentiator in the name instead. Use only if we decide fake-sender searches matter more than the detector terms.</p>
   </div>
 
-  <div class="meta"><span class="tag tr">Blocking</span><span class="tag tgy">Marketing + Brand</span></div>
+  <div class="opt">
+    <div class="opt-h"><span class="opt-id">Fallback 2</span><span class="tag tgy">If brand wins</span><span class="opt-cc">34 chars · nothing cut</span></div>
+    <div class="nm"><span class="on">Trusterity T-Frame — Scam Detector</span><span class="cut"></span></div>
+    <p class="opt-why">Adds the brand prefix. Reads as one suite once TrustMonitor ships. Costs the "fraud" term.</p>
+  </div>
+
+  <div class="meta"><span class="tag tr">Locks at publish</span><span class="tag tgy">Brand</span></div>
 </div>
 
 <!-- STEP 2 -->
@@ -268,18 +270,18 @@
     <span class="step-when">1 day · editable later</span>
     <span class="step-t">Write the short description</span>
   </div>
-  <p class="step-lead">132 characters max. Shows under our name in store search, and becomes our snippet in Google. Pick one option — do not merge them.</p>
+  <p class="step-lead">132 characters max. Shows under our name in store search, and becomes our snippet in Google. <strong>The name says what we find. This line says what you can paste, plus the Trust Score.</strong> Pick one — do not merge them.</p>
 
   <div class="opt pick">
     <div class="opt-h"><span class="opt-id">Option 1</span><span class="tag tg">Recommended</span><span class="opt-cc"><span class="cc">114 / 132</span></span></div>
     <div class="copyblk" style="margin-top:2px"><mark>Scam</mark> or safe? Check any <mark>email</mark>, <mark>link</mark>, <mark>invoice</mark> or <mark>sender</mark> and get a <mark>Trust Score</mark> in seconds — before you click or pay.</div>
-    <p class="opt-why">Opens on our own site headline. Names four input types including invoices and senders, which is the part competitors do not cover. Ends on Trust Score — a number promises more than an adjective.</p>
+    <p class="opt-why">Opens on our own site hook. Names four input types, adds "check" + "link" tokens for the checker searches, ends on the Trust Score. Pairs cleanly with the name: threats there, inputs here.</p>
   </div>
 
   <div class="opt">
-    <div class="opt-h"><span class="opt-id">Option 2</span><span class="tag tt">Verification-led</span><span class="opt-cc"><span class="cc">108 / 132</span></span></div>
-    <div class="copyblk" style="margin-top:2px">Verify any <mark>message</mark>, <mark>link</mark>, <mark>invoice</mark> or <mark>sender</mark>. Spot <mark>scams</mark>, <mark>impersonation</mark> and <mark>payment fraud</mark> with a <mark>Trust Score</mark>.</div>
-    <p class="opt-why">Says what the product actually is — a verification tool, not a scam filter. Carries the differentiator words. Reads more like a product and less like a rescue, so it converts a buyer better and a worried employee worse.</p>
+    <div class="opt-h"><span class="opt-id">Option 2</span><span class="tag tt">Differentiator-led</span><span class="opt-cc"><span class="cc">118 / 132</span></span></div>
+    <div class="copyblk" style="margin-top:2px"><mark>Fake sender</mark>, <mark>fake invoice</mark> or <mark>scam link</mark>? Paste it and get a <mark>Trust Score</mark> from 0–100 in seconds, with every signal shown.</div>
+    <p class="opt-why">Reclaims the differentiator the name dropped — fake sender, fake invoice, scam link — and ends on transparency. Worth testing against Option 1 after launch.</p>
   </div>
 
   <div class="meta"><span class="tag ta">Sign-off</span><span class="tag tgy">Marketing</span></div>
@@ -299,9 +301,9 @@
 From Trusterity. Built on 10+ years of digital investigation work, with solutions deployed in 100+ countries.<span class="fold">— fold · below is keyword space —</span><span class="h">WHAT T-FRAME CHECKS</span>
 • <mark>Senders &amp; identities</mark> — confirm who you are really dealing with: new vendors, <mark>fake executives</mark>, or accounts claiming to be support
 • <mark>Documents &amp; payments</mark> — check the paperwork, not just the sender. Spot <mark>changed IBANs</mark>, <mark>fake invoices</mark> and forged contracts
-• <mark>Emails &amp; messages</mark> — know who is really writing, before you reply to urgent requests or new payment instructions. Catches <mark>phishing</mark> and <mark>fake support agents</mark>
-• <mark>Links &amp; websites</mark> — check login pages, checkouts and document links before you enter any data
-• <mark>Texts, chats &amp; QR codes</mark> — catch <mark>scams</mark> that skip your inbox, including QR codes on invoices and posters
+• <mark>Emails &amp; messages</mark> — spot <mark>fake senders</mark> before you reply to urgent requests or new payment instructions. Catches <mark>phishing</mark> too
+• <mark>Links &amp; websites</mark> — spot <mark>scam links</mark> and <mark>fake websites</mark>. Check login pages and checkouts before you enter any data
+• <mark>Texts, chats &amp; QR codes</mark> — catch <mark>scams</mark> that skip your inbox: <mark>fake support agents</mark>, investment tips, QR codes on invoices or posters
 
 <span class="h">HOW IT WORKS</span>
 1. Paste or right-click anything that looks off — a <mark>message</mark>, <mark>link</mark>, invoice or phone number
@@ -309,7 +311,7 @@ From Trusterity. Built on 10+ years of digital investigation work, with solution
 3. You get a <mark>Trust Score</mark> from 0 to 100, and you see every signal behind it — not a black box
 
 <span class="h">WHO IT IS FOR</span>
-Anyone who has looked at a message and thought "<mark>is this real?</mark>" An <mark>invoice</mark> with new bank details. A request from someone claiming to be your CEO. A new vendor you have never dealt with. A <mark>bank security alert</mark> saying your account is suspended.
+Anyone who has looked at a message and thought "<mark>is this real?</mark>" An <mark>invoice</mark> with new bank details. A request from someone claiming to be your CEO. A new vendor you have never dealt with. A <mark>bank security alert</mark> saying your account is suspended. A parcel text asking for a small <mark>delivery fee</mark>.
 
 <span class="h">FOR TEAMS</span>
 T-Frame is part of Trust Defender, Trusterity's trust platform. No setup needed, and there is an admin dashboard for rolling it out across a team.
@@ -433,8 +435,8 @@ Results are AI-assisted and informational only, not professional advice.</div>
   <p class="step-lead">The name is locked. Both descriptions are not. This is where the remaining upside is.</p>
   <ul class="acts">
     <li>Swap in keywords we are not ranking for. Drop ones that show nothing after four weeks.</li>
-    <li>Change one field at a time. Wait two weeks between changes.</li>
-    <li>Write the date of every edit in the tracking sheet. <span class="sub">Two changes at once tells us nothing.</span></li>
+    <li>Test Option 2 of the short description against Option 1. <span class="sub">One carries the site hook, the other the fake-sender terms. The rank tracker decides.</span></li>
+    <li>Change one field at a time. Wait two weeks between changes. <span class="sub">Write the date of every edit in the tracking sheet. Two changes at once tells us nothing.</span></li>
   </ul>
   <div class="meta"><span class="tag tt">Ongoing</span><span class="tag tgy">Marketing</span></div>
 </div>
@@ -458,13 +460,6 @@ Results are AI-assisted and informational only, not professional advice.</div>
 <!-- BLOCKERS -->
 <div class="divider">Blocked until someone answers</div>
 <div class="blk">
-  <div class="blk-row">
-    <div>
-      <div class="blk-t">Name: A, B or C</div>
-      <div class="blk-d">Locks at publish. Needs brand sign-off.</div>
-    </div>
-    <div><span class="tag tr">Brand</span></div>
-  </div>
   <div class="blk-row">
     <div>
       <div class="blk-t">The privacy sentence, word for word</div>
@@ -497,7 +492,7 @@ Results are AI-assisted and informational only, not professional advice.</div>
 
 <div class="footer">
   <div>Sources: Chrome for Developers docs · trusterity.io</div>
-  <div>Trusterity T-Frame · publish plan v1.0</div>
+  <div>Trusterity T-Frame · publish plan v1.1</div>
 </div>
 
 </body>
